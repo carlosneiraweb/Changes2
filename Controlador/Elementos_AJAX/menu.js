@@ -17,7 +17,7 @@ function cargarPeticionMenu(tipo, parametros){
 
             petMenu = ConMenu.conection();
             petMenu.onreadystatechange = procesaRespuesta;
-            petMenu.open('POST', "../Controlador/Elementos_AJAX/Menu.php?", true);
+            petMenu.open('POST', "../Controlador/Elementos_AJAX/menu.php?", true);
             petMenu.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             petMenu.send(parametros);
                

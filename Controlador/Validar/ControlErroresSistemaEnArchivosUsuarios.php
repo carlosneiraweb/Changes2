@@ -174,7 +174,7 @@ function crearDirectoriosTMP(){
             Directorios::moverImagen($foto, $destino,"errorFotoActualizar");
                 //Eliminamos la vieja foto 
             Directorios::eliminarImagen("../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['actualizo']['nick'].".jpg", "errorFotoActualizar");
-            //$imagen = substr(basename($_FILES['photo']['name']),0,-4);
+            $imagen = substr(basename($_FILES['photo']['name']),0,-4);
             
             Directorios::renombrarFotoActualiazar("../datos_usuario/".$_SESSION['usuario']['nick']."/".basename($_FILES['photo']['name']),"../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['usuario']['nick'].".jpg","errorFotoActualizar"); 
   

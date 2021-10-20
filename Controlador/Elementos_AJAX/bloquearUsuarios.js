@@ -1,13 +1,13 @@
 
 
-function bloquear(nickBloqueoTotal,opc){
+function bloquear(nickBloquear,opc){
     
-    //alert(nickBloqueoTotal);
+   
     
    $.ajax({
                     data: { 
                         
-                        nickBloquear : nickBloqueoTotal,
+                        nickBloquear : nickBloquear,
                         opcion : opc 
                             
                            },
@@ -15,8 +15,12 @@ function bloquear(nickBloqueoTotal,opc){
                     dataType: 'JSON',   
                     url: "../Controlador/Elementos_AJAX/bloquearUsuarios.php"
                 }).done(function( data) {
-                    var test = data.testUsuYaBloqueado;
-                  
+                    var test = data;
+                    alert(test);
+                    
+                    
+                    
+                    
                     if(test > 0){
                         
                     $('#bloquearUsuarios').empty();

@@ -20,7 +20,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt index.php
- * @fecha 04-oct-2016
+ * @fecha 04-oct-2020
  */
 
  $_SESSION["url"] = basename($_SERVER['PHP_SELF']);   
@@ -194,9 +194,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo'</figure>';	
 	
             echo'<ul id="slider" class="slider-wrapper">';
-                echo'<li class="slide-current"><a class="separarLetras" ">Inicio</a><a class="separarLetras" ">Salud</a><a class="separarLetras">Automoción</a><a class="separarLetras" >Ocio</a></li>';
-		echo'<li><a class="separarLetras">Inicio</a><a class="separarLetras">Bricolage</a><a class="separarLetras">Electrónica</a><a class="separarLetras">Moda</a></li>';
-		echo'<li><a class="separarLetras">Inicio</a><a class="separarLetras">Hogar</a><a class="separarLetras">Viajes</a><a class="separarLetras">Cultura</a></li>';
+                echo'<li class="slide-current"><a class="separarLetras" ">Inicio</a><a class="separarLetras" ">Automocion</a><a class="separarLetras">Ocio</a><a class="separarLetras" >Bricolage</a></li>';
+		echo'<li><a class="separarLetras">Inicio</a><a class="separarLetras">Electronica</a><a class="separarLetras">Cultura</a><a class="separarLetras">Moda</a></li>';
             echo'</ul>';
 	
 	echo'<figure id="abajo" class="noOcupar">';

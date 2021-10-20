@@ -1,8 +1,6 @@
 <?php
 
-
-  header('Content-Type: application/json');
- // header("Content-type: application/javascript"); 
+  header('Content-type: application/json; charset=utf-8');
   header('Cache-Control: no-cache, must-revalidate');
   header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
   header('Content-type: application/json; charset=utf-8');
@@ -41,14 +39,15 @@ function comprobarUsuarioBloquear($id){
     $excepciones = new MisExcepciones(CONST_ERROR_BBDD_CONSULTAR_USUARIOS_BLOQUEADOS[1],CONST_ERROR_BBDD_CONSULTAR_USUARIOS_BLOQUEADOS[0]); 
     global $conBloqueo;
     global $usuBloquea;
-
+    
+   
 
                 $sqlComprobarUsu = "select idUsuarioBloqueado from ".TBL_USUARIOS_BLOQUEADOS.
                                 " where idUsuarioBloqueado = :idUsuarioBloqueado and usuario_idUsuario= :usuBloquea;";
                 //echo $sqlComprobarUsu;
                 $stmComprobar = $conBloqueo->prepare($sqlComprobarUsu);
                 $stmComprobar->bindValue(":idUsuarioBloqueado",$id,PDO::PARAM_STR);
-                $stmComprobar->bindValue(":usuBloquea",'123' , PDO::PARAM_STR);
+                $stmComprobar->bindValue(":usuBloquea",$usuBloquea , PDO::PARAM_STR);
                 $stmComprobar->execute();
                
                 $idsUsuBloquear = $stmComprobar->fetch();
@@ -59,7 +58,7 @@ function comprobarUsuarioBloquear($id){
        
     } catch (Exception $ex) {
         Conne::disconnect($conBloqueo); 
-        $excepciones->redirigirPorErrorSistema("consultarUsuariosBloqueados");
+        $excepciones->redirigirPorErrorSistema("consultarUsuariosBloqueados",false);
 
     }
     
@@ -98,15 +97,15 @@ function comprobarUsuarioBloquear($id){
                 $sqlIdBloqueoTotal = "Select idUsuario from ".TBL_USUARIO.
                                 " where nick = :nick;";
                 $stmTotal = $conBloqueo->prepare($sqlIdBloqueoTotal);
-                $stmTotal->bindValue(":nick",$nickBloquear , PDO::PARAM_STR);
+                $stmTotal->bindValue(":nick", $nickBloquear, PDO::PARAM_STR);
                 $stmTotal->execute();
                 $idUsuBloquearTotal = $stmTotal->fetch();
                 
-                //Comprobamos que ya no este bloqueado
                 
-                $test = comprobarUsuarioBloquear($idUsuBloquearTotal[0]);             
+                $test = comprobarUsuarioBloquear($idUsuBloquearTotal[0]);  
+               
                 $testUsuYaBloqueado = array("testUsuYaBloqueado" => $test);
-                
+               // echo 'testarray'. $testUsuYaBloqueado["testUsuYaBloqueado"];
                 
                
                 if($testUsuYaBloqueado["testUsuYaBloqueado"] == null){
@@ -118,14 +117,14 @@ function comprobarUsuarioBloquear($id){
                     $stmBloquearTotal->bindValue(":usuBloqueado", $idUsuBloquearTotal[0], PDO::PARAM_INT );
                     $stmBloquearTotal->bindValue(":total", "1", PDO::PARAM_INT );
                     $stmBloquearTotal->bindValue(":parcial", "0", PDO::PARAM_INT );
-                    $stmBloquearTotal->execute();
+                    $test = $stmBloquearTotal->execute();
                     
                     
-                    echo json_encode($testUsuYaBloqueado); 
+                    echo json_encode('adios'); 
                    
                 }else{
                 
-                    echo json_encode($testUsuYaBloqueado);
+                    echo json_encode('hola');
    
                 }
                 

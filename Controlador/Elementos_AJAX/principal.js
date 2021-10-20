@@ -113,6 +113,7 @@ window.onload=function(){
                 opcionMenu = $(this).text();
                 parametrosMenu = "opcion="+opcionMenu+"&inicio="+inicio;
                 jsonVolver[0] = opcionMenu;
+                //alert(jsonVolver[0]);
                         cargarPeticionMenu(opcionMenu, parametrosMenu);
                 
             });

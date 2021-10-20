@@ -178,9 +178,9 @@ function mostrarMenu(){
             id : 'bTotal',
             value : 'Aceptar'
         }))).on('click','#bTotal',function(){
-            var nickBloqueoTotal = $('#inputTotal').val();
+            var nickBloquear = $('#inputTotal').val();
            //Llama al metodo del archivo bloquearUsuarios
-           bloquear(nickBloqueoTotal, "bloqueoTotal");  
+           bloquear(nickBloquear, "bloqueoTotal");  
         }) .append($('<h5>',{
             text : 'Bloqueo Parcial, no podrá comentar tus Posts.',
             id : 'bloqueoParcial'

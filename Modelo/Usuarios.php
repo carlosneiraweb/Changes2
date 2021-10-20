@@ -509,14 +509,14 @@ public final function devuelveUsuariosBloqueados($id){
     
    
     $conBloqueo = Conne::connect();
-        
+       
         try{
 
             $sqlBloqueo = "Select idUsuarioBloqueado, bloqueadoTotal, bloqueadoParcial
             from usuarios_bloqueados where usuario_idUsuario = :usuario_idUsuario;";
 
             $stmBloqueo = $conBloqueo->prepare($sqlBloqueo);
-            $stmBloqueo->bindValue(":usuario_idUsuario", $id);
+            $stmBloqueo->bindValue(":usuario_idUsuario",$id, PDO::PARAM_STR);
             $stmBloqueo->execute();
             $usuBloqueados = $stmBloqueo->fetchAll();
            

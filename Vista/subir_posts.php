@@ -52,6 +52,9 @@ function eliminarVariablesPost(){
     if(isset($_SESSION['png'])){
                     unset($_SESSION['png']);
                 }
+            if(isset($_SESSION['lastId'])){
+                unset($_SESSION['lastId']);
+            }
     
 }
 
@@ -504,6 +507,7 @@ function ingresarPost(){
             if(isset($_SESSION['errorArchivos'])){
                     unset($_SESSION['errorArchivos']);
                     unset($_SESSION['contador']);
+                    eliminarVariablesPost();
                 }
         }else{
             
@@ -512,6 +516,7 @@ function ingresarPost(){
             if(isset($_SESSION['errorArchivos'])){
                     unset($_SESSION['errorArchivos']);
                     unset($_SESSION['contador']);
+                    eliminarVariablesPost();
                 }
         }
        

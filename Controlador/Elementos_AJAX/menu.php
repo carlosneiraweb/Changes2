@@ -11,7 +11,18 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Conne.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesBbdd.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ValidoForm.php');
     
-
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
+    
+    //Solo en caso el usuario se logee
+    if(isset($_SESSION['userTMP'])){
+        //var_dump($_SESSION['userTMP']);
+        $usuBloqueo = new Usuarios(array());
+        $usuLogeado = $_SESSION['userTMP']->devuelveId();
+    }
+ 
 
 try {
     
@@ -87,7 +98,7 @@ where p.idPost = :idPost limit 1";
                 $stm3Menu->closeCursor();
  
                 $sqlTotal = "Select IFNULL(COUNT(idComentariosPosts),0) as comentarios "
-                . " FROM comentariosposts where post_idPost = :idPost";
+                . " FROM comentario_post where post_idPost = :idPost";
         
                 $stm3Menu = $conMenu->prepare($sqlTotal);
                 $stm3Menu->bindValue(":idPost", $id[0], PDO::PARAM_INT);
@@ -100,8 +111,8 @@ where p.idPost = :idPost limit 1";
                 
          //Solo en caso el usuario se logee
 if(isset($_SESSION['userTMP'])){
+   
     $usuBloqueados = $usuBloqueo->devuelveUsuariosBloqueados($tmp[2]); 
-    //var_dump($usuBloqueados);
     $totalUsuarioBloqueado =  count($usuBloqueados);
     
         

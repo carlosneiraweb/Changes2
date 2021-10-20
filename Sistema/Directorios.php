@@ -105,7 +105,7 @@ class Directorios {
           * opcion en caso de error <br/>
          */
         final static  function moverImagen($nombreFoto, $nuevoDirectorio, $opc){
-            //echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
+          // echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
             
             
             try{
