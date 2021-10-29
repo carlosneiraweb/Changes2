@@ -13,6 +13,7 @@ function cargarComentarios(data){
     $('#buscar_datos').hide();
     $('#btn_navegacion').hide();
   
+  
    
     $('#posts').append($('<section>',{
                 id : 'cabeceraComentarios',

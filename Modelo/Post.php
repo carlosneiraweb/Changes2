@@ -538,7 +538,8 @@ public function insertPost(){
                    
                    );";
             
-            
+           // echo $sql;
+                    
             $date = date('Y-m-d');
             $st = $con->prepare($sql);
             $st->bindValue(":nick", $this->data["idUsuarioPost"], PDO::PARAM_STR);
@@ -569,30 +570,36 @@ public function insertPost(){
                        
             if(!$this->insertarPalabrasOfrecidas()){
                
-                throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[0]);
+               throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[0]);
             }
                        
            
              if(!$this->insertarImagenDemo()){
                
-                 throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[1], CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[0]);
+                throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[1], CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[0]);
                 
             }                              
 
             Conne::disconnect($con);
             return $test;
         }catch(MisExcepciones $ex){
-            /**/
+            /*
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
             $con->rollBack();
-           
+           */
         }catch(Exception $ex){
+            
+            echo $ex->getMessage();
+            echo $ex->getLine();
+            /*
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             Conne::disconnect($con);
             $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
             $con->rollBack();
+             * */
+             
         }
          
 

@@ -56,38 +56,39 @@ function cargarPost(objPost){
         $("#posts").append($('<section>',{
                 class : " cont_post",
                 id : objPost[i].idPost
-            }).append($('<h2>',{
+            }).append($('<section>',{
+                class  : 'cont_usuario'
+            }).append($('<p>',{
+                class : 'usuario',
+                text: ' Publicado por '
+            })).append($('<span>',{
+                class : 'resaltar'
+            }).append($("<p>",{
+                class : 'up',
+                text : objPost[i].nick + " de "+objPost[i].provincia
+            })))).append($('<h2>',{
                 text : objPost[i].titulo
             })).append($('<section>',{
-                class  : 'cont_usuario'
-            }).append($('<span>',{
-                class : 'usuario',
-                text : "El usuario: "
-            }).append($('<span>',{
-                class : 'resaltar',
-                text : objPost[i].nick
-            })).append($('<span>',{
-                class : 'lugar',
-                text : "  de  "+objPost[i].provincia
-            }))).append($('<span>',{
-                class : 'tiempo_cambio',
-                text : "Tiempo del cambio "
-            }).append($('<span>',{
-                class : 'resaltar',
-                text : objPost[i].tiempoCambio
-            })))).append($('<figure>',{
+                id: 'contenido'
+            }).append($('<figure>',{
                 class : 'lanzar'
             }).append($('<img>',{
                 src : "../photos/"+objPost[i].nick+"/"+objPost[i].ruta+".jpg",
                 alt : "Foto del articulo a cambiar"
             }))).append($('<section>',{
                 class : 'comentario'
-            }).append($('<textarea>',{
+            }).append($('<p>',{
                 class : 'texto_comentario',
                 text : objPost[i].comentario
-            }))).append($('<span>',{
+            })))).append($('<span>',{
                 class : 'piePost'
             }).append($('<span>',{
+                class : 'tiempo_cambio',
+                text : "Tiempo que durara el cambio:  "
+            }).append($('<span>',{
+                class : 'resaltar',
+                text : objPost[i].tiempoCambio
+            }))).append($('<span>',{
                 class : 'contBotonComentario'
             }).append($('<input>',{
                 id : 'btnComentar',
@@ -98,18 +99,18 @@ function cargarPost(objPost){
             })).append($('<section>',{
                 class : 'capaBoton'
             }))).append($('<span>',{
-                text : 'Fecha del Post'
-            }).append($('<span>',{
-                class : 'date',
-                text : objPost[i].fecha
-            }))).append($('<span>',{
                 id: 'mostrarTotalComentarios',
                 class :objPost[i].idPost,
                 text : 'Total Comentarios :'
             })).append($('<span>',{
                 id : 'totalComentarios',
                 text: objPost[i][10]
-            }))));
+            }))).append($('<section>',{
+                class: 'salto'
+            })).append($('<span>',{
+                class : 'date',
+                text : 'Fecha del Post :' +' ' +objPost[i].fecha
+            })));
 
             
             //Verificamos que el usuario se ha logeado

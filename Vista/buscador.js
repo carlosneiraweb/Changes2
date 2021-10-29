@@ -30,7 +30,9 @@
        
         $("#buscar_datos").append($('<h3>',{
             text : 'Selecciona una opción de busqueda'
-        })).append($('<label>',{
+        })).append($('<span>',{
+            class : 'buscaSpan'
+        }).append($('<label>',{
             for : 'busco',
             text : "Cosas que tú buscas."
          })).append($('<input>',{
@@ -39,7 +41,9 @@
             id   : 'busco',
             value : 'busco',
             checked : 'checked'
-        })).append($('<label>',{
+        }))).append($('<span>',{
+             class : 'buscaSpan'
+        }).append($('<label>',{
             for : 'ofrezco',
             text : "Cosas que tú ofreces y la gente podría querer."
         })).append($('<input>',{
@@ -47,13 +51,17 @@
             name : 'busqueda',
             id   : 'ofrezco',
             value : 'ofrezco'
-        })).append($('</br>')).append($('<label>',{
+        }))).append($('<span>',{
+             class : 'buscaSpan'
+        }).append($('<label>',{
             for : 'porProvincia',
             text : 'Selecciona la provincia:'
         })).append($('<select>',{
             name : 'selectProvincia',
             id   :  'porProvincia'
-        })).append($('<label>',{
+        }))).append($('<span>',{
+             class : 'buscaSpan'
+        }).append($('<label>',{
             for : 'porPrecio',
             text : 'Selecciona precio:'
         })).append($('<select>',{
@@ -67,14 +75,16 @@
             text : 'Hasta 3000 €'
         })).append($('<option>',{
             text : 'Más de 3000 €'
-        }))).append($('<label>',{
+        })))).append($('<span>',{
+             class : 'buscaSpan'
+        }).append($('<label>',{
             for : 'porTiempoCambio',
             text : 'Selecciona el tiempo de cambio:'
         })).append($('<select>',{
             name : 'selectTiempoCambio',
             id : 'porTiempoCambio',
             class : 'porTiempoCambio'
-        })).append($('</br>')).append($('<input>',{
+        }))).append($('<input>',{
             type : 'text',
             id : 'buscador',
             class : 'buscador'
@@ -263,7 +273,7 @@ function mostrarFormularioGuardarBusquedas(){
  * @description 
  * Metodo que carga los resultados del buscador
  * en los <li>. Va mostrando los resultados segun escribe el usuario
- * @returns {ActiveXObject|XMLHttpRequest} 
+ *
  * */
 function cargarBuscador(objBuscador){
    

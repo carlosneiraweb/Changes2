@@ -215,7 +215,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Changes/Modelo/Usuarios.php");
     foreach($v as $id){
 
                                
-   
+   /*
         $sqlPost = "select pos.idPost, u.nick, u.idUsuario as idUsu, prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, p.titulo, img.ruta, p.comentario, tc.tiempo as tiempoCambio
 from post p
 inner join usuario u on u.idUsuario= p.idUsuarioPost
@@ -225,7 +225,18 @@ inner join provincias prov on prov.nombre = dire.provincia
 inner join imagenes img on img.post_idPost = :idPost 
 inner join tiempo_cambio tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
 where pos.idPost = :idPost limit 1";
-   
+   */
+        
+         $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
+                    prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 
+                    p.titulo, img.nickUsuario, img.ruta, p.comentario, tc.tiempo as tiempoCambio                   
+from post p
+inner join ".TBL_USUARIO." AS u on u.idUsuario= p.idUsuarioPost
+inner join ".TBL_DIRECCION." AS dire on dire.idDireccion = u.idUsuario
+inner join ".TBL_PROVINCIAS." AS  prov on prov.nombre = dire.provincia
+inner join ".TBL_IMAGENES." AS img on img.post_idPost = :idPost 
+inner join ".TBL_TIEMPO_CAMBIO." AS tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
+where p.idPost = :idPost limit 1";
      
         
         
@@ -236,7 +247,7 @@ where pos.idPost = :idPost limit 1";
                 $stm3Bus->closeCursor();
                 
         $sqlTotal = "Select IFNULL(COUNT(idComentariosPosts),0) as comentarios "
-                . " FROM comentariosposts where post_idPost = :idPost";                
+                . " FROM ".TBL_COMENTARIO. "  where post_idPost = :idPost";                
                 
                 $stm3To = $conBusquedas->prepare($sqlTotal);
                 $stm3To->bindValue(":idPost", $id[0], PDO::PARAM_INT);

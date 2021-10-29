@@ -78,7 +78,7 @@ window.onload=function(){
         
         $('#cuerpo').on('click','.lanzar', function(e){
                 var src = $(this).children().attr('src');
-                // alert("opcion=SLD&srcImg="+src+"&inicio="+inicio);
+              // alert("opcion=SLD&srcImg="+src+"&inicio="+inicio);
                 cargarPeticion("SLD", "opcion=SLD&srcImg="+src+"&inicio="+inicio);
                
             });
@@ -283,6 +283,7 @@ function cargarContenidoPorSeccion(){
                         break;
                         
                 case 'ENCONTRADO':
+                    //alert("opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                     cargarPeticionBuscador(opcion, "opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                         break;
                         

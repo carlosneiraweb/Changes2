@@ -180,7 +180,7 @@ if(isset($_SESSION['userTMP'])){
              $tmpUrl[4] = substr($tmpUrl[4],0,-4);
              $url = $tmpUrl[3].'/'.$tmpUrl[4];
              //echo $nickUsuario . '  '.$url;
-        
+            // echo PHP_EOL;
              $sql = 'select post_idPost from '.TBL_IMAGENES.' where nickUsuario = :nickUsuario and  ruta = :ruta;' ;
              //echo $sql;
              $stm4 = $conPost->prepare($sql);
@@ -189,6 +189,8 @@ if(isset($_SESSION['userTMP'])){
              $stm4->execute();
              //Recuperamos el id del post
              $idImgSLD = $stm4->fetch();
+             //echo $idImgSLD;
+             //echo PHP_EOL;
              //$stm4->closeCursor();
              
              
@@ -200,7 +202,7 @@ if(isset($_SESSION['userTMP'])){
              $sql = "select nickUsuario as nick, ruta as ruta, texto as texto from ".TBL_IMAGENES." where post_idPost =".$idImgSLD[0].";";
              $stm5 = $conPost->query($sql);
              $tmpRutaTexto = $stm5->fetchAll();
-             
+              array_push($rutaTextoPbsBuscadas, $tmpRutaTexto);
             
              
             //Recuperamos las palabras queridas o buscadas del usuario
@@ -208,7 +210,7 @@ if(isset($_SESSION['userTMP'])){
              $stm6 = $conPost->query($sql);
              $tmpPbsBuscadas = $stm6->fetchAll();
             
-             array_push($rutaTextoPbsBuscadas, $tmpRutaTexto, $tmpPbsBuscadas);
+             array_push($rutaTextoPbsBuscadas, $tmpPbsBuscadas);
              
              
              echo json_encode($rutaTextoPbsBuscadas);//

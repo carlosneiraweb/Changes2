@@ -31,6 +31,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
 <!DOCTYPE html>
 
 <html>
+    <div id="ocultar" class="oculto"> </div>
     <head>
        <meta charset="utf-8">
        <title>Tú portal de intercambio</title>
@@ -46,7 +47,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         <script src="../Controlador/Elementos_AJAX/CONEXION_AJAX.js"></script>
         <script src="../Controlador/redireccionar.js"></script>
         <script src="../Controlador/menuPrincipal.js"></script>
-        <!--<script src="../Controlador/script.js"></script>-->
+        <script src="../Controlador/script.js"></script>
         <script src="../Controlador/Elementos_AJAX/buscarComentarios.js"></script>
         <script src="../Controlador/Validar/formulario_comentarios.js"></script>
         <script src="../Controlador/Elementos_AJAX/menu.js"></script>
@@ -80,8 +81,9 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
        </script>  
     </head>
     <body id="cuerpo">
+    
         <?php
-        
+     //echo'<div id="ocultar" class="oculto"> </div>';         
         
         //Pasamos a JavaScript el tamaño de paginado de las paginas.
         //La utilizamos en el script elementos de javascript para mostrar 
@@ -90,7 +92,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
                echo "var PAGESIZE = "; echo PAGE_SIZE.';';          
         echo '</script>';
     
- 
+       
     //Variable user para instanciar 
     //objetos usuario
     $userLogin;
@@ -194,7 +196,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo'</figure>';	
 	
             echo'<ul id="slider" class="slider-wrapper">';
-                echo'<li class="slide-current"><a class="separarLetras" ">Inicio</a><a class="separarLetras" ">Automocion</a><a class="separarLetras">Ocio</a><a class="separarLetras" >Bricolage</a></li>';
+                echo'<li class="slide-current"><a class="separarLetras">Inicio</a><a class="separarLetras">Automocion</a><a class="separarLetras">Ocio</a><a class="separarLetras" >Bricolaje</a></li>';
 		echo'<li><a class="separarLetras">Inicio</a><a class="separarLetras">Electronica</a><a class="separarLetras">Cultura</a><a class="separarLetras">Moda</a></li>';
             echo'</ul>';
 	
@@ -219,7 +221,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
     
     /**
     * Elemento html que se agregaran 
-    * el formulario para aregar busquedas psonales
+    * el formulario para agregar busquedas personales
     */
         echo'<section id="busquedasPersonales">';
         echo'</section>';
@@ -261,7 +263,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo '<section id="mostrarPostSeleccionado" class="oculto">';
         echo "</section>";
     
- echo'<div id="ocultar" class="oculto"> </div>'; 
+ 
  
 
  echo'<section id="form_comentario" class="oculto">'; 
@@ -429,15 +431,39 @@ function processForm(){
        
 
        
-        
+    echo '</section>';    
      echo' <footer>';
-    /*
+  
     echo' <div class="medidas"><p>Ventana: <span id="span1"></span></div>';
     echo'<div class="medidas">Ancho Supercontenedor: <span id="span2"></span> px</p>';
-   */
+   
+     
+     //validador web https://jigsaw.w3.org/css-validator/
+     
+      ?>
+    
+     <p>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px"
+            src="http://jigsaw.w3.org/css-validator/images/vcss"
+            alt="¡CSS Válido!" />
+    </a>
+    </p>
+    
+    <p>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer">
+    <img style="border:0;width:88px;height:31px"
+        src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+        alt="¡CSS Válido!" />
+    </a>
+    </p>
+        
+    
+    
+     <?php
     echo'</footer>';
-    ?>
+   
        
-    <?php
+   
     echo '</body>';
     echo '</html>';
