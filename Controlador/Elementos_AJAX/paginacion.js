@@ -3,7 +3,7 @@
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt paginacion.php
- * @fecha 04-oct-2016
+ * @fecha 04-oct-2020
  */
 var  liPinchado, ultimoLi;
 

@@ -26,9 +26,9 @@ function parpadearSubirLogin() {
     
     var cociente = t % 2;
     if(cociente === 1){
-       $('span.obligatorio').addClass('oculto');
+       $('span.obligatorio').addClass('ocultar');
     } else {
-       $('span.obligatorio').removeClass('oculto'); 
+       $('span.obligatorio').removeClass('ocultar'); 
     }
     t++;
     

@@ -21,13 +21,13 @@ function abandonarSession(){
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ValidoForm.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ControlErroresSistemaEnArchivosUsuarios.php');
+ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/MisExcepciones.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Directorios.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesBbdd.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesErrores.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Email/mandarEmails.php');
    
- 
- 
+
  
  
 if(!isset($_SESSION)){
@@ -86,6 +86,8 @@ if(!isset($_SESSION)){
         //el resultado de la validacion
         //y el posible mensaje de error
         global $resulTestReg;
+        global $controlErrores;
+        $controlErrores = new MisExcepciones(null,null);
         
       
         
@@ -146,14 +148,16 @@ if(!isset($_SESSION)){
         $requiredFields = array();
         if(isset($_POST['step']) and $_POST['step'] === "step4"){ $paso = 'step4';}
         processFormRegistro($requiredFields, $paso);
-    }elseif(isset($_POST['aceptaCondicionesReg']) and $_POST['aceptaCondicionesReg'] == "aceptaCondiciones"){
+    }elseif(isset($_POST['aceptaCondicionesReg']) and $_POST['aceptaCondicionesReg'] == "Acepto"){
         $requiredFields = array();
         processFormRegistro($requiredFields, 'step5');
-    }elseif(isset($_POST['noAceptaCondicionesReg']) and $_POST['noAceptaCondicionesReg'] == "noAceptaCondiciones"){
+    }elseif(isset($_POST['noAceptaCondicionesReg']) and $_POST['noAceptaCondicionesReg'] == "Salir"){
         //El usuario no acepta las condiciones
         //Eliminado todos los directorios creados
-        $erroresUsuario->eliminarDirectoriosUsuario();
-         volverPrincipio();
+        
+        $controlErrores->eliminarDirectoriosUsuario('registrar');
+        volverPrincipio();
+        
     }elseif(isset($_POST['registroConfirmado']) and $_POST['registroConfirmado'] == "Aceptar") {
         volverPrincipio();
     }
@@ -164,26 +168,34 @@ function displayStep1($missingFields){
   
     global $resulTestReg;
     
-    echo'<section id="form_registro_1" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_registro_1" class="inputsRegistro">';
                 echo'<h4>Introduzca sus datos</h4>';
     echo'<form name="registro" action="registrarse.php" method="POST" id="registro_1" >';
         echo'<fieldset>';
                 echo"<legend>Formulario de ";if(isset($_SESSION['actualizo']['nick']) ){echo "Actualizar Primer paso";}else{echo "Registro Primer Paso";}echo "</legend>";
-        echo"<input type='hidden' name='step' value='step1'>";  
-    echo'<label '.ValidoForm::validateField("nick", $missingFields).' for="nick">Introduce nombre de usuario:</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
+        echo"<input type='hidden' name='step' value='step1'>";
+       
+    echo '<section class="contEtiquetas">';
+    echo'<label '.ValidoForm::validateField("nick", $missingFields).' for="nick" class="labelFormulario">Introduce nombre de usuario:</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="nick" id="nick" autofocus placeholder="Tú nombre usuario maximo 25 caracteres" maxlength="25" value=';if(isset($_SESSION['usuario']['nick'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['nick'];} if(isset($_SESSION['actualizo']['nick'])){echo $_SESSION['actualizo']['nick'];} echo ">";       
+    echo'</section>';
     
-    
-    
-   
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("password", $missingFields). ' for="password">';if(isset($_SESSION['actualizo']['nick']) ){echo "Introduce tú password o cambialo";}else{echo "Introduce tú password";}echo '</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="password" name="password" placeholder="Solo puede tener letras y numeros" id="password"  maxlength="12" placeholder="Debe  minimo 6 y máximo 12" >';	
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("passReg2", $missingFields). ' for="passReg2">Repite el password</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="password" name="passReg2" id="passReg2" maxlength="12"  >';       
-    
+    echo'</section>';
 
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("email", $missingFields).' for="email">Email:</label> <span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="email" id="email" placeholder="info@developerji.com" maxlength="45" value=';if(isset($_SESSION['usuario']['email'])&& (!isset($_SESSION['actualizo']['nick']))){echo $_SESSION['usuario']['email'];} if(isset($_SESSION['actualizo']['correo'])){ echo $_SESSION['actualizo']['correo'];}echo ">";
+    echo'</section>';
+   
+    
     echo '<section id="btns_registrar">';
                 echo"<input type='submit' name='primeroReg' id='primeroSigReg'  value='Siguiente' >";
                 echo"<input type='submit' name='primeroReg' id='primeroSalReg'  value='Salir' >";
@@ -209,24 +221,39 @@ function displayStep2($missingFields){
     
     global $resulTestReg;          
        
-    echo'<section id="form_registro_2" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_registro_2" class="inputsRegistro">';
                 echo'<h4>Introduzca sus datos</h4>';
     echo'<form name="registro" action="registrarse.php" method="POST" id="registro_2">';
         echo'<fieldset>';
     echo"<legend>Formulario de ";if(isset($_SESSION['actualizo']['nick'])){echo "Actualizar Segundo paso";}else{echo "Registro Registro Paso";}echo "</legend>";
         	
     echo"<input type='hidden' name='step' value='step2'>";
+    
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("nombre", $missingFields). ' for="nombre">Nombre:</label> <span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="nombre" id="nombre" autofocus  placeholder="Escribe tú nombre" maxlength= "25" value=';if(isset($_SESSION['usuario']['nombre'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['nombre'];} if(isset($_SESSION['actualizo']['nombre'])){echo $_SESSION['actualizo']['nombre'];}echo ">";
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label for="apellido_1">Primer Apellido:</label>';
     echo'<input type="text" name="apellido_1" id="apellido_1" placeholder="Escribe tú apellido"  maxlength= "25" value=';if(isset($_SESSION['usuario']['apellido_1'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['apellido_1'];} if(isset($_SESSION['actualizo']['primerApellido'])){ echo $_SESSION['actualizo']['primerApellido'];}echo ">";
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label for="apellido_2">Segundo Apellido:</label>';
     echo'<input type="text" name="apellido_2" id="apellido_2" placeholder="Escribe tú segundo apellido" maxlength= "25" value= ';if(isset($_SESSION['usuario']['apellido_2'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['apellido_2'];} if(isset($_SESSION['actualizo']['segundoApellido'])){echo $_SESSION['actualizo']['segundoApellido'];}echo ">";        
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("telefono", $missingFields). ' for="telefono">Teléfono:</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="telefono" id="telefono" placeholder="Teléfono contacto" maxlength="9" value=';if(isset($_SESSION['usuario']['telefono'])&& (!isset($_SESSION['actualizo']))){ echo $_SESSION['usuario']['telefono'];} if(isset($_SESSION['actualizo']['tlf'])){echo $_SESSION['actualizo']['tlf'];}echo ">";
-        echo'<label for="genero">Selecciona tu sexo:</label>';
+    echo'</section>'; 
+    
+    echo '<section class="contEtiquetas">';
+    echo'<label for="genero">Selecciona tu sexo:</label>';
 		echo'<select name="genero" id="genero">';			
 		echo'</select>';
+    echo'</section>';
 	
                 echo'<br>';        
     
@@ -252,36 +279,55 @@ function displayStep3($missingFields){
     global $resulTestReg;
         
             
-    echo'<section id="form_registro_3" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_registro_3" class="inputsRegistro">';
                 echo'<h4>Introduzca sus datos</h4>';
     echo'<form name="registro" action="registrarse.php" method="POST" id="registro_3">';
         echo'<fieldset>';
     echo"<legend>Formulario de ";if(isset($_SESSION['actualizo']['nick'])){echo "Actualizar Tercer paso";}else{echo "Registro Tercer Paso";}echo "</legend>";
         	
     echo"<input type='hidden' name='step' value='step3'>";
+    
+    echo '<section class="contEtiquetas">';
     echo'<label for="calle">Nombre de la calle o vía:</label>';
     echo'<input type="text" name="calle" id="calle" placeholder="Escribe el nombre de la calle"  value= ';if(isset($_SESSION['usuario']['calle'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['calle'];} if(isset($_SESSION['actualizo']['calle'])){echo $_SESSION['actualizo']['calle'];}echo ">";     
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label for="numeroPortal">Número del portal:</label>';
     echo'<input type="text" name="numeroPortal" id="numeroPortal" placeholder="Escribe el número del portal" maxlength= "10" value= ';if(isset($_SESSION['usuario']['numeroPortal'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['numeroPortal'];} if(isset($_SESSION['actualizo']['portal'])){echo $_SESSION['actualizo']['portal'];} echo ">";     
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label for="ptr">Puerta:</label>';
     echo'<input type="text" name="ptr" id="ptr" placeholder="Escribe el número de la puerta"  maxlength= "10" value= ';if(isset($_SESSION['usuario']['ptr'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['ptr'];}if(isset($_SESSION['actualizo']['puerta'])){echo $_SESSION['actualizo']['puerta'];} echo ">";     
+    echo'</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("ciudad", $missingFields).'for="ciudad">Ciudad:</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="ciudad" id="ciudad" placeholder="Nombre de tu Localidad" maxlength= "25" value= ';if(isset($_SESSION['usuario']['ciudad'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['ciudad'];} if(isset($_SESSION['actualizo']['ciudad'])){echo $_SESSION['actualizo']['ciudad'];}echo ">";     
+    echo '</section>';
+    
+    echo '<section class="contEtiquetas">';
     echo'<label '.ValidoForm::validateField("codPostal", $missingFields).'for="codPostal">Código Postal:</label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
     echo'<input type="text" name="codPostal" id="codPostal" placeholder="Escribe el número del código postal"  maxlength="5" value= ';if(isset($_SESSION['usuario']['codPostal'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['codPostal'];} if(isset($_SESSION['actualizo']['codigoPostal'])){echo $_SESSION['actualizo']['codigoPostal'];}echo ">";     
+    echo'</section>';
     
+    echo '<section class="contEtiquetas">';
     echo'<label for="provincia">Provincia:</label>';
  
 	echo'<select name="provincia" id="provincia">';
            
                echo'</select>'; 
-
-                echo'<br>';
-                echo'<br>';
-                
-    echo'<label for="pais">Pais:</label>'; 
-	echo'<input type="text" name="pais" id="pais" placeholder="España"  maxlength= "25" value= '; if(isset($_SESSION['usuario']['pais'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['pais'];} if(isset($_SESSION['actualizo']['pais'])){echo $_SESSION['actualizo']['pais'];} echo '>';		
+    echo'</section>';
     
+    
+                echo'<br>';
+                echo'<br>';
+    
+    echo '<section class="contEtiquetas">';
+    echo'<label for="pais">Pais:</label>'; 
+    echo'<input type="text" name="pais" id="pais" placeholder="España"  maxlength= "25" value= '; if(isset($_SESSION['usuario']['pais'])&& (!isset($_SESSION['actualizo']))){echo $_SESSION['usuario']['pais'];} if(isset($_SESSION['actualizo']['pais'])){echo $_SESSION['actualizo']['pais'];} echo '>';		
+    echo'</section>';
      
     echo '<section id="btns_registrar">';
                         echo"<input type='submit' name='terceroReg' id='terceroSigReg'  value='Siguiente'>";
@@ -304,7 +350,7 @@ function displayStep3($missingFields){
 function displayStep4($missingFields){
     global $resulTestReg;
         
-    echo'<section id="form_registro_4" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_registro_4" class="inputsRegistro">';
                 echo'<h4>Introduzca sus datos</h4>';
     echo'<form name="registro" action="registrarse.php" method="POST" id="registro_4" enctype="multipart/form-data">';
         echo'<fieldset>';
@@ -312,23 +358,30 @@ function displayStep4($missingFields){
         	
     echo"<input type='hidden' name='step' value='step4'>";
     //Modificamos en php.ini y en el formulario el maximo tamaño del archivo
+     
     echo'<input type="hidden" name="MAX_FILE_SIZE" value="50000" />';
+    echo '<section class="contEtiquetas">';
     echo'<label for="photo">Solo fotos .jpg</label>';
             
             echo'<input type="file" name="photo" id="photo" value="" />';
-            
+    echo'</section>';
+    
  if(isset($_SESSION['actualizo']['nick'])){          
  echo "<section id='mostrarFotoAntigua'>";
-    echo "<figure id='fotoAntifua'>";
+    echo "<figure id='fotoAntigua'>";
         //Utilizamos la variable de SESSION del Login para
         //Mostrar su antigua imagen
          echo '<img src='."../datos_usuario/".$_SESSION["userTMP"]->getValue('nick')."/".$_SESSION["userTMP"]->getValue('nick').".jpg".' alt="imagen del usuario antigua" title="Esta es tú antigua imagen."/>';
          echo "<figcaption>Tú antigua imagen.</figcaption>";
     echo "</figure>";
+    echo"</section>";
  }
  
+ echo'<section id="btns_registrar">';
  echo"<input type='submit' name='cuartoReg' id='cuartoSigReg'  value='Siguiente' accept='image/jpeg'>";   
- echo"<input type='submit' name='cuartoReg' id='cuartoAtrReg'  value='Atras'>";                   
+ echo"<input type='submit' name='cuartoReg' id='cuartoAtrReg'  value='Atras'>"; 
+ echo'</section>';
+ 
             echo "</form>";
          
         echo'</fieldset>';
@@ -342,7 +395,7 @@ function displayStep4($missingFields){
     }       
     echo'</section>';
     
-    
+  
 //fin displayStep4    
 }
 
@@ -359,7 +412,7 @@ function confirmarRegistro(){
     echo '<section id="confirmarRegistro">';
         echo '<h2>Has sido registrado correctamente</h2>';
         echo '<h3>Ahora podras logearte con tu usuario y contraseña</h3>';
-            echo "<section id='form_registro_5' class='fuenteFormulario, generalFormularios'>";
+            echo "<section id='form_registro_5' class='inputsREgistro'>";
                 echo'<form name="registro" action="registrarse.php" method="POST" id="registro">';
                     echo '<section id="btns_registrar">';
                         echo"<input type='submit' name='registroConfirmado' id='registroConReg' value='Aceptar'>";

@@ -127,7 +127,7 @@ $excepciones = new MisExcepciones(null,null);
             //Por si el usuario quiere modificar
             //una imagen que esta subiendo o el texto
             //Se muestra desde JSON
-    echo '<section id="mostrarImgSeleccionada" class="generalFormularios">';
+    echo '<section id="mostrarImgSeleccionada" class="">';
     echo '</section>';
     
     
@@ -247,7 +247,7 @@ $excepciones = new MisExcepciones(null,null);
                     }
         
         
-    echo'<section id="form_post_1" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_post_1" class="fuenteFormulario">';
                 echo'<h4>Introduzca los datos del artículo</h4>';
     echo'<form name="post" action="subir_posts.php" method="post" id="post_1" >';
         echo'<fieldset>';
@@ -258,7 +258,7 @@ $excepciones = new MisExcepciones(null,null);
     //
     
     echo'<label '.ValidoForm::validateField("tituloSubirPost", $missingFields).'  for="tituloSubirPost">Introduce un título para el anuncio. </label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
-    echo'<input type="text" maxlength="60" name="tituloSubirPost" id="tituloSubirPost" autofocus placeholder="Máximo 60 caracteres." value="';if(isset($_SESSION['post']['tituloSubirPost'])){echo $_SESSION['post']['tituloSubirPost'];} echo '">'; 
+    echo'<input type="text" maxlength="50" name="tituloSubirPost" id="tituloSubirPost" autofocus placeholder="Máximo 60 caracteres." value="';if(isset($_SESSION['post']['tituloSubirPost'])){echo $_SESSION['post']['tituloSubirPost'];} echo '">'; 
     echo'<label><span class="cnt">0</span></label>';
     echo'</section>';
 
@@ -283,7 +283,7 @@ $excepciones = new MisExcepciones(null,null);
   
     echo '<section class="contenedor">';
     echo'<label '.ValidoForm::validateField("precioSubirPost", $missingFields).' for="precioSubirPost">Introduce un precio aproximado  artículo. </label><span class="obligatorio"><img src="../img/obligado.png" alt="campo obligatorio" title="obligatorio"></span>';
-    echo'<input type="text" maxlength="10" name="precioSubirPost" id="precioSubirPost" placeholder="Precio aproximado, máximo 10 caracteres, solo se aceptan dígitos." maxlength="10" value="';if(isset($_SESSION['post']['precioSubirPost'])){echo $_SESSION['post']['precioSubirPost'];} echo '">';
+    echo'<input type="text" maxlength="5" name="precioSubirPost" id="precioSubirPost" placeholder="Precio aproximado, máximo 10 caracteres, solo se aceptan dígitos." maxlength="10" value="';if(isset($_SESSION['post']['precioSubirPost'])){echo $_SESSION['post']['precioSubirPost'];} echo '">';
      
  
     echo'<label><span class="cnt">0</span></label>';
@@ -395,7 +395,7 @@ function displayStep2($missingFields){
          
             }
  
-    echo'<section id="form_post_2" class="fuenteFormulario, generalFormularios">';
+    echo'<section id="form_post_2" class="fuenteFormulario">';
                 echo'<h4>Puedes subir hasta 5 imagenes</h4>';
                 
         //Seccion donde mostraemos las imagenes que
@@ -417,11 +417,12 @@ function displayStep2($missingFields){
         echo"<input type='hidden' name='step' value='2'>"; 
         //Limitamos el valor máximo del archivo
         echo'<input type="hidden" name="MAX_FILE_SIZE" value="50000" />';
+        echo '<section class="contenedor">'; 
         echo'<label for="photoArticulo">Solo fotos .jpg</label>';
         echo '<br>';    
             echo'<input type="file" name="photoArticulo" id="photoArticulo" value="" />';        
+        echo'</section>';
         
-        echo '<br><br>'; 
         
         
     echo '<section class="contenedor">'; 

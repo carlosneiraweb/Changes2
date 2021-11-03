@@ -284,7 +284,7 @@ public function insertarDireccionUsuario($usu){
                                     
                              
                         $stDireccion = $con->prepare($sqlDireccion);
-                        $stDireccion->bindParam(":idDireccion", $usu, PDO::PARAM_INT);
+                        $stDireccion->bindParam(":idDireccion8888888888888888888", $usu, PDO::PARAM_INT);
                         $stDireccion->bindValue(":calle", $this->data["calle"], PDO::PARAM_STR);
                         $stDireccion->bindValue(":numeroPortal", $this->data["numeroPortal"], PDO::PARAM_STR);
                         $stDireccion->bindValue(":ptr", $this->data["ptr"], PDO::PARAM_STR);

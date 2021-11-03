@@ -174,6 +174,7 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
             $misPalabras = $stm->fetchAll(PDO::FETCH_ASSOC);//fetchAll(PDO::FETCH_COLUMN, 0);
                           
             Conne::disconnect($con);  
+           
             return $misPalabras;   
     } catch (Exception $exc) {
             Conne::disconnect($con);
@@ -232,7 +233,7 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
                             $stm->bindValue(":idPost_queridas", $idPostPa, PDO::PARAM_INT);
                             $stm->bindValue(":palabrasBuscadas", $nuevasPalabras[$i], PDO::PARAM_STR);
                             $stm->bindValue(":idPbsBuscada", $buscadas[$i], PDO::PARAM_INT);
-                            $test = $stm->execute();
+                            $stm->execute();
                          
                            
                             //$actualizo = $stm->rowCount();
@@ -242,6 +243,7 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
                 Conne::disconnect($con);  
               
         }catch (Exception $exc) {
+           
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
             $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
@@ -304,9 +306,12 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
             Conne::disconnect($con); 
            
         } catch (Exception $exc) {
+            echo $exc->getMessage();
+           
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
             $excepciones->eliminarDatosErrorAlSubirPost('errorPost', true);
+             
         }
      //insertarPalarasOfrecidas      
     }
@@ -367,6 +372,9 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
         Conne::disconnect($con);
         $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
     }catch(Exception $ex){
+//        echo $ex->getMessage();
+//        echo $ex->getCode();
+//        echo $ex->getLine();
         $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
         Conne::disconnect($con);
         $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true);
@@ -583,22 +591,19 @@ public function insertPost(){
             Conne::disconnect($con);
             return $test;
         }catch(MisExcepciones $ex){
-            /*
+            
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
             $con->rollBack();
-           */
+           
         }catch(Exception $ex){
-            
-            echo $ex->getMessage();
-            echo $ex->getLine();
-            /*
+           
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             Conne::disconnect($con);
             $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
             $con->rollBack();
-             * */
+           
              
         }
          
@@ -797,7 +802,7 @@ static function eliminarPostId($id,$opc){
     
     try{
         
-        
+        echo 'lastid'.$id;
         $con = Conne::connect();
         $sql = "DELETE  from ".TBL_POST.
                 " where idPost = :idPost";

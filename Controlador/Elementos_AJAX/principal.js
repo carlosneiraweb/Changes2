@@ -4,7 +4,7 @@
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt principal.js
- * @fecha 26-oct-2016
+ * @fecha 26-oct-2020
  */
 
 var petPost, objPost, objPostSeleccionado, petPostSeleccionado,

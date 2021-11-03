@@ -53,7 +53,7 @@ public function eliminarDirectorioPadreTMP($dir,$opc){
  */
 
 public function eliminarDirectoriosUsuario($opc) {
-  
+        
     if(isset($_SESSION["userTMP"])){        
         $usuViejo = $_SESSION["userTMP"]->getValue('nick');
     }
@@ -70,7 +70,7 @@ public function eliminarDirectoriosUsuario($opc) {
                 if(isset($_SESSION["userTMP"])){
                 $opc = "eliminamosViejosDirectoriosActualizar";
             }else{
-                $opc = "nada";
+                $opc = "registrar";
             }
             break;
           
@@ -83,8 +83,9 @@ public function eliminarDirectoriosUsuario($opc) {
             if(isset($_SESSION["userTMP"])){
                 $opc = "EliminarNuevosDirectorios";
             }else{
-                $opc = "nada";
+                $opc = "registrar";
             }
+           
             break;
         
         case "actualizarTMP":
@@ -229,8 +230,9 @@ public function eliminarVariablesSesionPostAcabado(){
     
         
             $tmp=  $_SESSION['nuevoSubdirectorio'];//de fotos
+            $eliminarPost = "../photos/$tmp[0]/$tmp[1]";
             $idPost = $_SESSION['lastId'][0]; 
-            Directorios::eliminarDirectoriosSistema($tmp,"nuevoSubdirectorioSubirPost");
+            Directorios::eliminarDirectoriosSistema($eliminarPost,"nuevoSubdirectorioSubirPost");
             Post::eliminarPostId($idPost,$opc);
         
    
@@ -260,9 +262,11 @@ public function eliminarDatosErrorAlSubirPost($error,$grado){
     
     $_SESSION['errorArchivos'] = "existo";
     $_SESSION["paginaError"] = "index.php";
-    $this->redirigirPorErrorSistema($error,$grado);
-    $this->eliminarVariablesSesionPostAcabado();
     $this->eliminarPostAlPublicar("errorPost");
+    $this->eliminarVariablesSesionPostAcabado();
+    $this->redirigirPorErrorSistema($error,$grado);
+   // 
+    
     
     
     die();

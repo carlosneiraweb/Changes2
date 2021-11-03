@@ -42,8 +42,8 @@ function actualizarDatosUsuario(){
                     var respuesta = data.respuesta;
                     //alert(respuesta);
                         if( respuesta === 'OK'){
-                            
-                            $(location).attr('href','http://localhost/Changes/Vista/registrarse.php');     
+                             //location.href = 'registrarse.php';
+                            $(location).attr('href','registrarse.php');     
 
                         } else if(respuesta === 'DOWN'){
                             

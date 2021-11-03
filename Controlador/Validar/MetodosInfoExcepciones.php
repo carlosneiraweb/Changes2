@@ -118,7 +118,7 @@ private function convertirStringDatosSesion($opc){
 
 
 private function insertarErroresBBDD($errorInterno, $datosUsuario, $opc){
-    
+    var_dump($errorInterno);
      $con = Conne::connect();
      
      try {

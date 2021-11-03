@@ -619,24 +619,28 @@ final static function eliminarDirectoriosSistema($src,$opc){
         
     
         } catch (MisExcepciones $ex) {
-            /**/
+          
             if($opc == "actualizar"){
-                $ex->redirigirPorErrorSistema("actualizar");
+                $ex->redirigirPorErrorSistema("actualizar",true);
             }else if($opc == "registrar"){
-                $ex->redirigirPorErrorSistema("registrar");
+                $ex->redirigirPorErrorSistema("registrar",true);
             }else if($opc == "eliminamosViejosDirectoriosActualizar"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los antiguos directorios al actualizar");
+                $ex->redirigirPorErrorSistema("No se pudo eliminar los antiguos directorios al actualizar",false);
             }else if($opc == "EliminarNuevosDirectorios"){
-                $ex->redirigirPorErrorSistema("No se pudieron eliminar los nuevos directorios introducidos para actualizar");
+                $ex->redirigirPorErrorSistema("No se pudieron eliminar los nuevos directorios introducidos para actualizar",false);
             }else if($opc == "EliminarDirectorioTMP"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios TMP_ACTUALIZAR despues ingresar en la bbdd");
+                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios TMP_ACTUALIZAR despues ingresar en la bbdd",false);
             }else if($opc == "nuevoSubdirectorioSubirPost"){
                 $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-                $ex->redirigirPorErrorSistema("No se pudo eliminar el nuevo subdirectorio al registrar un nuevo post");
+                $ex->redirigirPorErrorSistema("No se pudo eliminar el nuevo subdirectorio al registrar un nuevo post",false);
             }else if($opc == "eliminarDirectoriosBajaUsuario"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios cuando el usuario queria darse de baja");
+                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios cuando el usuario queria darse de baja",false);
             }
+            
         }
+       
+        
+        
 
 //eliminarDirectorioRegistro    
 }

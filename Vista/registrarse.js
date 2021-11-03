@@ -152,9 +152,9 @@ function cargarProvinciasRegistrarse(objProvinciasRegistrarse){
 * */
 function agregarFormularioCondiciones(){
     
-   
+    $('header').empty();
     $('header').after('<section id="verificarCondiciones" class="mostrar_formulario"></section>');
- 
+    
     $("#verificarCondiciones").append($('<h3>',{
             text : 'Lee detenidamente las condiciones'
     })).append($('<section >',{
@@ -194,13 +194,13 @@ function agregarFormularioCondiciones(){
     })).append($('<input>',{
             type : 'submit',
             id  : 'btnAceptarCondiciones',
-            value : 'aceptaCondiciones',
+            value : 'Acepto',
             name : 'aceptaCondicionesReg',
             disabled : 'disabled'
     })).append($('<input>',{
             type : 'submit',
             id  : 'btnNoAceptarCondiciones',
-            value : 'noAceptaCondiciones',
+            value : 'Salir',
             name : 'noAceptaCondicionesReg',
             disabled : 'disabled'
     }));

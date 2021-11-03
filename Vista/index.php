@@ -122,6 +122,9 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
       // echo'<div id="ocultarPHP" class="mostrar_transparencia"></div>';
         echo'<div id="ocultar" class="mostrar_transparencia"></div>';
     }
+    
+    
+  
     echo'<header>';
 	echo'<figure id="logo" class="fade">';
 		echo'<img src="../img/logo.png" alt="Logo del portal"/>';
@@ -191,18 +194,11 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
 		echo'<img src="../img/derecha.png" class="activar" alt="Botones de desplazamiento"/>';
 	echo'</figure>';
 	
-        echo'<figure id="arriba" class="noOcupar">';
-		echo'<img src="../img/arriba.png" class="activar" alt="Botones de desplazamiento"/>';
-        echo'</figure>';	
-	
             echo'<ul id="slider" class="slider-wrapper">';
                 echo'<li class="slide-current"><a class="separarLetras">Inicio</a><a class="separarLetras">Automocion</a><a class="separarLetras">Ocio</a><a class="separarLetras" >Bricolaje</a></li>';
 		echo'<li><a class="separarLetras">Inicio</a><a class="separarLetras">Electronica</a><a class="separarLetras">Cultura</a><a class="separarLetras">Moda</a></li>';
             echo'</ul>';
-	
-	echo'<figure id="abajo" class="noOcupar">';
-		echo'<img src="../img/abajo.png" class="activar" alt="Botones de desplazamiento"/>';
-	echo'</figure>';
+
 	echo'<figure id="izquierda" class="slider-controls, ocultar">';
 		echo'<img src="../img/izquierda.png" class="activar"  alt="Botones de desplazamiento"/>';
 	echo'</figure>';
@@ -254,7 +250,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo '<section id="btn_navegacion">';
         echo '</section>';
     
-        /*
+      /*
          * Elemento html al que se le 
          * añadira elementos para mostrar 
          * el posts seleccionado al hacer click
@@ -262,7 +258,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
          */ 
         echo '<section id="mostrarPostSeleccionado" class="oculto">';
         echo "</section>";
-    
+        
  
  
 

@@ -130,6 +130,9 @@ function validarCamposSubirPost($st){
                 //png bandera para que al recargar
                 //no se ingrese la img otra vez
                 $_SESSION['png'] = 'png';
+                //Para que actualice el post
+                //Ya que nos devuelve al primer paso del formulario
+                $_SESSION['atras'] = 'atras';
                 mostrarError();      
                
                 

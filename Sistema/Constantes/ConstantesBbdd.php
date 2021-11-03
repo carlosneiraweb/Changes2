@@ -25,7 +25,7 @@ define("TBL_USUARIO", "usuario");
 define("TBL_IMAGENES", "imagenes");
 define("TBL_TIEMPO_CAMBIO", "tiempo_cambio");
 define("TBL_PALABRAS_EMAIL", "palabras_email");
-define("TBL_INSERTAR_ERROR", "errores");
+define("TBL_INSERTAR_ERROR", "Errores");
 define("TBL_USUARIOS_BLOQUEADOS", "usuarios_bloqueados");
 define("PAGE_SIZE", 3);
 define("LIMIT_RETURN_SEARCH", 25);
