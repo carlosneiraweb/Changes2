@@ -37,7 +37,7 @@ function crearSubdirectorio(){
    $_SESSION['nuevoSubdirectorio'][0] = $nickUsu;
    //[1] numero subdirectorio ejemplo "1"
    $_SESSION['nuevoSubdirectorio'][1] = Directorios::crearSubdirectorio('../photos/'.$nickUsu,"crearSubdirectorio");
-   
+   //echo 'responde '."../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1];
    Directorios::copiarFoto("../photos/demo.jpg","../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1]."/demo.jpg", "copiarDemoSubirPost");    
     
 //fin crearSubdirectorio    

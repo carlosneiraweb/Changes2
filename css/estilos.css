@@ -368,10 +368,15 @@ section#contenido .lanzar, section#contenido .comentario{
 }
 
 section#contenido .lanzar{
-    width: 40%;
+    width: 35%;
+    max-width: 35%;
 }
 
-section#contenido .lanzar img{border-radius: 1em;}
+.lanzar img{
+    border-radius: 4em;
+    width: 95%;
+    max-width: 95%;
+}
 
 section#contenido .comentario{
    
@@ -427,6 +432,19 @@ section#contenido .comentario{
     border: 1px solid red;
 }
 
+
+.btnComentar{
+    background-color : white;
+    opacity: .4;
+    filter:alpha(opacity=4);
+    z-index: 10;
+}
+
+.colorRojo{
+      border: 2px solid red;
+      border-bottom-color: red;
+}
+
 .salto{margin: 2em;}
 
 .date{
@@ -473,7 +491,7 @@ section#btn_navegacion ul li:hover{border: 1px solid #FF5917; color:#1687ed;}
     margin: 1em auto;
 }
 
-#form_registro_1 h4,#form_registro_2 h4,#form_registro_3 h4,#form_registro_4 h4, section#verificarCondiciones h3,section#form_post_1 h4, section#form_post_2 h4{
+#form_registro_1 h4,#form_registro_2 h4,#form_registro_3 h4,#form_registro_4 h4, section#verificarCondiciones h3,section#form_post_1 h4, section#form_post_2 h4, section#form_comentario h4{
     text-align: left;
     margin: 1em auto;
     text-decoration: underline;
@@ -1027,20 +1045,7 @@ form#registro{
     width: 90%;
 }
 
-/*Estilos para cuando un un usuario selecciona una imagen para borrar*/
-section#mostrarImgSeleccionada{
-    padding-bottom: 1em;
-    height: 50%;
-    width: 50%;   
-}
 
-section#mostrarImgSeleccionada .img_usuario_tmp{
-    border: 1px solid red;
-    margin: .3em auto;
-    width: 250px;
-    max-width: 250px;
-    
-}
 
 
 
@@ -1165,6 +1170,103 @@ ul{
     font-size: 2.5em;
 }
 
+/*******************************FORMULARIOS MOSTRADOS JQUERY********/
+
+/*Formulario para eliminar, actualizar texto de una imagen mientras se sube un Post*/
+section#mostrarImgSeleccionada{
+   margin: 1em auto;
+    width: 35%;
+    z-index: 30;
+    position: relative;
+  
+}
+
+section#mostrarImgSeleccionada .img_usuario_tmp{
+    border: 1px solid red;
+    margin: .3em auto;
+    width: 250px;
+    max-width: 250px;
+    
+}
+
+/**********fin formulario*********/
+
+/**********Formulario mostrar comentarios********/
+
+section#contenedorComentariosPost{
+    width: 90%;
+    max-width: 90%;
+    margin:1em auto;
+}
+
+section#imgUsuarioPublica, section#contDatosPost,section#piePostComentario h2#h2TotalComentarios,section#piePostComentario h3#h3FechaPost, section#mostrarComentarios section#imgUsuarioComenta, section#mostrarComentarios section#contDatosComentario, section#mostrarComentarios section#piePostComentarios h3#FechaComentario{
+    display: inline-block;
+    vertical-align: middle; 
+    
+}
+
+
+section#imgUsuarioPublica, section#contDatosPost, section#imgUsuarioComenta, section#contDatosComentario{
+    width: 40%;
+    max-width: 40%;
+    margin: .5em auto;
+}
+section#imgUsuarioPublica figure#figuPublica, section#imgUsuarioComenta figure#figuComenta{
+    width:90%;
+    max-width: 90%;
+    margin: .5em auto;
+}
+figcaption#figPublica, figcaption#figComenta{
+   text-align: center;
+    font-size: .8em;
+    text-decoration: underline; 
+    border-bottom: 1px solid #1687ed;
+}
+
+figure#figuPublica img, figure#figuComenta img{
+    width:60%;
+    max-width: 60%;
+    border-radius: 1em;
+}
+
+
+section#contDatosPost, section#contDatosComentario{
+    width: 50%;
+    max-width: 50%;
+    margin: .5em auto;
+}
+section#contDatosPost h1#tituloPostComent, section#comentario, section#contDatosComentario h2#h2Comenta, section#verComentario{
+    width:90%;
+    max-width: 90%;
+    margin: .5em auto;
+    text-align: center;
+    font-size: 1.5em;
+}
+section#contDatosPost section#comentario{
+   font-size: 1em;
+}
+
+section#piePostComentario, section#piePostComentarios{
+    width: 90%;
+    max-width: 90%;
+    margin: 1em auto;
+}
+
+section#piePostComentario h2#h2TotalComentarios, section#piePostComentario h3#h3FechaPost, section#piePostComentarios h3#FechaComentario{
+    width:40%;
+    max-width: 40%;
+    margin: .5em;
+    font-size: .8em;
+}
+
+
+
+
+
+
+
+
+
 /**
     Contenedor del section donde se muestra
     el post seleccionado al pinchar una
@@ -1172,16 +1274,12 @@ ul{
 section#mostrarPostSeleccionado{
     
     margin: 1em auto;
-    min-width: 90%;
-    max-width: 90%;
-    max-height: 90%;
+    width: 35%;
     z-index: 30;
     position: absolute;
     top:0;
     left: 0;
     right:0;
-    bottom: 0;
-   
    
 }
 
@@ -1206,25 +1304,38 @@ section#contPostSeleccionado h1{
 
 
 .slider-wrapper-IMG{
-    padding: .5em;
-    width: 300px;
-    max-width: 300px;
-    height: 300px;
-    max-height: 300px;
-    margin: .5em auto;
+   
+    width: 200px;
+    max-width: 200px;
+    height: 200px;
+    max-height: 200px;
+    margin: 1em auto;
 }
 
-
 .slider-wrapper-IMG .imgSlider{
+
     min-height: 100%;
     min-width: 100%;
     max-width: 100%;
     max-height: 100%;
-    border-radius:  2em;
-    
+    border-radius: 1em;
+    display:block;
 }
 
-ul#slider-controls{position: relative; margin: 5em auto;}
+
+.slider-wrapper-IMG figcaption{
+    
+    width: 85%;
+    min-width: 85%;
+    padding: .5em;
+    background-color: white;
+    border-bottom: 1px solid  #0d88f6;
+}
+
+
+
+
+ul#slider-controls{margin: 1em auto; margin-top: 8em;}
 
  .slider-wrapper-IMG>li{
     height: 260px;
@@ -1233,23 +1344,6 @@ ul#slider-controls{position: relative; margin: 5em auto;}
     display: none;
     
 }
-
-/*
-    Caption
-*/
-
-.slider-wrapper-IMG figcaption{
-    
-    width: 85%;
-    min-width: 85%;
-    height: auto;
-    padding: .5em;
-    margin: 1em;
-    background-color: white;
-    border-bottom: 1px solid  #0d88f6;
-}
-
-
 
 /*
     Silder-controls
@@ -1310,21 +1404,6 @@ section#salir{
 
 
 
-/******************boton comentar**************/
-
-.btnComentar{
-    background-color : white;
-    opacity: .4;
-    filter:alpha(opacity=4);
-    z-index: 10;
-}
-
-.colorRojo{
-      border: 2px solid red;
-      border-bottom-color: red;
-}
-
-
 .usuBloqueado{
    width:100%;
    height:100%;
@@ -1333,55 +1412,43 @@ section#salir{
    bottom:0;
    background-color : #fff;
 }
-/*********************FIN ESTILOS SLIDER ******************************/
 
 
-  /**COMENTARIO POSTS**/
+
+  /**Formulario para hacer un comentario**/
   
-
+  section#form_comentario{
+    margin: 1em auto;
+    width: 60%;
+    z-index: 30;
+    position: absolute;
+    top:0;
+    left: 0;
+    right:0
+  }
   
  .mostrar_formulario_comentarios{
-	background-color: white;
-	padding: .3em;
-	margin: auto;
-	position:absolute;
-	top: 30px;
-	left: 0;
-	right: 0;
-	
-	visibility: visible;
-	z-index: 20
+    background-color: #f9fcff;
+    border: 2px solid #f9fcff;
+    padding: .5em;
+    margin: .5em;
+    max-width: 80%;
+    max-height: 50%;
+    border-radius: 1em;
 }
 
-
+textarea#comentarioPost{
+    width:90%;
+    max-width: 90%;
+    margin: .5em auto;
+}
 
 /**********MOSTRAR POST******************/
 
-section#cabeceraComentarios section#imgUsuarioPublica, #h2Publica, #x {
-    display: inline-block;
-}
 
 
-/*
-@media screen and (max-width:360px){
-    
-    figure#logo, section#cabecera{
-        
-        display: block;
-        margin: .5em auto;
-        max-width: 90%;
-        width: 90%;
-    }
-    
-    section#cabecera h1{max-width: 80%;}
-    figure#derecha, figure#arriba, figure#izquierda, figure#abajo{width:5%; max-width:5%;}
-    ul#slider{width:75%;}
-    ul#slider > li > a{font-size: 3vw;}
-    .piePost{display:block;}
-    .tiempo_cambio, .contBotonComentario{display:block;}
-    section#btn_navegacion  h3{font-size: 2.5vw}
-}
-*/
+
+
 @media screen and (max-width:800px){
     
     figure#logo, section#cabecera{
@@ -1396,11 +1463,44 @@ section#cabeceraComentarios section#imgUsuarioPublica, #h2Publica, #x {
     figure#derecha, figure#arriba, figure#izquierda, figure#abajo{width:5%; max-width:5%;}
     ul#slider{width:75%;}
     ul#slider > li > a{font-size: 3vw;}
+    section#contenido .lanzar, section#contenido .comentario{display:block; margin:1em auto;}
     .piePost{display:block;}
     .tiempo_cambio, .contBotonComentario{display:block;}
     section#btn_navegacion  h3{font-size: 2.5vw}
 }
 
+
+/**POST SELECIONADO**/
+@media screen and (max-width:690px){
+    section#mostrarPostSeleccionado{width: 60%;} 
+    section#piePostComentario h2#h2TotalComentarios, section#piePostComentario h3#h3FechaPost{display:block; margin:1.5em;}
+}
+
+@media screen and (max-width:450px){
+    section#mostrarPostSeleccionado{
+        width: 80%;
+    } 
+    .slider-wrapper-IMG {
+        width: 200px;
+        max-width: 200px;
+    }
+}
+
+/**COMENTARIO POST**/
+
+@media screen and (max-width:720px){
+    
+    section#form_comentario{
+        width: 60%;
+        max-width: 60%;
+    }
+    section#comentar input[type = 'text'], textArea#comentarios{
+        width: 90%;
+        max-width: 90%;
+        margin: .5em auto;
+    }
+   
+}
 
 
 		/*MediaQuery*/

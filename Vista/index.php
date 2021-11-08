@@ -269,12 +269,16 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo'<fieldset>';
         	echo'<legend>Haz tú cometario</legend>';
     echo '<section id="comentar">';
+    echo '<section class="contEtiquetas">';
     echo'<label for="tituloComentario">Titulo:</label> ';
     echo'<input type="text" name="tituloComentario" id="tituloComentario" autofocus  placeholder="Escribe el comentario" maxlength= "75" value="">';
-     echo'<label  for="comentarioPost">Escribe tú comentario aqui. </label>';
+     
+    echo '<section class="contEtiquetas">';
+    echo'<label  for="comentarioPost">Escribe tú comentario aqui. </label>';
     echo'<textarea spellcheck="true" maxlength="255" name="comentarioPost" id="comentarioPost" placeholder= "Máximo 255 caracteres." ';  echo'>'; 
     echo'</textarea>';
     echo '</section>';
+    echo'</section>';
     
     echo '<section id="botones_comentar">';
     echo'<input type="button" id="btn_mandar_comentario" name="btn_mandar_comentario" value="Mandar" />'; 

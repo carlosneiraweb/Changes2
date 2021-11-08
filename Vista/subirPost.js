@@ -251,14 +251,14 @@ function cargarImgEliminar(objImgEliminar){
    
        //alert('objEliminar    '+"../photos/"+objImgEliminar[0].nick+'/'+objImgEliminar[0].ruta+".jpg");
     //Mostramos la capa opca de fondo
-    $("#ocultar").removeClass('oculto').addClass('mostrar_transparencia');
+    //$("#ocultar").removeClass('oculto').addClass('mostrar_transparencia');
     $("#form_post").addClass('noOcupar');
     //Eliminamos el formulario donde vamos subiendo
     //las imagenes post 
     $("#form_post_2").remove();
     //Creamos los elementos para mostrar la imagen y el texto
     
-    
+    $('<header>').before('#mostrarImgSeleccionada');
     $('#mostrarImgSeleccionada')
         .append($('<form>',{
             name : 'eliminarImagen',

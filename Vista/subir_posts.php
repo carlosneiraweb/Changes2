@@ -120,15 +120,20 @@ $excepciones = new MisExcepciones(null,null);
                 
 	echo'</section>';
    
+        
+        
+        
     echo'</header>';
     
-    
-            //Aqui mostramos la imagen ampliada
+    //Aqui mostramos la imagen ampliada
             //Por si el usuario quiere modificar
             //una imagen que esta subiendo o el texto
             //Se muestra desde JSON
     echo '<section id="mostrarImgSeleccionada" class="">';
     echo '</section>';
+        
+        
+            
     
     
     

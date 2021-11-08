@@ -27,6 +27,7 @@ function insertarComentario(idPost){
                         //console.log( data);
                         if(test === true){
                             $('#imgResultComentVerde').removeClass('oculto');
+                            $("#btn_mandar_comentario").remove();
                             var tmp = parseInt($('#totalComentarios').text());
                             tmp++;
                             $('#totalComentarios').text(tmp);

@@ -140,6 +140,7 @@ window.onload=function(){
             idPost = ($(this).attr('class'));
           
             if(totalComent > 0){
+                
                buscarComentarios(idPost, totalComent);
             }
  
@@ -288,7 +289,7 @@ function cargarContenidoPorSeccion(){
                         break;
                         
                 default:
-                    
+                    //alert(opcionMenu +'opcion='+opcion+'&inicio='+inicio);
                     cargarPeticionMenu(opcionMenu, 'opcion='+opcion+'&inicio='+inicio);   
             }
     

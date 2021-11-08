@@ -24,6 +24,7 @@ function cargarPostSeleccionado(objPost){
         
         $("#ocultar").removeClass('oculto').addClass('mostrar_transparencia');
         $("#mostrarPostSeleccionado").removeClass('oculto');
+       
         ///Creamos elementos
          $("#mostrarPostSeleccionado").append($("<section>",{
              id : 'contPostSeleccionado'
@@ -35,21 +36,24 @@ function cargarPostSeleccionado(objPost){
         }).append($('<img>',{
             class : 'imgSlider',
             src : "../photos/"+objPost[0][0].nick+'/'+objPost[0][0].ruta+".jpg"   
-        })).append($('<figcaption>',{
-            class : 'pCaption',
-            text : objPost[0][0].texto
-            
-            }))
-                    
-        ).append($('<ul>', {
+        })).append($("<figcaption>",{
+            html : objPost[0][0].texto
+        }))
+                
+        ));
+                
+  
+        $("#contPostSeleccionado").append($('<ul>', {
             class : 'slider-controls',
             id : 'slider-controls'
         }).append($('<li>',{
               class : 'elegir',
              text : '1'       
         }).on('click',function(){
-            $('#sliderIMG  .pCaption').remove();
-            $('#sliderIMG img').remove();
+            $('#sliderIMG').empty();
+           // $('#sliderIMG img').remove();
+            //$('#sliderIMG  .pCaption').remove();
+            
            
             $('#sliderIMG').append($('<img>',{
                 class : 'imgSlider',
@@ -65,9 +69,9 @@ function cargarPostSeleccionado(objPost){
                     
             }).on('click',function(){
                 
-              
-                    $('#sliderIMG .pCaption').remove();
-                    $('#sliderIMG img').remove();
+                    $('#sliderIMG').empty();
+                   // $('#sliderIMG .pCaption').remove();
+                   // $('#sliderIMG img').remove();
 
                     $('#sliderIMG').append($('<img>',{
                         class : 'imgSlider',
@@ -84,8 +88,9 @@ function cargarPostSeleccionado(objPost){
            text : '3'
                     
             }).on('click',function(){
-                $('#sliderIMG img').remove();
-                $('#sliderIMG  .pCaption').remove();
+                $('#sliderIMG').empty();
+                //$('#sliderIMG img').remove();
+                //$('#sliderIMG  .pCaption').remove();
                 $('#sliderIMG').append($('<img>',{
                 class : 'imgSlider',
                 src : "../photos/"+objPost[0][2].nick+'/'+objPost[0][2].ruta+".jpg"
@@ -100,8 +105,9 @@ function cargarPostSeleccionado(objPost){
             class : 'elegir',
             text: '4'
             }).on('click',function(){
-                $('#sliderIMG img').remove();
-                $('#sliderIMG  .pCaption').remove();
+                $('#sliderIMG').empty();
+                //$('#sliderIMG img').remove();
+                //$('#sliderIMG  .pCaption').remove();
                 $('#sliderIMG').append($('<img>',{
                     class : 'imgSlider',
                 src : "../photos/"+objPost[0][3].nick+'/'+objPost[0][3].ruta+".jpg"
@@ -115,8 +121,9 @@ function cargarPostSeleccionado(objPost){
             class : 'elegir',
             text : '5' 
             }).on('click',function(){
-                $('#sliderIMG img').remove();
-                $('#sliderIMG  .pCaption').remove();
+                $('#sliderIMG').empty();
+                //$('#sliderIMG img').remove();
+                //$('#sliderIMG  .pCaption').remove();
                 $('#sliderIMG').append($('<img>',{
                     class : 'imgSlider',
                 src : "../photos/"+objPost[0][4].nick+'/'+objPost[0][4].ruta+".jpg"
@@ -149,7 +156,7 @@ function cargarPostSeleccionado(objPost){
                    $("#mostrarPostSeleccionado").addClass('oculto');
                    $("#ocultar").addClass('oculto');
                    cargarContenidoPorSeccion();
-            })));
+            }));
 
         var tmp = "";
           
@@ -166,7 +173,9 @@ function cargarPostSeleccionado(objPost){
        $('#cuerpo').on('click','.elegir',function(){
           $(this).css('color' ,'#ed7016');
          
-       });   
+       }); 
+       
+       
             
             
 //fin cargarSlider    

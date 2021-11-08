@@ -12,9 +12,10 @@ $(document).ready(function(){
         $('#ocultar').addClass('oculto');
         $('#imgResultComentVerde').addClass('oculto');
         $('#imgResultComentRojo').addClass('oculto');
+        cargarContenidoPorSeccion();
     });
     
-    $("#btn_mandar_comentario").attr('disabled', 'disabled');   
+    //$("#btn_mandar_comentario").attr('disabled', 'disabled');   
 
             /**
             * @description Validamos el titulo
@@ -56,8 +57,8 @@ $(document).ready(function(){
         $('#btn_mandar_comentario').on('mouseover',function(){
           
             if(validarTitulo() && validarComentario()){
-               
-               $("#btn_mandar_comentario").removeAttr('disabled');
+              
+             // $("#btn_mandar_comentario").removeAttr('disabled');
            }
 
         });

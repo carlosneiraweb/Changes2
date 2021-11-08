@@ -50,15 +50,16 @@ from ".TBL_COMENTARIO." where post_idPost = :idPost;";
     $idPost = $tmpBus[0][5];
     //var_dump($idPost);
   
-     $sqlUsuarioComenta = "select nick as nick, ciudad as ciudadPublica, DATE_FORMAT(fechaPost,'%d-%m-%Y') as fechaPublica
+     $sqlUsuarioComenta = "select nick as nick, ciudad as ciudadPublica, DATE_FORMAT(fechaPost,'%d-%m-%Y') as fechaPublica, titulo as titulo, comentario as comentario
 from ".TBL_POST." p
-inner join ".TBL_DIRECCION." as di on di.idDireccion = (select idUsuarioPost from ".TBL_POST."  where idPost = :idPost)
-inner join ".TBL_USUARIO." as usu on usu.idUsuario = (select idUsuarioPost from ".TBL_POST." where idPost = :idPost) and p.idPost = :idPost;";
-       
+inner join ".TBL_DIRECCION." as di on di.idDireccion  = (select idUsuarioPost from ".TBL_POST."  where idPost = :idPost) 
+inner join ".TBL_USUARIO." as usu on usu.idUsuario  = (select idUsuarioPost from ".TBL_POST." where idPost = :idPost) and p.idPost = :idPost ;";
+    
+     
         $stmUsuComenta = $conBuscarPost->prepare($sqlUsuarioComenta);
         $stmUsuComenta->bindValue(":idPost", $idPost, PDO::PARAM_INT);
         $stmUsuComenta->execute();
-        $tmpUsu = $stmUsuComenta->fetch();
+        $tmpUsu = $stmUsuComenta->fetchAll();
      
         //var_dump($tmpUsu);
         array_push($tmpUsu, $totalComent);

@@ -78,7 +78,7 @@ try {
         
         foreach($v as $id){
                  
-      
+      /*
                 $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
                     prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 
                     p.titulo, img.ruta, p.comentario, tc.tiempo as tiempoCambio
@@ -89,7 +89,19 @@ inner join provincias AS prov on prov.nombre = dire.provincia
 inner join imagenes AS img on img.post_idPost = :idPost 
 inner join tiempo_cambio AS tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
 where p.idPost = :idPost limit 1";
-                
+                */
+            
+                                 $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
+                    prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 
+                    p.titulo, img.nickUsuario, img.ruta, p.comentario, tc.tiempo as tiempoCambio                   
+from post p
+inner join ".TBL_USUARIO." AS u on u.idUsuario= p.idUsuarioPost
+inner join ".TBL_DIRECCION." AS dire on dire.idDireccion = u.idUsuario
+inner join ".TBL_PROVINCIAS." AS  prov on prov.nombre = dire.provincia
+inner join ".TBL_IMAGENES." AS img on img.post_idPost = :idPost 
+inner join ".TBL_TIEMPO_CAMBIO." AS tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
+where p.idPost = :idPost limit 1";
+    //echo $sqlPost;      
         
                 $stm3Menu = $conMenu->prepare($sqlPost);
                 $stm3Menu->bindValue(":idPost", $id[0], PDO::PARAM_INT);

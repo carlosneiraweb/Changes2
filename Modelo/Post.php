@@ -802,7 +802,7 @@ static function eliminarPostId($id,$opc){
     
     try{
         
-        echo 'lastid'.$id;
+        
         $con = Conne::connect();
         $sql = "DELETE  from ".TBL_POST.
                 " where idPost = :idPost";

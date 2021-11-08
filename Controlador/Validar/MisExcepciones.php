@@ -231,6 +231,7 @@ public function eliminarVariablesSesionPostAcabado(){
         
             $tmp=  $_SESSION['nuevoSubdirectorio'];//de fotos
             $eliminarPost = "../photos/$tmp[0]/$tmp[1]";
+            
             $idPost = $_SESSION['lastId'][0]; 
             Directorios::eliminarDirectoriosSistema($eliminarPost,"nuevoSubdirectorioSubirPost");
             Post::eliminarPostId($idPost,$opc);

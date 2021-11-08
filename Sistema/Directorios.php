@@ -187,7 +187,7 @@ class Directorios {
           */
             
         final static function crearSubdirectorio($usuario,$opc){
-          
+         
         try{
             
             $dir = $usuario;
@@ -237,7 +237,8 @@ class Directorios {
            
             
             if(!$test){
-                throw new MisExcepciones(CONST_ERROR_CREAR_SUBDIRECTORIO_POST[1], CONST_ERROR_CREAR_SUBDIRECTORIO_POST[0]);
+                
+                 throw new MisExcepciones(CONST_ERROR_CREAR_SUBDIRECTORIO_POST[1], CONST_ERROR_CREAR_SUBDIRECTORIO_POST[0]);
             }
         
           //  echo 'Nuevo Subdirectorio creado en el metodo crearsubdirectorio: '.$nuevoDirectorio.'<br>';
@@ -249,7 +250,7 @@ class Directorios {
             
         }catch(MisExcepciones $ex){
             /**/
-            
+           
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
             
