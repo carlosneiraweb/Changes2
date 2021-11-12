@@ -1,5 +1,5 @@
 
-//$(location).attr('href','http://localhost/Changes/Vista/registrarse.php');   
+
  var it = 0;
 /**
  * Muestra un h5 en caso que

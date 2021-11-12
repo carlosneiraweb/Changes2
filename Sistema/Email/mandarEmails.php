@@ -24,6 +24,7 @@ class mandarEmails {
   
  
 final function mandarEmailWelcome(DataObj $obj){
+   // var_dump($obj);
 
      $excepciones = new MisExcepciones(CONST_ERROR_CONSTRUIR_DARSE_ALTA[1],CONST_ERROR_CONSTRUIR_DARSE_ALTA[0]);
             //Creamos el objeto email con los datos
@@ -45,7 +46,7 @@ final function mandarEmailWelcome(DataObj $obj){
             
                  
             }catch (Exception $ex){
-                $excepciones->redirigirPorErrorSistema("ProblemaEmail");
+                $excepciones->redirigirPorErrorSistema("ProblemaEmail",false);
             }finally{
                 unset($obj);
                 unset($email);
@@ -107,7 +108,7 @@ final function mandarEmailWelcome(DataObj $obj){
           
                     
             }catch (Exception $ex){
-                $excepciones->redirigirPorErrorSistema('ProblemaEmail');
+                $excepciones->redirigirPorErrorSistema('ProblemaEmail',false);
                 
             } finally {
                 unset($email);
@@ -147,7 +148,7 @@ final function mandarEmailBajaUsuario(DataObj $usuBaja){
 
            
         } catch (Exception $exc) {
-             $excepciones->redirigirPorErrorSistema("ProblemaEmail");
+             $excepciones->redirigirPorErrorSistema("ProblemaEmail",false);
         }finally{
               unset($email);
         }

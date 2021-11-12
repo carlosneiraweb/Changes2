@@ -33,7 +33,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
 <html>
     <div id="ocultar" class="oculto"> </div>
     <head>
-       <meta charset="utf-8">
+       <meta charset="utf8mb4_unicode_520_ci 	">
        <title>Tú portal de intercambio</title>
 	<meta name="description" content="Portal para intercambiar las cosas que ya no usas o utilizas por otras que necesitas o te gustan."/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -61,7 +61,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         <script src="../Controlador/Elementos_AJAX/comentarios.js"></script>
         <script src="./mostrarComentarios.js"></script>
         
-        <script src="../Controlador/Elementos_AJAX/bloquearUsuarios.js"></script>
+        <script src="../Controlador/Elementos_AJAX/bloquearDesbloquearUsuarios.js"></script>
         <script src="../Controlador/Elementos_AJAX/darBajaUsuario.js"></script>
         <script src="../Controlador/Elementos_AJAX/actualizarDatos.js"></script>
         <script src="./mostrarMenuUsuario.js"></script>

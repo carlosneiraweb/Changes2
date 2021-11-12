@@ -118,12 +118,14 @@ where p.idPost = :idPost limit 1";
                 array_push($tmp, $x);
                 
                    
-       
+ //inicio=0&opcion=PPS
+ //entrar con usuario bloqueado
+ //OJO AL PAGESIZE
                  
          //Solo en caso el usuario se logee
 if(isset($_SESSION['userTMP'])){
     $usuBloqueados = $usuBloqueo->devuelveUsuariosBloqueados($tmp[2]); 
-   
+    
     //var_dump($usuBloqueados);
     $totalUsuarioBloqueado =  count($usuBloqueados);
     

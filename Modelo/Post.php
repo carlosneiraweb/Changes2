@@ -370,7 +370,7 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
     }catch(MisExcepciones $ex){
         $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
         Conne::disconnect($con);
-        $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+       $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
     }catch(Exception $ex){
 //        echo $ex->getMessage();
 //        echo $ex->getCode();
@@ -594,14 +594,15 @@ public function insertPost(){
             
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-            $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+           // $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
             $con->rollBack();
            
         }catch(Exception $ex){
-           
+           echo $ex->getMessage();
+           echo $ex->getCode();
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             Conne::disconnect($con);
-            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
+            //$excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
             $con->rollBack();
            
              

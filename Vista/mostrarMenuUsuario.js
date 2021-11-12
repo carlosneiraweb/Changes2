@@ -127,7 +127,8 @@ function mostrarMenu(){
        text : 'Debes introducir tú correo'
     })).append($('<input>',{
         type : 'text',
-        id : 'correoActualizar'
+        id : 'correoActualizar',
+        class : 'border'
     })).append($('<p>',{
         id: 'pedirPassword',
         text : 'Debes introducir tú viejo password'
@@ -170,7 +171,8 @@ function mostrarMenu(){
             class : 'bloqueoTotal'
         })).append($('<input>',{
             type : 'text',
-            id : 'inputTotal'
+            id : 'inputTotal',
+            class : 'border'
         })).append($('<section>',{
             id: 'botonTotal'
         }).append($('<input>',{
@@ -189,6 +191,7 @@ function mostrarMenu(){
             class : 'bloqueoParcial'
         })).append($('<input>',{
             type : 'text',
+            class : 'border',
             id : 'inputParcial'
         })).append($('<section>',{
             id: 'botonParcial'
@@ -196,9 +199,55 @@ function mostrarMenu(){
             type : 'button',
             id : 'bParcial',
             value : 'Aceptar'
-        }))).append($('<section>',{
+        }))).on("click","#bParcial",function(){
+            var nickBloquear = $("#inputParcial").val();
+            bloquear(nickBloquear,"bloqueoParcial");
+        }).append($('<h5>',{
+            text : "Desbloquear un usuario.",
+            id : 'desbloquear'
+        })).append($('<h4>',{
+            text : 'Introduce su nick',
+            class : 'desbloquear'
+        })).append($("<input>",{
+            type : 'text',
+            class : 'border',
+            id : 'nickDesbloqueo'
+        })).append($("<section>",{
+            id : 'contDesbloqueo'
+        }).append($("<span>",{
+            id : 'desTotal',
+            text : 'Desbloqueo Total'
+        }).append($("<input>",{
+            type : 'checkbox',
+            class : 'desCheck',
+            id : 'desBloqueoTotal'
+        }))).append($("<span>",{
+            id : 'desParcial',
+            text : 'Desbloqueo Parcial'
+        }).append($("<input>",{
+            type : 'checkbox',
+            class : 'desCheck',
+            id : 'desBloqueoParcial'
+        })))).append($("<section>",{
+             id : 'contBtnDesbloqueo'
+        }).append($('<input>',{
+            type : 'button',
+            id : 'bDesbloquear',
+            value : 'Desbloquear'
+        })).on("click","#bDesbloquear",function(){
+            var nickDesbloquear = $("#nickDesbloqueo").val();
+            var total = $("#desBloqueoTotal").prop('checked');
+            var parcial = $("#desBloqueoParcial").prop('checked');
+            desbloquearUsuarios(nickDesbloquear,total,parcial);
+        }).append($('<input>',{
+            type : 'button',
+            id : 'bVerBloqueos',
+            value : 'Ver Bloqueos'
+        })).on("click","#bVerBloqueos",function(){
+            verUsuariosBloqueados();
+        })).append($('<section>',{
             id: 'salirBloqueo'
-        })).append($('<input>',{
+        }).append($('<input>',{
             type : 'button',
             value : 'Salir',
             id: 'salirBloqueo'
@@ -208,7 +257,7 @@ function mostrarMenu(){
                 text : 'BloquearUsuarios'
                 }));
             $('#menuUsuario').on('click','#bloquearUsuarios', bloquearUsuarios);
-        });
+        }));
     
     //
     //$('#menuUsuario').off('click','#bloquearUsuarios', bloquearUsuarios); 

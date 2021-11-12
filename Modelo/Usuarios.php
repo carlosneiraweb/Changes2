@@ -502,7 +502,7 @@ public final function insert(){
 /**
  * Metodo que recive el id del usuario logeado
  * y devuelve los posibles usuarios bloqueados
- * @param type $Usuario
+ * @param type idUsuario
  * @return type array de ids de usuarios
  */
 public final function devuelveUsuariosBloqueados($id){

@@ -1172,6 +1172,58 @@ ul{
 
 /*******************************FORMULARIOS MOSTRADOS JQUERY********/
 
+
+/*Menu Usuario*/ 
+/*Coje estilos de la clase mostrar_post*/
+section#contDesbloqueo{
+    width: 80%;
+    max-width: 80%;
+    text-align: center;
+    margin: 1em auto;
+}
+
+
+.desCheck{
+    margin-left: .8em;
+    margin-right: 1em;
+    vertical-align: text-top;
+    width: .5em;
+}
+
+section#salirBloqueo{
+    margin: 2em auto;
+   
+}
+
+.border{border-bottom: 1px solid blue;}
+
+section#contMostrarBloqueados{
+    width: 90%;
+    max-width:90%;
+    margin: 1em auto;
+    border: 1px solid #ed5416;
+    border-radius: 1em;
+        
+}
+
+section#bloqueadosTotal, section#bloqueadosParcial{
+    width: 40%;
+    max-width: 40%;
+    margin: .5em auto;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;   
+}
+
+section#bloqueadosTotal h3, section#bloqueadosParcial h3{
+    font-size: 1em;
+}
+
+
+/**fin menu usuario***/
+
+
+
 /*Formulario para eliminar, actualizar texto de una imagen mientras se sube un Post*/
 section#mostrarImgSeleccionada{
    margin: 1em auto;
@@ -1474,6 +1526,13 @@ textarea#comentarioPost{
 @media screen and (max-width:690px){
     section#mostrarPostSeleccionado{width: 60%;} 
     section#piePostComentario h2#h2TotalComentarios, section#piePostComentario h3#h3FechaPost{display:block; margin:1.5em;}
+    section#contDesbloqueo span#desTotal, section#contDesbloqueo span#desParcial{
+    width: 90%;
+    max-width: 90%;
+    margin: 1em;
+    display: inline-block;
+    vertical-align: middle;  
+}
 }
 
 @media screen and (max-width:450px){
