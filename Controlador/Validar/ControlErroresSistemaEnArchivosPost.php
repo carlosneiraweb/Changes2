@@ -8,6 +8,11 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Directorios.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ValidoForm.php');  
 
 
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
+
 /**
  * Description of ControlErroresSistemaEnArchivos
  * Es la encargada de controlar y tratar
@@ -61,7 +66,8 @@ function crearSubdirectorio(){
      */
    
 function validarCamposSubirPost($st){
- 
+    
+   
     switch ($st){
          
         case("step1"):
@@ -76,9 +82,10 @@ function validarCamposSubirPost($st){
                 break;
                
         case('step2'):
+            //'photoArticulo'
+           
+            $testSubirArchivo = Directorios::validarFoto();
         
-            $testSubirArchivo = Directorios::validarFoto('photoArticulo');
- 
         //Comprobamos que nos devuelve la constante 0 que significa que se 
         //ha subido correctamente o que no nos devuelve la constante 4
         //que signfica que no se ha elegido un archivo
@@ -98,7 +105,7 @@ function validarCamposSubirPost($st){
            
                 $destino = '../photos/'.$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1].'/'.basename($_FILES['photoArticulo']['name']);                   
                 $foto = $_FILES['photoArticulo']['tmp_name'];
-                        
+                
                 Directorios::moverImagen($foto, $destino, "subirImagenPost");
                 
                
@@ -120,7 +127,7 @@ function validarCamposSubirPost($st){
                     }   
            
             
-        }else if($testSubirArchivo === 4 || $testSubirArchivo === 10){
+        }else if($testSubirArchivo === '4' || $testSubirArchivo === '10' || $testSubirArchivo === '1'){
             //Si hay algun error al validar la imagen 
             //redirigimos a la pagina mostrarError
             //y le indicamos el motivo del error

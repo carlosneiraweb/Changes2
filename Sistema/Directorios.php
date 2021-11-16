@@ -5,7 +5,10 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ControlErro
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ControlErroresSistemaEnArchivosPost.php');
 require_once($_SERVER['DOCUMENT_ROOT']."/Changes/Sistema/Constantes/ConstantesErrores.php");
 
-
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 /**
  * Description de Directorios
  *  Esta clase se encarga de crear, eliminar o mover archivos
@@ -29,48 +32,56 @@ class Directorios {
          * subida por el usuario
          * @return $test type Boolean
          * Constante de la variable $_FILES
+         * Maximo 3M = 3145728 bytes
          */
         
-        final static function validarFoto($foto){
+        final static function validarFoto(){
            
-            //if (is_uploaded_file($_FILES[$foto]['tmp_name'])) {
-            $test = $_FILES[$foto]['error'];
-            if($test !== 4){
-                //Solo permitimos formatos jpg
-                if($_FILES[$foto]['type'] != 'image/jpeg'){
-                    $test = 10;
-                    
-                    }
-            }
+           
+           
+            $test  = $_FILES['photoArticulo']['error'];
+            $size =  $_FILES['photoArticulo']['size'];
+            $tipo =  $_FILES['photoArticulo']['type'];
+            
+            if($test !== '4'){
+                if($size > '3145728'){
+                    $test  = '1';
+                   
+                }
+                if(($tipo != "jpeg") and ($tipo != "jpg") and ($tipo != "image/jpeg")){
+                    $test = '10';
+                }
                 
+            }
+            
                 switch ($test){
  
-                    case 0:
+                    case '0':
                         $_SESSION['error'] = null;
                         //Todo ha ido bien
                             break;
-                    case 1:
+                    case '1':
                         //Se ha sobrepasado el tamaño
                         //indicado en php.ini
                         $_SESSION['error'] =ERROR_TAMAÑO_FOTO;
                             break;
-                    case 2:
+                    case '2':
                         //Se ha sobrepasado el tamaño
                         //indicado en el formulario
                         $_SESSION['error'] =ERROR_TAMAÑO_FOTO;
                             break;
-                    case 3:
+                    case '3':
                         //El archivo ha subido parcialmente
                         $_SESSION['error'] = ERROR_INSERTAR_FOTO;
                             break;
                        
-                    case 4:
+                    case '4':
                        //No se ha subido ningun archivo
                         $_SESSION['error'] = ERROR_FOTO_NO_ELIGIDA;
                             break;
                         
                    
-                    case 10:
+                    case '10':
                          $_SESSION['error'] = ERROR_FORMATO_FOTO;
                             break;    
                     
@@ -105,18 +116,21 @@ class Directorios {
           * opcion en caso de error <br/>
          */
         final static  function moverImagen($nombreFoto, $nuevoDirectorio, $opc){
-          // echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
+           //echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
             
             
             try{
                 
                 if(!move_uploaded_file($nombreFoto, $nuevoDirectorio)){
                     throw new MisExcepciones(CONST_ERROR_MOVER_IMAGEN[1],CONST_ERROR_MOVER_IMAGEN[0]);      
+                   
                 }
-                 
+             //
 
             } catch (MisExcepciones $excepciones) {
                 /**/
+                
+               
                     //En caso error se llama al metodo redirigirPorErrorTrabajosEnArchivosRegistro
                     //De la clase mis excepciones con la opcion adecuada
                     if($opc == "errorFotoActualizar"){

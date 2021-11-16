@@ -250,7 +250,17 @@ li.slide-current{
  
  section#buscar_datos h3{text-align:center; color:#0C0792;border-bottom: 1px solid #0C0792;}
  
+ section#radiosMenu{
+     width:85%;
+     max-width: 85%;
+     margin: .8em auto;
+ }
  
+  section#selectsMenu{
+     width:90%;
+     max-width: 90%;
+     margin: .8em auto;
+ }
  
  section#buscar_datos .buscaSpan{
     display: inline-block;
@@ -263,7 +273,10 @@ li.slide-current{
  section#buscar_datos input[type = 'radio']{
      margin: 1em;
  }
+
         
+.enlace{color: #1687ed;}
+
 
 /**fin bucador**/
 
@@ -302,7 +315,7 @@ section#contenedor h3{
     width: 90%;
 }
 
-/**case que se aplica a los post**/
+/**case que se aplica a los post y comentarios**/
 
 .cont_post{
     border-left: 1px solid #1687ed;
@@ -899,6 +912,12 @@ section#busquedaPalabrasPersonales{
     z-index: 50;
 }
 
+section#contBtnBuscPersonales{
+    width: 90%;
+    max-width: 90%;
+    margin: 1em auto;
+}
+
 
 
 figure#logo_salir_sesion{
@@ -1175,6 +1194,13 @@ ul{
 
 /*Menu Usuario*/ 
 /*Coje estilos de la clase mostrar_post*/
+
+section#formPedirDatosActualizar input[type = 'password']{
+    width : 45%;
+    max-width: 45%;
+    margin: .8em auto;
+}
+
 section#contDesbloqueo{
     width: 80%;
     max-width: 80%;

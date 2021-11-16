@@ -65,7 +65,17 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         <script src="../Controlador/Elementos_AJAX/darBajaUsuario.js"></script>
         <script src="../Controlador/Elementos_AJAX/actualizarDatos.js"></script>
         <script src="./mostrarMenuUsuario.js"></script>
-       
+     
+    <!-- PARA GOOGLE ANALYTICS-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88763824-1"></script>
+    <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-88763824-1');
+    </script>
+
         
     <!--Para navegadores viejos-->
         <!--[if lt IE 9]>

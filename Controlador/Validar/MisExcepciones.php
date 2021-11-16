@@ -250,7 +250,7 @@ public function eliminarVariablesSesionPostAcabado(){
  * @param name $error </br>
  * type String <br/>
  * Mensaje de error <br/>
- * @param $grado<br/>
+ * @param $grado <br/>
  * type boolean
  * Grado de error para actuar <br/>
  * de distinta manera en <br/>

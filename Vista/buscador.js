@@ -30,7 +30,9 @@
        
         $("#buscar_datos").append($('<h3>',{
             text : 'Selecciona una opción de busqueda'
-        })).append($('<span>',{
+        })).append($("<section>",{
+            id : 'radiosMenu'
+        }).append($('<span>',{
             class : 'buscaSpan'
         }).append($('<label>',{
             for : 'busco',
@@ -45,13 +47,15 @@
              class : 'buscaSpan'
         }).append($('<label>',{
             for : 'ofrezco',
-            text : "Cosas que tú ofreces y la gente podría querer."
+            text : "Cosas que tú ofreces."
         })).append($('<input>',{
             type : 'radio',
             name : 'busqueda',
             id   : 'ofrezco',
             value : 'ofrezco'
-        }))).append($('<span>',{
+        })))).append($("<section>",{
+            id: 'selectsMenu'
+        }).append($('<span>',{
              class : 'buscaSpan'
         }).append($('<label>',{
             for : 'porProvincia',
@@ -84,11 +88,13 @@
             name : 'selectTiempoCambio',
             id : 'porTiempoCambio',
             class : 'porTiempoCambio'
-        }))).append($('<input>',{
+        })))).append($("<span>",{
+            class : 'buscaSpan'
+        }).append($('<input>',{
             type : 'text',
             id : 'buscador',
             class : 'buscador'
-        })).append($('<section>',{
+        }))).append($('<section>',{
             id : 'mostrarResultados'
         })).append($('<ul>',{
             id : 'contenidoBuscado'
@@ -237,7 +243,9 @@ function mostrarFormularioGuardarBusquedas(){
             id : 'pabrasBuscarFinal',
             type : 'text',
             val : txtBuscar
-        })).append($('<input>',{
+        })).append($("<section>",{
+            id : 'contBtnBuscPersonales'
+        }).append($('<input>',{
             type : 'button',
             id : 'buttonBusquedasPersonales',
             value : 'Aceptar'
@@ -245,7 +253,7 @@ function mostrarFormularioGuardarBusquedas(){
             type : 'button',
             id : 'buttonSalirBusquedasPersonales',
             value : 'Salir'
-        })));
+        }))));
     
     
         $('#busquedasPersonales').on('click','#buttonBusquedasPersonales',function insertarPalabrasBuscadas(){
@@ -278,7 +286,7 @@ function mostrarFormularioGuardarBusquedas(){
 function cargarBuscador(objBuscador){
    
     
-    var vacio = "<li>No se han encontrado resultados con la busqueda <strong>"+txtBuscar+"</strong></li>";
+    var vacio = "<li>No se han encontrado resultados con la busqueda "+txtBuscar+"</li>";
     //typeof objBuscador === "undefined"     
     // $.isEmptyObject(obj)
     if($.isEmptyObject(objBuscador)){
@@ -290,12 +298,15 @@ function cargarBuscador(objBuscador){
                 
                 $('#contenidoBuscado').append($('<li>',{
                     id : "insertarMisBusquedas",
-                    text : "Pincha aqui para recibir un email,"            
+                    text : "Pincha "            
+                }).append($("<span>",{
+                    class : 'enlace',
+                    text : 'aqui'
                 }).on('click', function(){
                         mostrarFormularioGuardarBusquedas();
-                        
-                   
-                })).append($('<li>',{
+                })).append($("<p>",{
+                    text :  'para recibir un email', 
+                }))).append($('<li>',{
                     text : "Si alguien publica un anuncio,"         
                 })).append($('<li>',{
                     text : "con esas palabras."

@@ -415,13 +415,13 @@ function displayStep2($missingFields){
                 //Que el usuario va subiendo en cada nuevo post
                 echo '</section>';
         echo '</section>';
-        
-    echo'<form name="post" action="subir_posts.php" method="POST" id="post" enctype="multipart/form-data">';
+      //
+    echo'<form name="post" action="subir_posts.php"   method="POST" id="post" enctype="multipart/form-data">';
         echo'<fieldset>';
         	echo'<legend>Introduce alguna imagen.</legend>';
         echo"<input type='hidden' name='step' value='2'>"; 
         //Limitamos el valor máximo del archivo
-        echo'<input type="hidden" name="MAX_FILE_SIZE" value="50000" />';
+        
         echo '<section class="contenedor">'; 
         echo'<label for="photoArticulo">Solo fotos .jpg</label>';
         echo '<br>';    
@@ -519,6 +519,24 @@ function ingresarPost(){
             
            $articulo->insertPost();
            
+                //Metodo que busca entre las palabras 
+                //que un usuario ha guardado en sus
+                //busquedas personales
+                //si coincide se le manda email
+                $pa_queridas = array(
+                $_SESSION['post']['Pa_ofrecidas'][0],
+                $_SESSION['post']['Pa_ofrecidas'][1],
+                $_SESSION['post']['Pa_ofrecidas'][2],
+                $_SESSION['post']['Pa_ofrecidas'][3]
+            );
+        
+                $datosPost = array();
+                array_push($datosPost, $pa_queridas, $_SESSION['post']['seccionSubirPost'],$_SESSION['userTMP']->getValue('nick'),$_SESSION['lastId'][0]);
+               // var_dump($datosPost);
+                //Para una mejor busqueda hemos creado
+                //el campo de la tabla como full text
+                $articulo->buscarUsuariosInteresados($datosPost);
+           
             if(isset($_SESSION['errorArchivos'])){
                     unset($_SESSION['errorArchivos']);
                     unset($_SESSION['contador']);
@@ -567,33 +585,7 @@ function ingresarImagenes(){
    
     //echo ' en ingresar idImagen '.$_SESSION['idImagen'].'<br>';  
    $articulo->insertarFotos();
-   
-        $pa_queridas = array(
-                $_SESSION['post']['Pa_ofrecidas'][0],
-                $_SESSION['post']['Pa_ofrecidas'][1],
-                $_SESSION['post']['Pa_ofrecidas'][2],
-                $_SESSION['post']['Pa_ofrecidas'][3]
-            );
-        
-        if($_SESSION['contador'] == 1){
-            
-            //Metodo que busca entre las palabras 
-                //que un usuario ha guardado en sus
-                //busquedas personales
-                //si coincide se le manda email
-                $datosPost = array();
-                array_push($datosPost, $pa_queridas, $_SESSION['post']['seccionSubirPost'],$_SESSION['userTMP']->getValue('nick'),$_SESSION['lastId'][0]);
-               // var_dump($datosPost);
-                //Para una mejor busqueda hemos creado
-                //el campo de la tabla como full text
-                $articulo->buscarUsuariosInteresados($datosPost);
-            
- 
-        }
-        
-        
-   
-  
+
     
 //fin ingresarImagenes    
 }
@@ -716,7 +708,8 @@ function processForm($requiredFields, $st){
                 break;
         
         case 'step2':
-          
+         
+           
             validarCamposSubirPost($st);
             if($missingFields){
                 displayStep2($missingFields);

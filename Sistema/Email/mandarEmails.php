@@ -63,7 +63,7 @@ final function mandarEmailWelcome(DataObj $obj){
   final function mandarEmailPalabrasBuscadas($datosPost,$usuInteresados,$correo,$provinciaUsuPublica,$ruta){
 
       $excepciones = new MisExcepciones(CONST_ERROR_CONSTRUIR_PALABRAS_BUSCADAS[1],CONST_ERROR_CONSTRUIR_PALABRAS_BUSCADAS[0]);
-     echo "/Changes/photos/".$ruta[0].'/'.$ruta[1].".jpg";
+    // echo "/Changes/photos/".$ruta[0].'/'.$ruta[1].".jpg";
        //Creamos el objeto email con los datos
             //Que necesitamos de $user para el cuerpo del email
             //La cabecera y el footer son dos constantes
@@ -108,6 +108,7 @@ final function mandarEmailWelcome(DataObj $obj){
           
                     
             }catch (Exception $ex){
+                
                 $excepciones->redirigirPorErrorSistema('ProblemaEmail',false);
                 
             } finally {
