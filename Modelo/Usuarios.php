@@ -101,6 +101,7 @@ class Usuarios extends DataObj{
             Conne::disconnect($con);
         } catch (Exception $ex) {
             echo $ex->getFile();
+           
             echo $ex->getCode();
             echo '<br>';
             echo $ex->getLine();

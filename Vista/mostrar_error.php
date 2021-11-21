@@ -29,10 +29,11 @@
       <?php 
       
      
-         if(isset($_SESSION['png'])){
+        if(isset($_SESSION['png'])){
                     unset($_SESSION['png']);
                 }
     
+      
         
        //Mostramos el error que se ha producido 
        //y reseteamos la variable

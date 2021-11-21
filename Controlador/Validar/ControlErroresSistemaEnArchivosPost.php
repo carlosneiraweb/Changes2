@@ -23,15 +23,15 @@ if(!isset($_SESSION))
  */
  
 /**
- *  Este metodo Crea un subdirectorio para almacenar las imagenes 
- *   IMPORTANTE CONOCER EL CONTENIDO DE 'nuevoSubdirectorio' 
- *   Es la usada para mover, copiar, eliminar he ingresar en la bbdd
- *   Su contenido es del tipo nombreUsuario/totalSubdirectorios
+ *  Este metodo Crea un subdirectorio para almacenar las imagenes </br>
+ *   IMPORTANTE CONOCER EL CONTENIDO DE 'nuevoSubdirectorio' </br>
+ *   Es la usada para mover, copiar, eliminar he ingresar en la bbdd </br>
+ *   Su contenido es del tipo nombreUsuario/totalSubdirectorios </br>
  *               
- *  Agregamos una foto demo por 
- *  si el usuario no quiere subir ninguna imagen
- *   Esto solo se hace la primera vez y se evita crearlo otra vez si el usuario 
-*    vuelve atras en el formulario comprobando que $_SESSION['atras'] no existe
+ *  Agregamos una foto demo por </br>
+ *  si el usuario no quiere subir ninguna imagen </br>
+ *   Esto solo se hace la primera vez y se evita crearlo otra vez si el usuario </br>
+*    vuelve atras en el formulario comprobando que $_SESSION['atras'] no existe </br>
  */
 
 function crearSubdirectorio(){
@@ -44,7 +44,7 @@ function crearSubdirectorio(){
    $_SESSION['nuevoSubdirectorio'][1] = Directorios::crearSubdirectorio('../photos/'.$nickUsu,"crearSubdirectorio");
    //echo 'responde '."../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1];
    Directorios::copiarFoto("../photos/demo.jpg","../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1]."/demo.jpg", "copiarDemoSubirPost");    
-    
+   
 //fin crearSubdirectorio    
 }
 
@@ -56,13 +56,13 @@ function crearSubdirectorio(){
 
 
      /**
-     * Metodo que valida los datos introducidos por el usuario.
-     * Valida los campos con los metodos static de ValidaForm
+     * Metodo que valida los datos introducidos por el usuario.</br>
+     * Valida los campos con los metodos static de ValidaForm </br>
      * 
-     * @global type $mensaje
-     * @global Post $articulo
-     * @param type $st
-     * @return boolean
+     *
+     * @param type $st</br>
+      * String con la opciondel paso a validar </br>
+     * 
      */
    
 function validarCamposSubirPost($st){
@@ -127,7 +127,7 @@ function validarCamposSubirPost($st){
                     }   
            
             
-        }else if($testSubirArchivo === '4' || $testSubirArchivo === '10' || $testSubirArchivo === '1'){
+        }else if($testSubirArchivo === '4' || $testSubirArchivo === '10' || $testSubirArchivo === '1' || $testSubirArchivo === '3'){
             //Si hay algun error al validar la imagen 
             //redirigimos a la pagina mostrarError
             //y le indicamos el motivo del error

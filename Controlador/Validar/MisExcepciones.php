@@ -15,14 +15,47 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/MetodosInfo
                                     
 class MisExcepciones extends MetodosInfoExcepciones{
 
-    //public $errorMisExcepciones = array();
-     
-    public function __construct($message,$code,$previous = null) {
-        parent::__construct($message, $code, $previous);
+   private $misExcepciones = Array();
+    
+    public function __construct($mensaje,$codigo) {
+        $this->misExcepciones[0] = $mensaje;
+        $this->misExcepciones[1] = $codigo;
         
-   }
+    }
+    
+    function __destruct() {
+        
+    }
 
-/**
+   /**
+     * Metodo que recoje las excepciones </br>
+     * originales de PHP
+     * 
+     * @param type Objeto tipo Exception</br>
+     * Es pasado por referencia </br>
+     * @return type Array()
+     */
+    public function recojerExcepciones(&$ex){
+        
+        $excepciones = array();
+        $excepciones[0] = $ex->getMessage();
+        $excepciones[1] = $ex->getCode();
+        $excepciones[2] = $ex->getFile();
+        $excepciones[3] = $ex->getLine();
+        $excepciones[4] = $ex->getTraceAsString();
+        array_push($excepciones, $this->misExcepciones);
+        //var_dump($excepciones);
+        //echo PHP_EOL;
+        unset($ex);
+        return $excepciones;
+        
+        
+        //fin recojerExcepciones
+        
+    } 
+    
+
+    /**
  * Metodo que elimina el directorio padre
  * temporal TMP con la copia de
  * los archivos del usuario
@@ -40,7 +73,7 @@ public function eliminarDirectorioPadreTMP($dir,$opc){
         Directorios::eliminarDirectoriosSistema($dir,$opc);
     } catch (MisExcepciones $exc) {
         $exc->redirigirPorErrorSistema("Eliminar_TMP", false);
-
+        
     }
     
     
@@ -201,6 +234,7 @@ public function eliminarVariablesSesionPostAcabado(){
         }
         
     if(isset($_SESSION['atras'])){
+        
             unset($_SESSION['atras']);
         }
     
@@ -210,7 +244,25 @@ public function eliminarVariablesSesionPostAcabado(){
     
     if(isset($_SESSION['png'])){
             unset($_SESSION['png']);
-        }     
+        }
+        
+    if(isset($_SESSION['error'])){
+            unset($_SESSION['error']);
+        }
+        
+     if(isset($_SESSION['post'])){unset($_SESSION['post']);}
+     
+    /*
+     * Se eliminara en el metodo
+     * convertir datosToString de la clase 
+     * MetodosInfoExcepciones o
+     * en el metodo ingresarPOst del archivo subir_post 
+     * si todo ha ido bien
+    if(isset($_SESSION['post'])){
+            unset($_SESSION['post']);
+    }
+     * 
+     */
     //fin eliminarVariablesSesionPostAcabado()         
     }
 
@@ -242,11 +294,11 @@ public function eliminarVariablesSesionPostAcabado(){
 }
 
 /**
- * Metodo que trata los 
- * errores al subir un post
- * Se encarga de eliminar los directorios
- * y los datos que se han podido ingresar en la bbdd
- * asi como variables de sesion
+ * Metodo que trata los <br/>
+ * errores al subir un post <br/>
+ * Se encarga de eliminar los directorios <br/>
+ * y los datos que se han podido ingresar en la bbdd <br/>
+ * asi como variables de sesion <br/>
  * @param name $error </br>
  * type String <br/>
  * Mensaje de error <br/>
@@ -258,14 +310,14 @@ public function eliminarVariablesSesionPostAcabado(){
  * 
  */
 
-public function eliminarDatosErrorAlSubirPost($error,$grado){
-        
+public function eliminarDatosErrorAlSubirPost($error,$grado,$excep){
+      
     
     $_SESSION['errorArchivos'] = "existo";
     $_SESSION["paginaError"] = "index.php";
     $this->eliminarPostAlPublicar("errorPost");
     $this->eliminarVariablesSesionPostAcabado();
-    $this->redirigirPorErrorSistema($error,$grado);
+    $this->redirigirPorErrorSistema($error,$grado,$excep);
    // 
     
     
@@ -300,14 +352,15 @@ public function eliminarDatosErrorAlSubirPost($error,$grado){
  */
 
 
-public function redirigirPorErrorSistema($opc,$grado){
+public function redirigirPorErrorSistema($opc,$grado,$excep){
 
-    $_SESSION['errorArchivos'] = "existo";
+   $_SESSION['errorArchivos'] = "existo";
  
-
-   
+    
+   /*
     //echo PHP_EOL."opcion vale ".$opc.PHP_EOL;
     switch ($opc) {
+        
         case $opc == "crearDirectorios_TMP":
                 //Recuperamos los mensajes de error
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
@@ -423,14 +476,19 @@ public function redirigirPorErrorSistema($opc,$grado){
             
                 die();
                 break;
-            
+           
         default:
             
-            $this->tratarDatosErrores($opc,$grado);
-          
+            
             break;
-    }
+    } 
+    * */
+
+    $this->tratarDatosErrores($opc,$grado,$excep);
+          
     
+   
+
    
     if(!isset($_SESSION["userTMP"])){
         $_SESSION['error'] = ERROR_INGRESAR_USUARIO;

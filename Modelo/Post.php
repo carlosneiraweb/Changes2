@@ -40,7 +40,8 @@ class Post extends DataObj{
        
     );
     
-   
+    
+    
     
    /**
     * Si hay coincidencia mandaremos email
@@ -176,10 +177,11 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
             Conne::disconnect($con);  
            
             return $misPalabras;   
-    } catch (Exception $exc) {
+    } catch (Exception $ex) {
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
-            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true,$excep);
            
             
     }
@@ -191,12 +193,12 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
  
     
    /**
-     * Metodo que actualiza las palabras
-     * que un usuario busca en un post.
-     * Son privados por que solo se usan en esta clase,
-     *Este metodo llama a devuelvoIdPalabras.
-     * Metodo comun para actualizarPalarasOfrecidas y  
-     * actualizarPalabrasBuscadas. Se le pasa la tabla, columna y el id
+     * Metodo que actualiza las palabras </br>
+     * que un usuario busca en un post.</br>
+     * Son privados por que solo se usan en esta clase, </br>
+     *Este metodo llama a devuelvoIdPalabras. </br> 
+     * Metodo comun para actualizarPalarasOfrecidas y  </br>
+     * actualizarPalabrasBuscadas. Se le pasa la tabla, columna y el id </br>
      * del post.
     */
     
@@ -242,11 +244,12 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
               
                 Conne::disconnect($con);  
               
-        }catch (Exception $exc) {
+        }catch (Exception $ex) {
            
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
-            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true,$excep);
             
             
         }
@@ -257,12 +260,12 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
     
     
     /**
-     * Metodo privado para actualiza las palabras
-     * que el usuario ingresa un post y modifica alguna descripcion
-     * para definir su articulo.
-     * Este metodo llama a devuelvoIdPalabras.
-     * Metodo comun para actualizarPalarasOfrecidas y  
-     * actualizarPalabrasBuscadas. Se le pasa la tabla, columna y el id
+     * Metodo privado para actualiza las palabras </br>
+     * que el usuario ingresa un post y modifica alguna descripcion</br>
+     * para definir su articulo.</br>
+     * Este metodo llama a devuelvoIdPalabras.</br>
+     * Metodo comun para actualizarPalarasOfrecidas y  </br>
+     * actualizarPalabrasBuscadas. Se le pasa la tabla, columna y el id</br>
      * del post.
      * 
      */
@@ -305,12 +308,12 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
            
             Conne::disconnect($con); 
            
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+        } catch (Exception $ex) {
            
             Conne::disconnect($con);
             $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
-            $excepciones->eliminarDatosErrorAlSubirPost('errorPost', true);
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->eliminarDatosErrorAlSubirPost('errorPost', true,$excep);
              
         }
      //insertarPalarasOfrecidas      
@@ -327,6 +330,7 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
     public function actualizarPost(){
     
     $excepciones = new MisExcepciones(CONST_ERROR_BBDD_ACTUALIZAR_POST[1],CONST_ERROR_BBDD_ACTUALIZAR_POST[0]);
+    if(isset($_SESSION['errorArchivos'])){unset($_SESSION['errorArchivos']);}
     
     try{
     $con = Conne::connect();
@@ -366,31 +370,24 @@ public function devuelvoIdPalabras($tabla, $columnaIdImagen,$palabras, $columnaI
             $this->actualizarPalarasOfrecidas(null); 
                
         Conne::disconnect($con);  
-        
-    }catch(MisExcepciones $ex){
-        $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
-        Conne::disconnect($con);
-       $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+           
     }catch(Exception $ex){
-//        echo $ex->getMessage();
-//        echo $ex->getCode();
-//        echo $ex->getLine();
         $_SESSION['error'] = ERROR_ACTUALIZAR_POST;
         Conne::disconnect($con);
-        $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true);
+        $excep = $excepciones->recojerExcepciones($ex);
+        $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
     }
-    
 //fin actualizar articulo    
 }
 
 /**
  * Metodo que inserta las palabras 
  * por las que el usuario quiere cambiar
- * @return type boolean
+ * 
  */
 private  function insertarPalabrasQueridas(){
     
-   
+    $excepciones =  new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_QUERIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_QUERIDAS[0]);
     
             //Creamos un array con las palabras buscadas
             $buscadas = $this->getValue("Pa_queridas");
@@ -399,24 +396,23 @@ private  function insertarPalabrasQueridas(){
                 $con = Conne::connect();
                  
                     //Pasamos en bucle insertandolas si no son null
-                    for($i=0; $i <4; $i++){  
+                    for($i=0; $i < 4; $i++){  
                         if($buscadas[$i] == null){$buscadas[$i] = "";} //Nos aseguramos 4 palabras
                             $st3 = "Insert into ".TBL_PBS_QUERIDAS." (idPost_queridas, palabrasBuscadas) values (:idPost_queridas, :palabra)";
                             $st3 = $con->prepare($st3);
                             $st3->bindValue(":idPost_queridas", $_SESSION['lastId'][0], PDO::PARAM_INT);
                             $st3->bindValue(":palabra", $buscadas[$i], PDO::PARAM_STR);
-                            $test = $st3->execute();
+                            $st3->execute();
                     }       
                     Conne::disconnect($con);
-                    return $test;
+                   
             
                
-            }catch(Exception $e){
+            }catch(Exception $ex){
                 Conne::disconnect($con);
-               
-                //La excepcion personal se lanza del metodo llamante
-            }finally{
-                Conne::disconnect($con);
+               $excep = $excepciones->recojerExcepciones($ex);
+               $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true, $excep);
+                
             }
 //fin insertarPalabrasQueridas    
 }
@@ -425,12 +421,12 @@ private  function insertarPalabrasQueridas(){
 /**
  * Metodo que inserta las palabras
  * por las que el usuario quiere cambiar
- * @return type boolean
+ * 
  */
 
 private function insertarPalabrasOfrecidas(){
     
- 
+    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[0]); 
      //Creamos un array con las palabras buscadas
             $ofrecidas = $this->getValue("Pa_ofrecidas");
             
@@ -450,22 +446,21 @@ private function insertarPalabrasOfrecidas(){
                     $st3 = $con->prepare($st3);
                     $st3->bindValue(":idPost_ofrecidas", $_SESSION['lastId'][0], PDO::PARAM_INT);
                     $st3->bindValue(":palabra", $ofrecidas[$i], PDO::PARAM_STR);
-                    $test = $st3->execute();
+                    $st3->execute();
                     
             
                 }
 
                 
                 Conne::disconnect($con);
-                return $test;
-            } catch (Exception $exc) {
                 
+            } catch (Exception $ex) {
                 Conne::disconnect($con);
-                $exc->getMessage();
-                //En caso de error
-                //saltara en el metodo llamante
-            }finally{
-                Conne::disconnect($con);
+                $excep = $excepciones->recojerExcepciones($ex);
+                $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true, $excep);
+                
+                
+     
             }
 
 
@@ -482,7 +477,8 @@ private function insertarPalabrasOfrecidas(){
 private function insertarImagenDemo(){
     
     $url = $_SESSION['nuevoSubdirectorio'][1].'/demo';
-   
+    
+    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[1], CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[0]);
     
     try {
         
@@ -496,17 +492,17 @@ private function insertarImagenDemo(){
             $st4->bindParam(':nickUsuario', $_SESSION['userTMP']->getValue('nick'),PDO::PARAM_STR);
             $st4->bindValue(":ruta", $url, PDO::PARAM_STR);
              
-            $test =  $st4->execute();
+            $st4->execute();
            
         Conne::disconnect($con);
-            return $test;
+            
     } catch (Exception $ex) {
-        //La excepcion personal se lanza del metodo llamante
-         $ex->getMessage();
         Conne::disconnect($con);
+        $excep = $excepciones->recojerExcepciones($ex);
+        $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true, $excep);
+         
         
-    }finally{
-        Conne::disconnect($con);
+        
     }
 
 //insertarImagenDemo    
@@ -520,7 +516,8 @@ private function insertarImagenDemo(){
 public function insertPost(){
        
     $excepciones = new MisExcepciones(CONST_ERROR_BBDD_REGISTRAR_POST[1],CONST_ERROR_BBDD_REGISTRAR_POST[0]);
-       
+    if(isset($_SESSION['errorArchivos'])){unset($_SESSION['errorArchivos']);}  
+    
     try{
         $con = Conne::connect();
        
@@ -567,42 +564,23 @@ public function insertPost(){
             $_SESSION['lastId'][0] =  $con->lastInsertId();
             
             $con->commit();
-               
-             
-            
-            if(!$this->insertarPalabrasQueridas()){
-                
-                throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_QUERIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_QUERIDAS[0]);
-                
-            }
+        
+            $this->insertarPalabrasQueridas();
                        
-            if(!$this->insertarPalabrasOfrecidas()){
-               
-               throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[1], CONST_ERROR_BBDD_INGRESAR_PALABRAS_OFRECIDAS[0]);
-            }
+            $this->insertarPalabrasOfrecidas();
                        
-           
-             if(!$this->insertarImagenDemo()){
-               
-                throw new MisExcepciones(CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[1], CONST_ERROR_BBDD_INGRESAR_IMG_DEMO_SUBIR_POST[0]);
-                
-            }                              
+            $this->insertarImagenDemo();
 
             Conne::disconnect($con);
-            return $test;
-        }catch(MisExcepciones $ex){
-            
-            Conne::disconnect($con);
-            $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-            $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
-            $con->rollBack();
+           
            
         }catch(Exception $ex){
-           //echo $ex->getMessage();
-           //echo $ex->getCode();
+          
+            $excep = $excepciones->recojerExcepciones($ex);
+
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
             Conne::disconnect($con);
-            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true);
+            $excepciones->eliminarDatosErrorAlSubirPost("errorPost", true, $excep);
             $con->rollBack();
            
              
@@ -800,6 +778,7 @@ static function eliminarImagenesPost($imgId) {
 
 static function eliminarPostId($id,$opc){
 
+    $excepciones = new MisExcepciones(CONST_ERROR_ELIMINAR_POST_AL_REGISTRARLO[1], CONST_ERROR_ELIMINAR_POST_AL_REGISTRARLO[0]);
     
     try{
         
@@ -813,19 +792,15 @@ static function eliminarPostId($id,$opc){
         $stm = $con->prepare($sql);
         $stm->bindValue(":idPost", $id, PDO::PARAM_INT );
         $stm->execute();
-        $columnas = $stm->rowCount();
-        if($columnas == 0){
-            
-            throw new MisExcepciones(CONST_ERROR_ELIMINAR_POST_AL_REGISTRARLO[1], CONST_ERROR_ELIMINAR_POST_AL_REGISTRARLO[0]);
-        }
-
+        
         Conne::disconnect($con);
             
-    }catch(MisExcepciones $ex){
-        /**/
+    }catch(Exception $ex){
+        
         Conne::disconnect($con);
         if($opc == "errorPost"){
-            $ex->redirigirPorErrorSistema("Hubo un error al tratar de eliminar el post de la bbdd cuando hubo un fallo al registrarlo",true);
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->redirigirPorErrorSistema("Hubo un error al tratar de eliminar el post de la bbdd cuando hubo un fallo al registrarlo",true,$excep);
         }
     }
 //fin eliminarImagenesPostAlSubir     

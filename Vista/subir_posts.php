@@ -1,6 +1,6 @@
 <?php 
 
-//error_reporting(0);
+
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Post.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/DataObj.php');
@@ -29,34 +29,7 @@ function mostrarError(){
         header('Location: mostrar_error.php');
 }  
 
-/**
- * Metodo que elimina las variables de sesion
- * cuando se ha finalizado el proceso
- */
-function eliminarVariablesPost(){
-    if(isset($_SESSION['post']['comentarioSubirPost'])){
-                    unset($_SESSION['post']['comentarioSubirPost']);
-                }
-    if(isset($_SESSION['post']['tituloSubirPost'])){
-                    unset($_SESSION['post']['tituloSubirPost']);
-                }
-    if(isset($_SESSION['post']['precioSubirPost'])){
-                    unset($_SESSION['post']['precioSubirPost']);
-                }
-    if(isset($_SESSION['post']['Pa_queridas'])){
-                    unset($_SESSION['post']['Pa_queridas']);
-                }
-    if(isset($_SESSION['post']['Pa_ofrecidas'])){
-                    unset($_SESSION['post']['Pa_ofrecidas']);
-                }
-    if(isset($_SESSION['png'])){
-                    unset($_SESSION['png']);
-                }
-            if(isset($_SESSION['lastId'])){
-                unset($_SESSION['lastId']);
-            }
-    
-}
+
 
 //Variable que utiliza la pagina
 //Mostrar error para devolvernos a 
@@ -68,6 +41,7 @@ global $articulo;
 $articulo = new Post(array());
 global $excepciones;
 $excepciones = new MisExcepciones(null,null);
+
 
  
 ?>
@@ -166,14 +140,14 @@ $excepciones = new MisExcepciones(null,null);
         if(isset($_SESSION['atras']) and $_SESSION['atras'] === "atras"){
             $excepciones->eliminarPostAlPublicar();
             $excepciones->eliminarVariablesSesionPostAcabado();
-            eliminarVariablesPost();
+            
                 
         }else{
             //Si no se ha llegado al segundo paso
             //redirigimos a index.php y eliminamos las variables
             //con las que hemos trabajado
             $excepciones->eliminarVariablesSesionPostAcabado();
-            eliminarVariablesPost();
+            
         } 
         
         
@@ -207,7 +181,7 @@ $excepciones = new MisExcepciones(null,null);
             if(isset($_SESSION['lastId'])){
                 unset($_SESSION['lastId']);
             }
-                eliminarVariablesPost();
+                
                 volverAnterior();
            
         
@@ -421,7 +395,7 @@ function displayStep2($missingFields){
         	echo'<legend>Introduce alguna imagen.</legend>';
         echo"<input type='hidden' name='step' value='2'>"; 
         //Limitamos el valor máximo del archivo
-        
+         echo'<input type="hidden" name="MAX_FILE_SIZE" value="3145728" />';
         echo '<section class="contenedor">'; 
         echo'<label for="photoArticulo">Solo fotos .jpg</label>';
         echo '<br>';    
@@ -505,16 +479,15 @@ function ingresarPost(){
         //La ultima comprobacion es por si el usuario a intentado subir un Post
         //y el Sistema no ha cometido ningun error. En ese caso si el usuario
         //vuelve intentarlo se ingresa un post de nuevo.
-            
-        if((isset($_SESSION['atras']) || isset($_SESSION['error'])) and (!isset($_SESSION['errorArchivos']))){ 
+        
+        
+        if((isset($_SESSION['atras']) || isset($_SESSION['error'])) ){ 
            
             
             $articulo->actualizarPost();
-            if(isset($_SESSION['errorArchivos'])){
-                    unset($_SESSION['errorArchivos']);
-                    unset($_SESSION['contador']);
-                    eliminarVariablesPost();
-                }
+            
+            
+                
         }else{
             
            $articulo->insertPost();
@@ -536,12 +509,7 @@ function ingresarPost(){
                 //Para una mejor busqueda hemos creado
                 //el campo de la tabla como full text
                 $articulo->buscarUsuariosInteresados($datosPost);
-           
-            if(isset($_SESSION['errorArchivos'])){
-                    unset($_SESSION['errorArchivos']);
-                    unset($_SESSION['contador']);
-                    eliminarVariablesPost();
-                }
+
         }
        
        
@@ -576,7 +544,9 @@ function ingresarImagenes(){
    
     global $articulo;
            
-   
+    if(isset($_SESSION['png'])){
+        unset($_SESSION['png']);
+    }
     $articulo = new Post(array(
        "figcaption" => $_SESSION['post']['figcaption'],
        "idImagen" => $_SESSION['idImagen']
@@ -650,19 +620,20 @@ function processForm($requiredFields, $st){
 
         switch ($st){
             case 'step1':
+                
                 $_SESSION['post']['seccionSubirPost'] = isset($_POST['seccionSubirPost']) ? $_POST['seccionSubirPost'] : "";
                 $_SESSION['post']['tiempoCambioSubirPost'] = isset($_POST['tiempoCambioSubirPost']) ? $_POST['tiempoCambioSubirPost'] : "";
-                $_SESSION['post']['tituloSubirPost'] = isset($_POST["tituloSubirPost"]) ? preg_replace("/[^\-\_a-zA-Z0-9.,`'´ ñÑáéíóúäëïöü]/", "", $_POST["tituloSubirPost"]) : "";       
-                $_SESSION['post']['comentarioSubirPost'] = isset($_POST['comentarioSubirPost']) ? preg_replace("/[^\-\_a-zA-Z0-9.,ºª`'´ Ññáéíóúäëïöü \n\r\rn\s]/", "", $_POST["comentarioSubirPost"]) : "";
-                $_SESSION['post']['precioSubirPost'] = isset($_POST['precioSubirPost']) ? preg_replace("/[^\-\_a-zAZ0-9., €$]/", "", $_POST["precioSubirPost"]) : "";
-                $_SESSION['post']['Pa_queridas'][0] = isset($_POST["querida_1"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., '``'´ñÑáéíóúäëïöü]/", "", $_POST["querida_1"]) : "";
-                $_SESSION['post']['Pa_queridas'][1] = isset($_POST["querida_2"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´Ññáéíóúäëïöü]/", "", $_POST["querida_2"]) : "";
-                $_SESSION['post']['Pa_queridas'][2] = isset($_POST["querida_3"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´ñÑáéíóúäëïöü]/", "", $_POST["querida_3"]) : "";
-                $_SESSION['post']['Pa_queridas'][3] = isset($_POST["querida_4"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´Ññáéíóúäëïöü]/", "", $_POST["querida_4"]) : "";
-                $_SESSION['post']['Pa_ofrecidas'][0] = isset($_POST["ofrecida_1"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´ñÑáéíóúäëïöü]/", "", $_POST["ofrecida_1"]) : "";
-                $_SESSION['post']['Pa_ofrecidas'][1] = isset($_POST["ofrecida_2"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´Ññáéíóúäëïöü]/", "", $_POST["ofrecida_2"]) : "";
-                $_SESSION['post']['Pa_ofrecidas'][2] = isset($_POST["ofrecida_3"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´ñÑáéíóúäëïöü]/", "", $_POST["ofrecida_3"]) : "";
-                $_SESSION['post']['Pa_ofrecidas'][3] = isset($_POST["ofrecida_4"]) ? preg_replace("/[^\-\_a-zA-Z0-9ºª., `'´Ññáéíóúäëïöü]/", "", $_POST["ofrecida_4"]) : "";
+                $_SESSION['post']['tituloSubirPost'] = $_POST["tituloSubirPost"];       
+                $_SESSION['post']['comentarioSubirPost'] = $_POST['comentarioSubirPost'];
+                $_SESSION['post']['precioSubirPost'] = $_POST['precioSubirPost'];
+                $_SESSION['post']['Pa_queridas'][0] = $_POST["querida_1"];
+                $_SESSION['post']['Pa_queridas'][1] = $_POST["querida_2"];
+                $_SESSION['post']['Pa_queridas'][2] = $_POST["querida_3"];
+                $_SESSION['post']['Pa_queridas'][3] = $_POST["querida_4"];
+                $_SESSION['post']['Pa_ofrecidas'][0] = $_POST["ofrecida_1"];
+                $_SESSION['post']['Pa_ofrecidas'][1] = $_POST["ofrecida_2"];
+                $_SESSION['post']['Pa_ofrecidas'][2] = $_POST["ofrecida_3"];
+                $_SESSION['post']['Pa_ofrecidas'][3] = $_POST["ofrecida_4"];
                
               
                 

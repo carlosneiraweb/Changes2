@@ -24,15 +24,15 @@ class Directorios {
     
     
         /**
-         * Metodo que valida la foto subida por el usuario, 
-         * como el tamaño, el formato o si ha habido
-         * un error en el servidor.
-         * @param $foto type String 
-         * Ruta donde esta almacenada la imagen
-         * subida por el usuario
-         * @return $test type Boolean
-         * Constante de la variable $_FILES
-         * Maximo 3M = 3145728 bytes
+         * Metodo que valida la foto subida por el usuario, </br>
+         * como el tamaño, el formato o si ha habido </br>
+         * un error en el servidor.</br>
+         * @param $foto type String </br>
+         * Ruta donde esta almacenada la imagen </br>
+         * subida por el usuario </br>
+         * @return $test type Boolean </br>
+         * Constante de la variable $_FILES </br>
+         * Maximo 3M = 3145728 bytes </br>
          */
         
         final static function validarFoto(){
@@ -98,13 +98,13 @@ class Directorios {
         }
     
          /**
-        * Metodo que mueve las fotos que el usuario sube
-        * de la carpeta temporal del servidor a directorio 
-        * definitivo.
-        * Este metodo es usado tanto para 
-        * cuando el usuario se registre como 
-        * cuando el usuario sube un Post.
-        * Por lo que en caso de error hay que trabajar de forma
+        * Metodo que mueve las fotos que el usuario sube </br>
+        * de la carpeta temporal del servidor a directorio </br>
+        * definitivo.</br>
+        * Este metodo es usado tanto para </br>
+        * cuando el usuario se registre como </br>
+        * cuando el usuario sube un Post.</br>
+        * Por lo que en caso de error hay que trabajar de forma</br>
         * distinta.<br/>
         * @param $nombreFoto <br/>
           * type String <br/>
@@ -118,19 +118,29 @@ class Directorios {
         final static  function moverImagen($nombreFoto, $nuevoDirectorio, $opc){
            //echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
             
+            $excepciones = new MisExcepciones(CONST_ERROR_MOVER_IMAGEN[1],CONST_ERROR_MOVER_IMAGEN[0]);      
+            
+            if($opc == "subirImagenPost"){
+                $mensaje = "No se pudo mover la imagen al subir un post";
+            }else if($opc == "registrar" ){
+                $mensaje = "No se pudo mover la imagen al registrarse.";
+            }else{
+                $mensaje = "No se pudo mover la foto al actualizar usuario";
+            }
+            
             
             try{
                 
                 if(!move_uploaded_file($nombreFoto, $nuevoDirectorio)){
-                    throw new MisExcepciones(CONST_ERROR_MOVER_IMAGEN[1],CONST_ERROR_MOVER_IMAGEN[0]);      
-                   
+                    throw new Exception($mensaje, 0);  
                 }
              //
 
-            } catch (MisExcepciones $excepciones) {
-                /**/
-                
+            } catch (Exception $ex) {
                
+                $excep = $excepciones->recojerExcepciones($ex);
+                
+                   
                     //En caso error se llama al metodo redirigirPorErrorTrabajosEnArchivosRegistro
                     //De la clase mis excepciones con la opcion adecuada
                     if($opc == "errorFotoActualizar"){
@@ -143,7 +153,7 @@ class Directorios {
                     }
                     if($opc == "subirImagenPost"){
                          $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-                        $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true);
+                        $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
                     }
             }
 
@@ -187,21 +197,27 @@ class Directorios {
         }
         
          /**
-          * Metodo que cuenta el numero de subdirectorios
-          * que tiene un usuario. Se utiliza a la hora de crear
-          * un nuevo POST.
-          * Los directorios tienen nombre consecutivo.
-          * Se calcula el total de subdirectorios y se le suma uno para el siguiente.
-          * OJO se vigila que al borrar un POST el directorio
-          * que contenia sus imagenes vuelva a ser asignado. Ya que sino
-          * habría un error al asignar uno nuevo.
-          * @param $usuario  
-          * type String
-          * Nombre del usuario 
+          * Metodo que cuenta el numero de subdirectorios </br>
+          * que tiene un usuario. Se utiliza a la hora de crear</br>
+          * un nuevo POST.</br>
+          * Los directorios tienen nombre consecutivo.</br>
+          * Se calcula el total de subdirectorios y se le suma uno para el siguiente.</br>
+          * OJO se vigila que al borrar un POST el directorio</br>
+          * que contenia sus imagenes vuelva a ser asignado. Ya que sino</br>
+          * habría un error al asignar uno nuevo.</br>
+          * @param $usuario  </br>
+          * type String</br>
+          * Nombre del usuario </br>
+          * 
+          * IMPORTANTE
+          * Como PHP trata los errores diferente a las Excepciones</br>
+          * Tenemos que usar THROWABLE para lanzar una excepcion.</br>
           */
             
-        final static function crearSubdirectorio($usuario,$opc){
-         
+final static function crearSubdirectorio($usuario,$opc){
+        
+        $excepciones =  new MisExcepciones(CONST_ERROR_CREAR_SUBDIRECTORIO_POST[1], CONST_ERROR_CREAR_SUBDIRECTORIO_POST[0]);  
+        
         try{
             
             $dir = $usuario;
@@ -212,13 +228,17 @@ class Directorios {
             //y se asigna a otro post
             $testSalir = true;
            
-                $handle = opendir($dir);
-               
+            if(!is_dir($dir)){
+                throw new Exception("El directorio pasado para crear el subdirectorio no existe",0);
+            }
+            
+            $handle = opendir($dir);
+             
                 if(!$handle){
+                    throw new Exception("Al crear el subdirectorio el manejador no pudo abrir el directorio",0);
                     
-                    throw new MisExcepciones(CONST_ERROR_CREAR_SUBDIRECTORIO_POST[1], CONST_ERROR_CREAR_SUBDIRECTORIO_POST[0]);
-                    }
-                
+                }
+             
             
              
                 while($file = readdir($handle)){
@@ -248,25 +268,23 @@ class Directorios {
             $test = mkdir($usuario.'/'.$nuevo) ? true : false; 
             $nuevoDirectorio = $nuevo;              
             }
-           
             
-            if(!$test){
-                
-                 throw new MisExcepciones(CONST_ERROR_CREAR_SUBDIRECTORIO_POST[1], CONST_ERROR_CREAR_SUBDIRECTORIO_POST[0]);
+           
+            if(!$test){           
+                 
+                 throw new Exception("No se pudo crear el nuevo subdirectorio con mkdir",0);
+                 
             }
         
-          //  echo 'Nuevo Subdirectorio creado en el metodo crearsubdirectorio: '.$nuevoDirectorio.'<br>';
-            //el nuevo subidrectorio creado siempre es siempre el subdirectorio
-            //donde se va a almacenar /1
-            //echo 'retorno '.$nuevoDirectorio.'<br>';
+          
             return $nuevoDirectorio;
             
             
-        }catch(MisExcepciones $ex){
-            /**/
-           
+        }catch(Exception $ex){
+            
+            $excep = $excepciones->recojerExcepciones($ex);
             $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-            $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+            $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
             
             
         }
@@ -275,36 +293,40 @@ class Directorios {
         }    
             
         /**
-         * Metodo que copia una imagen 
-         * de un directorio a otro
-         * @param $imagen 
-         * type String
-         * Nombre de la imagen a copiar
-         * @param $destino
-         * type String 
-         * Destino donde copiar la imagen
-         * @param $opc 
-         * type String 
-         * Opcion para tratar posibles errores
+         * Metodo que copia una imagen </br>
+         * de un directorio a otro </br>
+         * @param $imagen </br>
+         * type String</br>
+         * Nombre de la imagen a copiar</br>
+         * @param $destino </br>
+         * type String </br>
+         * Destino donde copiar la imagen </br>
+         * @param $opc </br>
+         * type String </br>
+         * Opcion para tratar posibles errores </br>
          */   
             
         final static function copiarFoto($imagen, $destino,$opc){
-           //echo 'imagen a copiar: '.$imagen.'<br>';
-           //echo 'en copiar foto: '.$destino.'<br>';
+           
         $excepciones = new MisExcepciones(CONST_COPIAR_ARCHIVO[1], CONST_COPIAR_ARCHIVO[0]);   
-            
+        if($opc == "registrar"){ 
+            $mensaje = "No se pudo copiar imagen al registrarse un usuario";   
+        }else{
+            $mensaje = "No se pudo copiar imagen Demo al registrar un Post";
+        }   
             try{
                 
-               if(!copy($imagen, $destino)){throw new Exception("");}
- 
+               if(!copy($imagen, $destino)){throw new Exception($mensaje,0);}
+               
             } catch (Exception  $ex) {
               
                 $_SESSION['error'] = ERROR_INGRESAR_USUARIO;
 
                 if($opc == "registrar"){
-                    $excepciones->redirigirPorErrorSistema($opc,true);
+                    $excepciones->redirigirPorErrorSistema($opc,true,$excep);
                 }else if($opc == "copiarDemoSubirPost"){
-                   $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true);
+                   $excep = $excepciones->recojerExcepciones($ex);
+                   $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
                 }
             }
             
@@ -333,41 +355,42 @@ public function eliminarImagenDemoSubirPost(){
 }      
             
        /**
-        * OJO ESTE METODO ES IMPORTANTE  LEER    
+        * OJO ESTE METODO ES IMPORTANTE  LEER    </br>
         *     
-        *       Este metodo se utiliza para:
+        *       Este metodo se utiliza para: </br>
         * 
-        * 1º Si este metodo recibe como segundo parametro un 0.
-        *   Si ocurre esto es que el usuario al subir imagenes para un Post a
-        *   eliminado una imagen o varias. Entonces lo que sucede es que accedemos
-        *   a un array con el nombre de la imagen borrada dentro de la variable 
-        *   " $_SESSION['imgTMP']['imagenesBorradas'] " instanciada en la clase Post.
-        *   Lo que hacemos es ir recuperando su nombre y vamos asignando ese nombre 
-        *   a las fotos que el usuario va subiendo.
+        * 1º Si este metodo recibe como segundo parametro un 0. </br>
+        *   Si ocurre esto es que el usuario al subir imagenes para un Post a </br>
+        *   eliminado una imagen o varias. Entonces lo que sucede es que accedemos </br>
+        *   a un array con el nombre de la imagen borrada dentro de la variable </br>
+        *   " $_SESSION['imgTMP']['imagenesBorradas'] " instanciada en la clase Post. </br>
+        *   Lo que hacemos es ir recuperando su nombre y vamos asignando ese nombre  </br>
+        *   a las fotos que el usuario va subiendo. </br>
         * 
-        * 2º Si como segundo parametro recibe  un 1
+        * 2º Si como segundo parametro recibe  un 1 </br>
         * 
-        *    Si ocurre esto es que subiendo imagenes para el Post no ha borrado ninguna.
-        *    Entonces lo unico que hace es contar el total de imagenes que hay en el
-        *    directorio donde se guardan en cada Post.
+        *    Si ocurre esto es que subiendo imagenes para el Post no ha borrado ninguna. </br>
+        *    Entonces lo unico que hace es contar el total de imagenes que hay en el </br>
+        *    directorio donde se guardan en cada Post. </br>
         * 
         *  
-        * @param  $nombreViejo 
-        * type String
-        * Nombre tal cual el usuario sube una imagen al subir un Post
-        * @param  $opc
-        * type String
-        * Nombre renombrado de la imagen
-        * @return $newNombre
-        * type String
-        * El nuevo nombre
+        * @param  $nombreViejo  </br>
+        * type String </br>
+        * Nombre tal cual el usuario sube una imagen al subir un Post </br>
+        * @param  $opc </br>
+        * type String </br>
+        * Nombre renombrado de la imagen </br>
+        * @return $newNombre </br> 
+        * type String </br>
+        * El nuevo nombre </br>
         */
         public static function renombrarFotoSubirPost($nombreViejo, $opc){
 
+             $excepciones = new MisExcepciones(CONST_ERROR_RENOMBRAR_IMG_AL_SUBIR_UN_POST[1],CONST_ERROR_RENOMBRAR_IMG_AL_SUBIR_UN_POST[0]);
             
             if($opc === 0){
             
-            $excepciones = new MisExcepciones(CONST_ERROR_RENOMBRAR_IMG_AL_ELIMINARLA_DEL_POST[1], CONST_ERROR_RENOMBRAR_IMG_AL_ELIMINARLA_DEL_POST[0]);    
+                
                 
                 try{
                     
@@ -383,7 +406,7 @@ public function eliminarImagenDemoSubirPost(){
                 
                 $test = rename($nombreViejo, $newNombre) ? true : false; 
 
-                if(!$test){throw new MisExcepciones(CONST_ERROR_RENOMBRAR_IMG_AL_ELIMINARLA_DEL_POST[1], CONST_ERROR_RENOMBRAR_IMG_AL_ELIMINARLA_DEL_POST[0]);;}
+                if(!$test){throw new Exception("Error al renombrar una imgen cuando el usuario borro alguna",0);}
 
                 //Controlamos que el array de Imagenes borradas aun contenga imagenes.
                     //Si hemos ingresado el primer elemento, destruimos la variable de
@@ -399,13 +422,15 @@ public function eliminarImagenDemoSubirPost(){
                         return $newNombre;
             
                 
-                }catch(MisExcepciones $ex){
+                }catch(Exception $ex){
+                    $excep = $excepciones->recojerExcepciones($ex);
                     $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-                    $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+                    $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true, $excep);
                 }
 
             }else if($opc === 1){
-                
+                    
+               
                 //echo 'el usuario no ha borrado ninguna imagen<br>';
                 //Renombramos las imagenes por el numero de imagenes en su subdirectorio
                 
@@ -428,16 +453,18 @@ public function eliminarImagenDemoSubirPost(){
                     //Le asignamos el nuevo nombre a la parte del directorio substraida antes
                         
                    $test = rename($nombreViejo, $newNombre) ? true : false;
-                   if(!$test){throw new MisExcepciones(CONST_ERROR_RENOMBRAR_IMG_AL_SUBIR_UN_POST[1],CONST_ERROR_RENOMBRAR_IMG_AL_SUBIR_UN_POST[0]);}
+                  
+                   if(!$test){throw new Exception("No se pudo renombrar la imagen subiendo Post. No se había eliminado ninguna imagen.",0);}
                    
                }
             
             
                 return $newNombre;
                 
-            } catch (MisExcepciones $ex) {
+            } catch (Exception $ex) {
                 $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-               // $ex->eliminarDatosErrorAlSubirPost("errorPost",true);
+                $excep = $excepciones->recojerExcepciones($ex);
+                $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
                 
             }
                 
@@ -505,21 +532,22 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
 }
     
     /**
-     * Metodo que cuenta el numero de archivos de un
-     * directorio
-     * @param $ruta 
-     * type String
-     * Ruta al directorio donde contar los archivos
+     * Metodo que cuenta el numero de archivos de un </br>
+     * directorio. </br>
+     * @param $ruta </br>
+     * type String </br>
+     * Ruta al directorio donde contar los archivos </br>
      * 
      */
     final static function contarArchivos($ruta){
         
+        $excepciones = new MisExcepciones(CONST_ERROR_CONTAR_ARCHIVOS[1],CONST_ERROR_CONTAR_ARCHIVOS[0]);
         $count = 0;
         $dir =  $ruta;
     
     try{
         
-        if(!($handle = opendir($dir))){throw new MisExcepciones(CONST_ERROR_CONTAR_ARCHIVOS[1],CONST_ERROR_CONTAR_ARCHIVOS[0]);}
+        if(!($handle = opendir($dir))){throw new Exception('Hubo un error al contar los directorios.',0);}
 
                     while($file = readdir($handle)){
                         if($file != "." && $file != ".."){
@@ -530,8 +558,9 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
             return $count;
         
         
-    } catch (MisExcepciones $ex) {
-        $ex->eliminarDatosErrorAlSubirPost("Hubo un problema al contar los archivos",true);
+    } catch (Exception $ex) {
+        $excep = $excepciones->recojerExcepciones($ex);
+        $excepciones->eliminarDatosErrorAlSubirPost("Hubo un problema al contar los archivos",true,$excep);
     }
    
     //fin contarArchivos    
@@ -539,30 +568,30 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
     
     
     /**
-     * Metodo que elimina una imagen
-     * recive como parametro la ruta.
-     * Este metodo es usado tanto para 
-     * cuando el usuario se registre como 
-     * cuando el usuario sube un Post.
-     * Por lo que en caso de error hay que trabajar de forma
-     * distinta. 
+     * Metodo que elimina una imagen </br>
+     * recive como parametro la ruta. </br>
+     * Este metodo es usado tanto para </br>
+     * cuando el usuario se registre como </br>
+     * cuando el usuario sube un Post.</br>
+     * Por lo que en caso de error hay que trabajar de forma </br>
+     * distinta. </br>
      * 
-     * @param  $ruta 
-     * type String 
-     * Ruta de la imagen a eliminar
-     * @param $opc <br/>
+     * @param  $ruta </br>
+     * type String </br>
+     * Ruta de la imagen a eliminar </br>
+     * @param $opc </br>
      * type String <br/>
-     * Opcion para trabajar en caso de error
+     * Opcion para trabajar en caso de error </br>
      */ 
     final static function eliminarImagen($ruta, $opc){
         //echo $ruta;
         $excepciones =  new MisExcepciones(CONST_ERROR_ELIMINAR_ARCHIVO[1], CONST_ERROR_ELIMINAR_ARCHIVO[0]);    
         try{
      
-                if(!unlink($ruta)){throw new MisExcepciones(CONST_ERROR_ELIMINAR_ARCHIVO[1], CONST_ERROR_ELIMINAR_ARCHIVO[0]);}
+                if(!unlink($ruta)){throw new Exception("No se pudo eliminar la imagen",0);}
             
-        } catch (MisExcepciones $ex) {
-            /**/
+        } catch (Exception $ex) {
+            $excep = $excepciones->recojerExcepciones($ex);
             if($opc == 'actualizar'){
                 $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
                 $excepciones->redirigirPorErrorSistema("actualizar",true);
@@ -571,13 +600,13 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
                 $excepciones->redirigirPorErrorSistema("actualizarCambiandoFoto",true);
             }else if($opc == "eliminarImgDemoSubirPost"){
                 $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
-                $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true);
+                $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
             }else if($opc == "errorFotoActualizar"){
                 $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
                 $excepciones->redirigirPorErrorSistema("errorFotoActualizar", true);   
             }else if($opc == "eliminarImagenSubiendoPost"){
                 $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
-                $excepciones->redirigirPorErrorSistema("eliminarImagenSubiendoPost", true);
+                $excepciones->redirigirPorErrorSistema("eliminarImagenSubiendoPost", true,$excep );
                 
             }
            
@@ -588,72 +617,79 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
 }
 
 /**
- * Metodo que elimina los directorios creados 
- * cuando hay un error al registrarse o cualquier otro motivo.
- * Si la bbdd no hace el insert correcto ente metodo 
- * elimina las carpetas creadas en datos_usuario y photos
- * Recive una ruta con el directorio a eliminar.
- *  glob() busca todos los nombres de ruta que coinciden con pattern
+ * Metodo que elimina los directorios creados <br />
+ * cuando hay un error al registrarse o cualquier otro motivo.<br />
+ * Si la bbdd no hace el insert correcto ente metodo <br />
+ * elimina las carpetas creadas en datos_usuario y photos<br />
+ * Recive una ruta con el directorio a eliminar.<br />
+ *  glob() busca todos los nombres de ruta que coinciden con pattern<br />
  * @param $src <br />
  * type String <br />
  * Ruta donde estan los directorios que hay que eliminar
  */
 
 final static function eliminarDirectoriosSistema($src,$opc){
-       
+    
+    $excepciones = new  MisExcepciones(CONST_ERROR_ELIMINAR_DIRECTORIO[1],CONST_ERROR_ELIMINAR_DIRECTORIO[0]);
+    
         try{
             
             //Nos aseguramos recive rutas de directorios
    
-        if(!is_dir($src)){
+        if(is_dir($src)){
        
-            throw new MisExcepciones(CONST_ERROR_ELIMINAR_DIRECTORIO[1],CONST_ERROR_ELIMINAR_DIRECTORIO[0]  ,null);
-    
-        }
+            
+          
+        
                 foreach(glob($src . "/*") as $archivos_carpeta)
                 {   
                     if (is_dir($archivos_carpeta))
                     {
                         Directorios::eliminarDirectoriosSistema($archivos_carpeta,$opc);   
+                    }else{
+                        unlink($archivos_carpeta);
                     }
-                        else
-                        {
-                            if(!unlink($archivos_carpeta)){
-                               
-                                    throw new MisExcepciones(CONST_ERROR_ELIMINAR_ARCHIVO[1],CONST_ERROR_ELIMINAR_ARCHIVO[0],null);
-                        }
+                            
+                            
                     }
-                }
+                
                     if(is_dir($src)){
 
                         if(!rmdir($src)){
+                            $excepciones = new  MisExcepciones(CONST_ERROR_ELIMINAR_DIRECTORIO[1],CONST_ERROR_ELIMINAR_DIRECTORIO[0]);
+                            throw new Exception("NO se pudo eliminar el directorio",0);
+                            
+                        }
 
-                                throw new MisExcepciones(CONST_ERROR_ELIMINAR_DIRECTORIO[1],CONST_ERROR_ELIMINAR_DIRECTORIO[0],null);
+                                
+                                
                         }
                     }
         
     
-        } catch (MisExcepciones $ex) {
+        } catch (Exception $ex) {
+            
+            $excep = $excepciones->recojerExcepciones($ex);
           
             if($opc == "actualizar"){
-                $ex->redirigirPorErrorSistema("actualizar",true);
+                $excepciones->redirigirPorErrorSistema("actualizar",true,$excep);
             }else if($opc == "registrar"){
-                $ex->redirigirPorErrorSistema("registrar",true);
+                $excepciones->redirigirPorErrorSistema("registrar",true,$excep);
             }else if($opc == "eliminamosViejosDirectoriosActualizar"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los antiguos directorios al actualizar",false);
+                $excepciones->redirigirPorErrorSistema("No se pudo eliminar los antiguos directorios al actualizar",false,$excep);
             }else if($opc == "EliminarNuevosDirectorios"){
-                $ex->redirigirPorErrorSistema("No se pudieron eliminar los nuevos directorios introducidos para actualizar",false);
+                $excepciones->redirigirPorErrorSistema("No se pudieron eliminar los nuevos directorios introducidos para actualizar",false,$excep);
             }else if($opc == "EliminarDirectorioTMP"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios TMP_ACTUALIZAR despues ingresar en la bbdd",false);
+                $excepciones->redirigirPorErrorSistema("No se pudo eliminar los directorios TMP_ACTUALIZAR despues ingresar en la bbdd",false,$excep);
             }else if($opc == "nuevoSubdirectorioSubirPost"){
                 $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
-                $ex->redirigirPorErrorSistema("No se pudo eliminar el nuevo subdirectorio al registrar un nuevo post",false);
+                $excepciones->redirigirPorErrorSistema("No se pudo eliminar el nuevo subdirectorio al registrar un nuevo post",false,$excep);
             }else if($opc == "eliminarDirectoriosBajaUsuario"){
-                $ex->redirigirPorErrorSistema("No se pudo eliminar los directorios cuando el usuario queria darse de baja",false);
+                $excepciones->redirigirPorErrorSistema("No se pudo eliminar los directorios cuando el usuario queria darse de baja",false,$excep);
             }
-            
+             
+           
         }
-       
         
         
 

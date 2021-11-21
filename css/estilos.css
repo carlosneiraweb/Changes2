@@ -65,7 +65,6 @@ header,nav,section#buscar_datos,section#contenedor,footer{
 	margin: 1em auto;
 	max-width: 95%;
 	padding: .25em;
-        border: 1px solid black;
         position:relative;
         
 }
@@ -245,7 +244,6 @@ li.slide-current{
     
     text-align: center;
     padding:1em;
-    border: 1px solid black;  
  } 
  
  section#buscar_datos h3{text-align:center; color:#0C0792;border-bottom: 1px solid #0C0792;}
@@ -293,7 +291,6 @@ section#contenedor{
 	margin: .7em auto;
 	padding: .5em;
 	text-align: center;
-        border: 1px solid blue;
         max-width: 95%;
         width: 95%;
 }
@@ -340,7 +337,7 @@ section#contenedor h3{
     margin: .5em auto;
     padding: 1.3em;
     max-width: 80%;
-    border: 1px solid green;
+    
 }
 
 .cont_usuario {
@@ -369,7 +366,7 @@ section#contenido{
     margin: .5em auto;
     max-width: 90%;
     text-align: center;
-    border: 1px solid black;
+    
 }
 
 section#contenido .lanzar, section#contenido .comentario{
@@ -429,7 +426,7 @@ section#contenido .comentario{
     margin: .5em auto;
     padding: .5em;
     text-align: center;
-    border: 1px solid blue;
+   
 }
 
 .tiempo_cambio, contBotonComentario, span#mostrarTotalComentarios{margin:1.1em;}
@@ -474,7 +471,7 @@ section#contenido .comentario{
  
 section#btn_navegacion  h3{text-align: left; font-size: 1vw; margin-left: .5em;}
 section#btn_navegacion{
-    border: 1px solid green;
+   
     list-style: none;
     
 }
@@ -593,7 +590,6 @@ section#textAreaCondiciones{
 
 
 section#contenedorBotonAceptarCondiciones{
-    border: 1px solid red;
     width: 90%;
     margin : 0.5em auto;
     padding: .5em;
@@ -1260,7 +1256,7 @@ section#mostrarImgSeleccionada{
 }
 
 section#mostrarImgSeleccionada .img_usuario_tmp{
-    border: 1px solid red;
+   
     margin: .3em auto;
     width: 250px;
     max-width: 250px;
@@ -1588,65 +1584,3 @@ textarea#comentarioPost{
 }
 
 
-		/*MediaQuery*/
-/*
-@media screen and (max-width:1127px){
-	ul#slider>li>a { margin-left: .5em;}
-	figure#arriba{display:none}
-}
-@media screen and (max-width:920px){
-	figure#logo{width: 35%;margin-left: 1em;}
-	section#cabecera{width: 50%; margin-left:3em;}
-	section#btns_logueo{width: 70%;}
-        section#btns_sesion{width: 90%;}
-	.slider-container{width: 90%;}
-}
-@media screen and (max-width:811px){
-	.slider-container{width: 95%;}
-}
-@media screen and (max-width:761px){
-	section#posts{width: 95%;}
-        aside#publi{width: 90%; margin: 2em auto;}
-}
-@media screen and (max-width:776px){
-	figure#logo{width: 35%;margin-left: 1em;}
-	figcaption#titulo{font-size: 0.75em;}
-	section#cabecera{width: 47%; margin-left:3em;}
-	h1{font-size: 3.4em;}
-	section#cabecera h3{font-size: .9em;}
-	section#btns_logueo{width: 100%;margin:0}
-	.slider-container{width: 95%;}
-	figure#izquierda, figure#derecha{ width: 30px;}
-	ul#slider>li>a {font-size: 1.2em;}
-	
-}
-
-
-@media screen and (max-width:660px){
-	figure#derecha{display:none}
-	figure#izquierda{display:none}
-	figure#arriba{display:block;}
-	figure#abajo{display:block;}
-	figure#arriba, figure#abajo{ max-width: 20px; }
-	ul#slider>li>a {font-size: 1.1em;}
-	.slider-wrapper{width: 80%; margin-left: 1.7em; vertical-align: top;}
-	figure#logo{width: 40%;margin-left: .8em;}
-	figcaption#titulo{font-size: 0.75em;}
-        header h1{font-size: 3em;}
-	section#cabecera{width: 40%; margin-left:2em;}
-        input[type="button"], section#btns_sesion a{
-            width: 65px; 
-            min-width: 65px;
-            font-size: .5em;
-        }
-}
-
-@media screen and (max-width:625px){
-	figure#logo{width: 40%; margin-left: .5em;}
-	figcaption#titulo{font-size: 0.45em;}
-	section#cabecera{width: 40%; margin-left:1.5em;}
-         header h1{font-size: 2.5em;}
-	figure#arriba, figure#abajo{ max-width: 20px; }
-	ul#slider>li>a {font-size: 1em;}	
-}
-*/

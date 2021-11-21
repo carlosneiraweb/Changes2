@@ -2,10 +2,14 @@
 
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Conne.php');
 
+ if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+   
 
 /**
- * Esta clase extiende Exception
- * y crea los metodos comunes para
+ * 
  * ControlErroresSistemaEnArchivosPost y
  * ControlErroresSistemaEnArchivosUsuario
  * para trabajar con los metodos 
@@ -15,33 +19,15 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Conne.php');
 
 
 
-class MetodosInfoExcepciones extends Exception{
-   
+class MetodosInfoExcepciones {
+ 
     
+
     private function mostrarError(){
         header('Location: mostrar_error.php');
             
     }
     
-  /**
-     * Metodo que devuelve los errores
-     * que se hayan producido con los metodos 
-     * get de la clase Exception
-     * @return type array
-     */
-    private function errorMessage() {
-        
-        $arrayErrores = array();
-        $arrayErrores[0] = $this->getMessage();
-        $arrayErrores[1] = $this->getCode();
-        $arrayErrores[2] = $this->getFile();
-        $arrayErrores[3] = $this->getLine();
-        $arrayErrores[4] = $this->getTraceAsString();
-        
-        return $arrayErrores;
-    
-    }
-
 
 
 /**
@@ -102,7 +88,9 @@ private function convertirStringDatosSesion($opc){
             
     }       
     
-    
+    if(isset($_SESSION['post'])){
+            unset($_SESSION['post']);
+    }
     
     return $datosSesion;
 }    
@@ -117,20 +105,20 @@ private function convertirStringDatosSesion($opc){
  */
 
 
-private function insertarErroresBBDD($errorInterno, $datosUsuario, $opc){
-    var_dump($errorInterno);
+private function insertarErroresBBDD( $opc,$excep,$datosSesion){
+    
      $con = Conne::connect();
      
      try {
          
         $sqlInsError = " Insert into ".TBL_INSERTAR_ERROR.
-                "(motivo, usuario,fechaError,mensaje,codigo,fichero,linea,trace,DatosIntroducidos)".
-                " VALUES (:motivo, :usuario, :fechaError, :mensaje, :codigo, :fichero, :linea,:trace, :DatosIntroducidos);";
+                "(motivo, codigo,usuario,fechaError,mensaje,mensajePHP,codigoPHP,fichero,linea,trace,DatosIntroducidos)".
+                " VALUES (:motivo,:codigo, :usuario, :fechaError, :mensaje, :mensajePHP,:codigoPHP, :fichero, :linea,:trace, :DatosIntroducidos);";
         $date = date("Y-m-d H:i:s");
         
         $stError = $con->prepare($sqlInsError);
         $stError->bindValue(":motivo", $opc, PDO::PARAM_STR);
-        $stError->bindValue(":codigo", $errorInterno[1], PDO::PARAM_STR);
+        $stError->bindValue(":codigo", $excep[5][1], PDO::PARAM_INT);
         if(isset($_SESSION["userTMP"])){
             //Esta actualizando
             $stError->bindValue(":usuario", $_SESSION["userTMP"]->getValue('nick'), PDO::PARAM_STR); 
@@ -139,11 +127,13 @@ private function insertarErroresBBDD($errorInterno, $datosUsuario, $opc){
                $stError->bindValue(":usuario", $_SESSION['usuario']['nick'], PDO::PARAM_STR); 
         }
         $stError->bindValue(":fechaError", $date, PDO::PARAM_STR);
-        $stError->bindValue(":mensaje", $errorInterno[0], PDO::PARAM_STR);
-        $stError->bindValue(":fichero", $errorInterno[2], PDO::PARAM_STR);
-        $stError->bindValue(":linea", $errorInterno[3], PDO::PARAM_STR);
-        $stError->bindValue(":trace", $errorInterno[4], PDO::PARAM_STR);
-        $stError->bindValue(":DatosIntroducidos", $datosUsuario, PDO::PARAM_STR);
+        $stError->bindValue(":mensaje", $excep[5][0], PDO::PARAM_STR);
+        $stError->bindValue(":mensajePHP", $excep[0], PDO::PARAM_STR);
+        $stError->bindValue(":codigoPHP", $excep[1], PDO::PARAM_STR);
+        $stError->bindValue(":fichero", $excep[2], PDO::PARAM_STR);
+        $stError->bindValue(":linea", $excep[3], PDO::PARAM_STR);
+        $stError->bindValue(":trace", $excep[4], PDO::PARAM_STR);
+        $stError->bindValue(":DatosIntroducidos", $datosSesion, PDO::PARAM_STR);
         
         $stError->execute();
         
@@ -151,9 +141,13 @@ private function insertarErroresBBDD($errorInterno, $datosUsuario, $opc){
         
      } catch (Exception $exc) {
          Conne::disconnect($con);
-         echo "codigo".$exc->getCode().PHP_EOL;
-         echo "Archivo".$exc->getFile().PHP_EOL;
+         
+         echo "codigo".$exc->getCode();
+         echo PHP_EOL;
+         echo "Archivo".$exc->getFile();
+         echo PHP_EOL;
          echo "mensage".$exc->getMessage();
+         echo PHP_EOL;
          echo "linea ".$exc->getLine();
          
      }
@@ -174,14 +168,12 @@ private function insertarErroresBBDD($errorInterno, $datosUsuario, $opc){
  * $opc
  * Opcion para tratar el errror
  */
-protected function tratarDatosErrores($opc,$grado){
+protected function tratarDatosErrores($opc,$grado,$excep){
     
-    
-    $arrError = $this->errorMessage();
-        
+    //var_dump($excep);
     $datosSesion = $this->convertirStringDatosSesion($opc);
         //Los insertammos en la bbdd
-    $this->insertarErroresBBDD($arrError, $datosSesion, $opc);
+    $this->insertarErroresBBDD( $opc,$excep,$datosSesion);
     
     if($grado){
         $this->mostrarError();
