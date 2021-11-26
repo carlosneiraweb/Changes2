@@ -12,7 +12,9 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/DataObj.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesBbdd.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesEmail.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Sistema/Constantes/ConstantesErrores.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Email.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/MisExcepciones.php');
 
 
 
@@ -23,7 +25,7 @@ class mandarEmails {
 
   
  
-final function mandarEmailWelcome(DataObj $obj){
+final function mandarEmailWelcome(Usuarios $obj){
    // var_dump($obj);
 
      $excepciones = new MisExcepciones(CONST_ERROR_CONSTRUIR_DARSE_ALTA[1],CONST_ERROR_CONSTRUIR_DARSE_ALTA[0]);
@@ -42,11 +44,12 @@ final function mandarEmailWelcome(DataObj $obj){
               //  $emailAcabado = utf8_decode($emailAcabado);
                 $email = new Email($emailAcabado);
                 //MANDAMOS EL EMAIL
-                $email->mandarEmail($obj->getValue("email"));
-            
+                $test = $email->mandarEmail($obj->getValue("email"));
+                if(!$test){throw new Exception("No se pudo contruir el email welcome O la direccion de email no existe",0);}
                  
             }catch (Exception $ex){
-                $excepciones->redirigirPorErrorSistema("ProblemaEmail",false);
+                $excep = $excepciones->recojerExcepciones($ex);
+                $excepciones->redirigirPorErrorSistema("ProblemaEmail",false,$excep);
             }finally{
                 unset($obj);
                 unset($email);
@@ -104,12 +107,12 @@ final function mandarEmailWelcome(DataObj $obj){
                 
                 //MANDAMOS EL EMAIL
                
-               $email->mandarEmail($correo);
-          
-                    
+               $test = $email->mandarEmail($correo);
+               if(!$test){throw new Exception("NO se pudo construir email palabras buscadas",0);}
+                   
             }catch (Exception $ex){
-                
-                $excepciones->redirigirPorErrorSistema('ProblemaEmail',false);
+                $excep = $excepciones->recojerExcepciones($ex);
+                $excepciones->redirigirPorErrorSistema('ProblemaEmail',false,$excep);
                 
             } finally {
                 unset($email);
@@ -123,33 +126,35 @@ final function mandarEmailWelcome(DataObj $obj){
     }
     
     
-final function mandarEmailBajaUsuario(DataObj $usuBaja){
+final function mandarEmailBajaUsuario($nick,$mail){
     
           $excepciones = new MisExcepciones(CONST_ERROR_CONSTRUIR_DARSE_BAJA[1],CONST_ERROR_CONSTRUIR_DARSE_BAJA[0]);   
-     
+         // echo $nick.' '.$mail;
         try {
 
-            $nick = $usuBaja->getValue('nick');
+           
 
             $cuerpoEmail = "<section id='emailBaja'>";
-            $cuerpoEmail .=  "<h2> Hola $nick tú baja ha sido realizada con exito</h2>";
+            $cuerpoEmail .=  "<h2> Hola ".$nick." tú baja ha sido realizada con exito</h2>";
             $cuerpoEmail .=  "<p>Esperamos volver a verte pronto por aqui.</p>";
             $cuerpoEmail .= "<h4> Saludos del equipo de Te lo Cambio</h4>";
 
 
                 $emailAcabado = EMAIL_CABECERA.$cuerpoEmail.EMAIL_FOOTER;
-                   // $emailAcabado = utf8_decode($emailAcabado);
+                   //$emailAcabado = utf8_decode($emailAcabado);
 
 
                 $email = new Email($emailAcabado);
 
                     //MANDAMOS EL EMAIL
-                $email->mandarEmail($usuBaja->getValue('email'));
-
+               $email->mandarEmail($mail);
+                
+                //if(!$test){throw new Exception("No se pudo mandar email de baja usuario",0);}
 
            
-        } catch (Exception $exc) {
-             $excepciones->redirigirPorErrorSistema("ProblemaEmail",false);
+        } catch (Exception $ex) {
+             $excep = $excepciones->recojerExcepciones($ex);
+             $excepciones->redirigirPorErrorSistema("ProblemaEmail",false,$excep);
         }finally{
               unset($email);
         }

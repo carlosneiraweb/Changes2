@@ -118,7 +118,7 @@ private function insertarErroresBBDD( $opc,$excep,$datosSesion){
         
         $stError = $con->prepare($sqlInsError);
         $stError->bindValue(":motivo", $opc, PDO::PARAM_STR);
-        $stError->bindValue(":codigo", $excep[5][1], PDO::PARAM_INT);
+        $stError->bindValue(":codigo", $excep[5][1], PDO::PARAM_INT);//
         if(isset($_SESSION["userTMP"])){
             //Esta actualizando
             $stError->bindValue(":usuario", $_SESSION["userTMP"]->getValue('nick'), PDO::PARAM_STR); 
@@ -127,7 +127,7 @@ private function insertarErroresBBDD( $opc,$excep,$datosSesion){
                $stError->bindValue(":usuario", $_SESSION['usuario']['nick'], PDO::PARAM_STR); 
         }
         $stError->bindValue(":fechaError", $date, PDO::PARAM_STR);
-        $stError->bindValue(":mensaje", $excep[5][0], PDO::PARAM_STR);
+        $stError->bindValue(":mensaje", $excep[5][0], PDO::PARAM_STR);//
         $stError->bindValue(":mensajePHP", $excep[0], PDO::PARAM_STR);
         $stError->bindValue(":codigoPHP", $excep[1], PDO::PARAM_STR);
         $stError->bindValue(":fichero", $excep[2], PDO::PARAM_STR);

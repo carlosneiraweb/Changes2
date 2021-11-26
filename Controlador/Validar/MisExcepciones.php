@@ -29,10 +29,10 @@ class MisExcepciones extends MetodosInfoExcepciones{
 
    /**
      * Metodo que recoje las excepciones </br>
-     * originales de PHP
-     * 
-     * @param type Objeto tipo Exception</br>
+     * originales de PHP </br>
      * Es pasado por referencia </br>
+     * @param type Objeto tipo Exception</br>
+     * 
      * @return type Array()
      */
     public function recojerExcepciones(&$ex){
@@ -176,14 +176,14 @@ public function eliminarDirectoriosUsuario($opc) {
 
    
 /**
- * Este metodo primero intenta eliminar los directorios
- * que se han cambiado de nombre o actualizado cuando un 
- * usuario se esta actualiando los datos y hay un error.
- * Despues intenta restaurar la copia de los directorios 
- * que se ha hecho antes de intentar hacer una modificacion.
- * @param type String <br />
- * name $opc <br />
- * Description : Opcion para tratar el error <br />
+ * Este metodo primero intenta eliminar los directorios <br />
+ * que se han cambiado de nombre o actualizado cuando un <br />
+ * usuario se esta actualiando los datos y hay un error. <br />
+ * Despues intenta restaurar la copia de los directorios <br />
+ * que se ha hecho antes de intentar hacer una modificacion. <br />
+ * @param type String 
+ * name $opc 
+ * Description : Opcion para tratar el error 
  */ 
 public static function restaurarAntiguosDirectoriosAlActualizar($opc) {
     
@@ -357,32 +357,33 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
    $_SESSION['errorArchivos'] = "existo";
  
     
-   /*
+   
     //echo PHP_EOL."opcion vale ".$opc.PHP_EOL;
     switch ($opc) {
-        
+      
         case $opc == "crearDirectorios_TMP":
+           
                 //Recuperamos los mensajes de error
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
             
-            $this->tratarDatosErrores("Error al crear directorios TMP",$grado);  
+            $this->tratarDatosErrores("Error al crear directorios TMP",$grado,$excep);  
                 die();    
                 break;
-            
+           
         case $opc == "copiarDirectorios_a_TMP_actualizar":
             
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
             
-            $this->tratarDatosErrores("Error al copiar los directorios personales del usuario a la carpeta TMP cuando se estaba actualizando",$grado);  
+            $this->tratarDatosErrores("Error al copiar los directorios personales del usuario a la carpeta TMP cuando se estaba actualizando",$grado,$excep);  
                 die();    
                 break;
               
-            
+         /*   
         case $opc == "Eliminar_TMP":
             
-            $this->tratarDatosErrores("Error al borrar directorios TMP",$grado);  
+            $this->tratarDatosErrores("Error al borrar directorios TMP",$grado,$excep);  
                 die();  
                 break;
             
@@ -401,23 +402,22 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
             
                 die();       
                 break;
-        
+       */
         case $opc == "registrar":
             
             $_SESSION['error'] = ERROR_INGRESAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
             $this->eliminarDirectoriosUsuario($opc);
-            $this->tratarDatosErrores($opc,$grado); 
+            $this->tratarDatosErrores($opc,$grado,$excep); 
                 die();
                 break;
-            
+         
         case $opc == "renombrarDirectortiosActualizar":
             
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
-            $this->tratarDatosErrores("No se pudo renombrar los directorios cuando el usuario estaba actualizando sus datos cambiando el nick y subiendo foto",$grado);
-            //Eliminamos los viejos directorios
-            $this->eliminarDirectoriosUsuario("actualizar");
+            $this->tratarDatosErrores("No se pudo renombrar los directorios cuando el usuario estaba actualizando sus datos cambiando el nick y subiendo foto",$grado,$excep);
+            
             //Eliminamos los posibles nuevos directorios
             //que creasen en el intento de actualizar
             $this->eliminarDirectoriosUsuario("registrar");
@@ -426,12 +426,14 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
             
             die();    
                 break;
-            
+           
         case $opc == "errorFotoActualizar":
             
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
-            $this->tratarDatosErrores("No se pudo renombrar o eliminar la vieja la foto del usuario cuando estaba actualizando su nick",$grado);
+            $this->tratarDatosErrores("No se pudo renombrar o eliminar la vieja la foto del usuario cuando estaba actualizando su nick",$grado,$excep);
+            //Eliminamos los viejos directorios
+            $this->eliminarDirectoriosUsuario("actualizar");
             //Eliminamos los posibles nuevos directorios
             //que creasen en el intento de actualizar
             $this->eliminarDirectoriosUsuario("registrar");
@@ -441,12 +443,12 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
             
             die();
                 break;
-            
+           
         case $opc == "ActualizarUsuarioBBDD":
        
             $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
-            $this->tratarDatosErrores("Error en el gestor bbdd al actualizar usuario",$grado);
+            $this->tratarDatosErrores("Error en el gestor bbdd al actualizar usuario",$grado,$excep);
             //Eliminamos los posibles nuevos directorios
             //que creasen en el intento de actualizar
             $this->eliminarDirectoriosUsuario("registrar");
@@ -455,36 +457,36 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
             
                 die();
                 break;
-            
+           
         case $opc == "RegistrarUsuarioBBDD":
             
             $_SESSION['error'] = ERROR_REGISTRAR_USUARIO;
             $_SESSION["paginaError"] = "registrarse.php";
             $_SESSION['errorArchivos'] = "existo";
-            $this->tratarDatosErrores("Error en el gestor bbdd al registrar usuario",$grado);
+            $this->tratarDatosErrores("Error en el gestor bbdd al registrar usuario",$grado,$excep);
             //Eliminamos los posibles nuevos directorios
             //que creasen en el intento de actualizar
             $this->eliminarDirectoriosUsuario("registrar");
             
                 die();
                 break;
-            
+        
         case $opc == "ProblemaEmail":
-            $_SESSION['error'] = ERROR_MANDAR_EMAIL;
+            
             $grado = false;
-            $this->tratarDatosErrores($opc,$grado);
+            $this->tratarDatosErrores($opc,$grado,$excep);
             
                 die();
                 break;
-           
+        
         default:
             
-            
+             $this->tratarDatosErrores($opc,$grado,$excep);
             break;
     } 
-    * */
-
-    $this->tratarDatosErrores($opc,$grado,$excep);
+    
+   
+   
           
     
    

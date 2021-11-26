@@ -42,7 +42,7 @@ function crearSubdirectorio(){
    $_SESSION['nuevoSubdirectorio'][0] = $nickUsu;
    //[1] numero subdirectorio ejemplo "1"
    $_SESSION['nuevoSubdirectorio'][1] = Directorios::crearSubdirectorio('../photos/'.$nickUsu,"crearSubdirectorio");
-   //echo 'responde '."../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1];
+  // echo 'responde '."../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1];
    Directorios::copiarFoto("../photos/demo.jpg","../photos/".$_SESSION['nuevoSubdirectorio'][0].'/'.$_SESSION['nuevoSubdirectorio'][1]."/demo.jpg", "copiarDemoSubirPost");    
    
 //fin crearSubdirectorio    
@@ -85,12 +85,12 @@ function validarCamposSubirPost($st){
             //'photoArticulo'
            
             $testSubirArchivo = Directorios::validarFoto();
-        
+           //echo ' validar '.$testSubirArchivo;
         //Comprobamos que nos devuelve la constante 0 que significa que se 
         //ha subido correctamente o que no nos devuelve la constante 4
         //que signfica que no se ha elegido un archivo
             if($testSubirArchivo === 0){
-         
+                
             
                 //Si la foto es correcta entonces eliminamos la imagen default 
                     //que subimos solo ocurre la primera vez

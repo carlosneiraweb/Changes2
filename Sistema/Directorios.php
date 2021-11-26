@@ -38,12 +38,16 @@ class Directorios {
         final static function validarFoto(){
            
            
-           
-            $test  = $_FILES['photoArticulo']['error'];
-            $size =  $_FILES['photoArticulo']['size'];
-            $tipo =  $_FILES['photoArticulo']['type'];
             
-            if($test !== '4'){
+                $test  = $_FILES['photoArticulo']['error'];
+                $size =  $_FILES['photoArticulo']['size'];
+                $tipo =  $_FILES['photoArticulo']['type'];
+            //echo  $_FILES['photoArticulo']['error'];
+            //echo  $_FILES['photoArticulo']['size'];
+            //echo  $_FILES['photoArticulo']['type'];
+            
+            if($test !== 4){
+               
                 if($size > '3145728'){
                     $test  = '1';
                    
@@ -52,6 +56,10 @@ class Directorios {
                     $test = '10';
                 }
                 
+            }else if($test === 3){
+                    $test = '3';   
+            }else{
+                $test = '4';
             }
             
                 switch ($test){
@@ -116,7 +124,7 @@ class Directorios {
           * opcion en caso de error <br/>
          */
         final static  function moverImagen($nombreFoto, $nuevoDirectorio, $opc){
-           //echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
+           echo "nombre foto".$nombreFoto."  nuevo directorio=>".$nuevoDirectorio."   "."opcion=>".$opc;
             
             $excepciones = new MisExcepciones(CONST_ERROR_MOVER_IMAGEN[1],CONST_ERROR_MOVER_IMAGEN[0]);      
             
@@ -132,6 +140,7 @@ class Directorios {
             try{
                 
                 if(!move_uploaded_file($nombreFoto, $nuevoDirectorio)){
+                    
                     throw new Exception($mensaje, 0);  
                 }
              //
@@ -144,12 +153,10 @@ class Directorios {
                     //En caso error se llama al metodo redirigirPorErrorTrabajosEnArchivosRegistro
                     //De la clase mis excepciones con la opcion adecuada
                     if($opc == "errorFotoActualizar"){
-                        $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
-                        $excepciones->redirigirPorErrorSistema($opc,true);    
+                        $excepciones->redirigirPorErrorSistema($opc,true,$excep);    
                     }
                     if($opc == "registrar"){
-                         $_SESSION['error'] = ERROR_INGRESAR_USUARIO;
-                        $excepciones->redirigirPorErrorSistema($opc,true);  
+                        $excepciones->redirigirPorErrorSistema($opc,true,$excep);  
                     }
                     if($opc == "subirImagenPost"){
                          $_SESSION['error'] = ERROR_INSERTAR_ARTICULO;
@@ -164,12 +171,12 @@ class Directorios {
         
         
         /**
-         * Metodo que recibe una ruta y crea un directorio
-         *@param $ruta  type String 
-         * Ruta donde crear el directorio
-         * @param $opc type String
-         * Opcion para tratar posibles errores
-         * @return  $test type Boolean
+         * Metodo que recibe una ruta y crea un directorio </br>
+         *@param $ruta  type String </br>
+         * Ruta donde crear el directorio </br>
+         * @param $opc type String </br>
+         * Opcion para tratar posibles errores </br>
+         * @return  $test type Boolean </br>
          * 
          * 
          */
@@ -181,15 +188,16 @@ class Directorios {
                 //Comprobamos que los directorios ya no existan
                 if(file_exists($ruta) || (!mkdir($ruta))){
                     
-                    throw new Exception("");
+                    throw new Exception("Error al crear los directorio registro",0);
                     
                 }
                 
             }catch(Exception $ex){
+                $excep = $excepciones->recojerExcepciones($ex);
                 $_SESSION['error'] = ERROR_INGRESAR_USUARIO;  
                 if($opc == 'registrar' || $opc == 'actualizar'){
                     //Metodo del archivo MisExcepcionesUsuario
-                    $excepciones->redirigirPorErrorSistema($opc,true);
+                    $excepciones->redirigirPorErrorSistema($opc,true,$excep);
                 }
         }
 
@@ -321,11 +329,11 @@ final static function crearSubdirectorio($usuario,$opc){
             } catch (Exception  $ex) {
               
                 $_SESSION['error'] = ERROR_INGRESAR_USUARIO;
-
+                $excep = $excepciones->recojerExcepciones($ex);
                 if($opc == "registrar"){
                     $excepciones->redirigirPorErrorSistema($opc,true,$excep);
                 }else if($opc == "copiarDemoSubirPost"){
-                   $excep = $excepciones->recojerExcepciones($ex);
+                   
                    $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
                 }
             }
@@ -478,20 +486,20 @@ public function eliminarImagenDemoSubirPost(){
         
 /**
  * 
- * Este metodo elimina de la ruta de la imagen
- * que sube el usuario y la cambia por su usuario
- * Ejemplo:
- * /Sistema/tmp/1254.jpg
- * Cambia el 1254.jpg por el nombre del usuario
- * y la ruta donde queremos que se guarde
- * /photos/jose/jose.jpg
+ * Este metodo elimina de la ruta de la imagen </br>
+ * que sube el usuario y la cambia por su usuario </br>
+ * Ejemplo: </br>
+ * /Sistema/tmp/1254.jpg </br>
+ * Cambia el 1254.jpg por el nombre del usuario </br>
+ * y la ruta donde queremos que se guarde </br>
+ * /photos/jose/jose.jpg </br>
  * 
- * @param $nombreViejo
- * type  String 
- * Es la ruta tal como es subida la foto la servidor
- * @param  $nombreNuevo 
- * type String
- * Es el nombre del usuario
+ * @param $nombreViejo </br>
+ * type  String </br>
+ * Es la ruta tal como es subida la foto la servidor </br>
+ * @param  $nombreNuevo  </br>
+ * type String </br>
+ * Es el nombre del usuario </br>
  */        
         
 public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
@@ -518,12 +526,13 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
             //datos_usuario/aaaaa/aaaaa.jpg
             //echo 'Nombre nuevo es: '.$nuevoNombre.'<br>';
             if(!rename($nombreViejo, $newNombre)){
-                throw new Exception("");
+                throw new Exception("Error al renombrar la imagen del usuario al registrarse",0);
             }
  
     } catch (Exception $ex) {
+        $excep =  $excepciones->recojerExcepciones($ex);
         $_SESSION['error'] = ERROR_INGRESAR_USUARIO;
-        $excepciones->redirigirPorErrorSistema("registrar",true);
+        $excepciones->redirigirPorErrorSistema("registrar",true,$excep);
     }
     
     
@@ -593,17 +602,14 @@ public static function renombrarFotoPerfil($nombreViejo, $nombreNuevo){
         } catch (Exception $ex) {
             $excep = $excepciones->recojerExcepciones($ex);
             if($opc == 'actualizar'){
-                $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
-                $excepciones->redirigirPorErrorSistema("actualizar",true);
+                $excepciones->redirigirPorErrorSistema("actualizar",true,$excep);
             }else if($opc == "actualizarCambiandoFoto"){
-                $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
-                $excepciones->redirigirPorErrorSistema("actualizarCambiandoFoto",true);
+                $excepciones->redirigirPorErrorSistema("actualizarCambiandoFoto",true,$excep);
             }else if($opc == "eliminarImgDemoSubirPost"){
                 $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
                 $excepciones->eliminarDatosErrorAlSubirPost("errorPost",true,$excep);
             }else if($opc == "errorFotoActualizar"){
-                $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
-                $excepciones->redirigirPorErrorSistema("errorFotoActualizar", true);   
+                $excepciones->redirigirPorErrorSistema("errorFotoActualizar", true,$excep);   
             }else if($opc == "eliminarImagenSubiendoPost"){
                 $_SESSION["error"]= ERROR_INSERTAR_ARTICULO;
                 $excepciones->redirigirPorErrorSistema("eliminarImagenSubiendoPost", true,$excep );
@@ -656,7 +662,7 @@ final static function eliminarDirectoriosSistema($src,$opc){
                     if(is_dir($src)){
 
                         if(!rmdir($src)){
-                            $excepciones = new  MisExcepciones(CONST_ERROR_ELIMINAR_DIRECTORIO[1],CONST_ERROR_ELIMINAR_DIRECTORIO[0]);
+                            
                             throw new Exception("NO se pudo eliminar el directorio",0);
                             
                         }
@@ -709,28 +715,30 @@ final static function eliminarDirectoriosSistema($src,$opc){
 
 
 public static function renombrarDirectoriosActualizar($nickNuevo, $nickViejo){
-    
+   
+    $excepciones = new MisExcepciones(CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[1],CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[0]); 
     try{
      
                 $test = rename("../datos_usuario/$nickViejo","../datos_usuario/$nickNuevo");
-                    if($test != 1){
-                        throw new MisExcepciones(CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[1],CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[0]); 
+                    if($test != '1'){
+                        throw new Exception("No se pudo renombrar la carpeta datos_usuario al actualizar",0);
                     }  
                      
                 $test = rename("../photos/$nickViejo", "../photos/$nickNuevo");
-                    if($test != 1){
-                            throw new MisExcepciones(CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[1],CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[0]); 
+                    if($test != '1'){
+                            throw new Exception("No se pudo renombrar la carpeta photos al actualizar",0); 
                         }
                          
                 $test  = rename("../Videos/$nickViejo", "../Videos/$nickNuevo");
-                    if($test != 1){
-                        throw new MisExcepciones(CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[1],CONST_ERROR_RENOMBRAR_DIRECTORIOS_ACTUALIZAR[0]); 
+                    if($test != '1'){
+                        throw new Exception("No se pudo renombrar la carpeta Videos al actualizar",0); 
                     }
                 
-                    
-    } catch (MisExcepciones $ex) {
-            $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
-            $ex->redirigirPorErrorSistema('renombrarDirectortiosActualizar',true);
+      
+    } catch (Exception $ex) {
+           
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->redirigirPorErrorSistema('renombrarDirectortiosActualizar',true,$excep);
             
     }
 
@@ -763,13 +771,14 @@ public static function renombrarFotoActualiazar($viejoNombre,$nuevoNombre, $opc)
     try {
 
         if(!rename($viejoNombre, $nuevoNombre)){
-            throw new Exception("");
+            throw new Exception("No se pudo renombrar la foto al actualizar",0);
         }
            
    
-    } catch (Exception $exc) {
-        $_SESSION['error'] = ERROR_ACTUALIZAR_USUARIO;
-        $excepciones->redirigirPorErrorSistema("errorFotoActualizar",true);
+    } catch (Exception $ex) {
+        
+        $excep = $excepciones->recojerExcepciones($ex);
+        $excepciones->redirigirPorErrorSistema("errorFotoActualizar",true,$excep);
         
     }
 
@@ -777,10 +786,10 @@ public static function renombrarFotoActualiazar($viejoNombre,$nuevoNombre, $opc)
 }
 
 /**
- * Metodo que copia directorios con su contenido.
- * Si se produce un error al copiar los directorios
- * del usuario al actualizar, elimina los directorios 
- * que se hayan creado en el directorio TMP_ACTUALIZAR.
+ * Metodo que copia directorios con su contenido. </br>
+ * Si se produce un error al copiar los directorios </br>
+ * del usuario al actualizar, elimina los directorios </br>
+ * que se hayan creado en el directorio TMP_ACTUALIZAR. </br>
  * @param  $src 
  * type String
  *  directorio que copiar
@@ -794,25 +803,19 @@ public static function renombrarFotoActualiazar($viejoNombre,$nuevoNombre, $opc)
 
 public static function copiarDirectorios($src,$dst,$opc) {
     
+    $excepciones = new MisExcepciones(CONST_ERROR_CREAR_DIRECTORIO[1], CONST_ERROR_CREAR_DIRECTORIO[0]);
     try{
-                if(!is_dir($src)){                   
-                        throw new MisExcepciones(CONST_ERROR_NO_EXISTE_DIRECTORIO[1],CONST_ERROR_NO_EXISTE_DIRECTORIO[0]);                      
-                }
-                  
+                //Comprobamois que existe el directorio
+                if(!is_dir($src)){throw new Exception("El directorio pasado donde copiar los directorios a TMP no existe",0);}               
+                             
                 //Comprobamos que ya no exista
                 if(!is_dir($dst)){
-                    
-                    if($dir = opendir($src)){
-                            
-                        if($dir === false){
-                            throw new MisExcepciones(CONST_ERROR_ABRIR_DIRECTORIO[1],CONST_ERROR_ABRIR_DIRECTORIO[0]);                       
-                       }  
-                        
-                    }
-                    
-                    if(!mkdir($dst)){ 
-                       
-                        throw new MisExcepciones(CONST_ERROR_CREAR_DIRECTORIO[1], CONST_ERROR_CREAR_DIRECTORIO[0]);
+                    //Comprobamos que se puede abrir
+                    if(!$dir = opendir($src)){throw new Exception("No se pudo abrir el directorio a copiar TMP",0);}
+                    //Comprobamos que se pueden copiar 
+                    if(!mkdir($dst)){
+                        throw  new Exception("NO se pudo copiar el directorio en la carpeta TMP",0);
+            
                     }else{
                         
                         while(false !== ( $file = readdir($dir)) ) { 
@@ -837,25 +840,25 @@ public static function copiarDirectorios($src,$dst,$opc) {
                     }
 
                 }else{           
-                    throw new MisExcepciones(CONST_YA_EXISTE_DIRECTORIO[1],CONST_YA_EXISTE_DIRECTORIO[0]);                         
+                    throw new Exception("Ya existia el directorio pasado asado en la carpeta TMP",0);                         
                 }
 
-    } catch (MisExcepciones $ex){ 
-      
+    } catch (Exception $ex){ 
+         $excep = $excepciones->recojerExcepciones($ex);
         if($opc == "actualizar" ){        
-            $ex->redirigirPorErrorSistema("actualizar",true); 
+            $excepciones->redirigirPorErrorSistema("actualizar",true,$excep); 
         }
         if($opc == "copiarDirectorios_a_TMP_actualizar"){
-            $ex->redirigirPorErrorSistema($opc,true);
+            $excepciones->redirigirPorErrorSistema($opc,true,$excep);
         }
         if($opc == "RestaurarArchivosTMP"){    
-            $ex->redirigirPorErrorSistema("Error al restaurar los directorios del usuario que estaban en la carpeta TMP",true); 
+            $excepciones->redirigirPorErrorSistema("Error al restaurar los directorios del usuario que estaban en la carpeta TMP",true,$excep); 
         }
         if($opc == "renombrarFotoActualizar"){
-            $ex->redirigirPorErrorSistema("restaurarAntiguosDirectorios",true);
+            $excepciones->redirigirPorErrorSistema("restaurarAntiguosDirectorios",true,$excep);
         }
         if($opc == "restaurarViejosDirectoriosActualizar"){
-            $ex->redirigirPorErrorSistema("No se pudo restaurar los directorios que tenia el usuario",true);
+            $excepciones->redirigirPorErrorSistema("No se pudo restaurar los directorios que tenia el usuario",true,$excep);
         }
         
           
@@ -864,24 +867,26 @@ public static function copiarDirectorios($src,$dst,$opc) {
 } 
 
 /**
- * Este metodo crea el directorio padre
- * donde se guardaran la copias de los directorios
- * con los datos del usuario.
- * @param String $dir <br /> 
+ * Este metodo crea el directorio padre <br /> 
+ * donde se guardaran la copias de los directorios <br /> 
+ * con los datos del usuario. <br /> 
+ * @param String $dir 
  * @Description Nick del usuario ya registrado
  */
 public static function crearDirectorioPadreTMP($dir){
    
+    $excepciones =  new MisExcepciones(CONST_ERROR_CREAR_DIRECTORIO_PADRE_TMP[1], CONST_ERROR_CREAR_DIRECTORIO_PADRE_TMP[0]);
     try {
        
             $test = mkdir($dir);
             
             if(!$test){
-                throw new MisExcepciones(CONST_ERROR_CREAR_DIRECTORIO_PADRE_TMP[1], CONST_ERROR_CREAR_DIRECTORIO_PADRE_TMP[0]);
+                throw new Exception("Hubo un problema al crear los directorios TMP al actualizar. Posiblememnte ya existia",0);
             }
 
-    } catch (MisExcepciones $exc) {
-        $exc->redirigirPorErrorSistema("crearDirectorios_TMP",true);
+    } catch (Exception $ex) {
+        $excep = $excepciones->recojerExcepciones($ex);
+        $excepciones->redirigirPorErrorSistema("crearDirectorios_TMP",true,$excep);
     }
 
 

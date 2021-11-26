@@ -48,15 +48,17 @@ try {
         case 'Definitivamente':
           
             try{
-            
-                $excepciones = new MisExcepciones(CONST_ERROR_BBDD_DAR_BAJA_USUARIO_DEFINITIVAMENTE[1],CONST_ERROR_BBDD_DAR_BAJA_USUARIO_DEFINITIVAMENTE[0]); 
-                $resultadoTotal = array("resultadoTotal" => true);
+           
+               // $excepciones = new MisExcepciones(CONST_ERROR_BBDD_DAR_BAJA_USUARIO_DEFINITIVAMENTE[1],CONST_ERROR_BBDD_DAR_BAJA_USUARIO_DEFINITIVAMENTE[0]); 
+                $resultadoTotal = array("resultadoTotal" => 'true');
             
             global $conMenu;
                 $idUsu = $_SESSION["userTMP"]->devuelveId();
                 $nickEliTotal = $_SESSION["userTMP"]->getValue('nick');
+                $email= $_SESSION["userTMP"]->getValue('email');
                 $x = $_SESSION["userTMP"]->deleteFrom('usuario');
             
+               
               
                 if($x){
                         $sqlEliminar = "Select idPost from ".TBL_POST.
@@ -84,7 +86,7 @@ try {
                                // 
 
                             }    
-                    $stmElimPost->closeCursor();
+                   // $stmElimPost->closeCursor();
                     
                     }
                 }
@@ -104,24 +106,16 @@ try {
                 }
                
                 
-                //MANDAMOS EMAIL PARA INFORMAR USUARIO
-                //SE HA DADO DE BAJA
                 
-           
-               
-                $objMandarEmails = new mandarEmails();
-                $test = $objMandarEmails->mandarEmailBajaUsuario($_SESSION["userTMP"]);
                 
-              
-
-                        unset($_SESSION["userTMP"]);     
-                     
             echo json_encode($resultadoTotal);
             
+            $objMandarEmails = new mandarEmails();
+            $objMandarEmails->mandarEmailBajaUsuario($nickEliTotal,$email);
+               Conne::disconnect($conMenu); 
             } catch (Exception $ex) {
                     Conne::disconnect($conMenu);
-        
-                    $excepciones->redirigirPorErrorSistema("darBajaDefinitivamente");
+                    //echo $ex->getMessage();                    //$excepciones->redirigirPorErrorSistema("darBajaDefinitivamente",false,$);
                     
             }
                  

@@ -24,8 +24,8 @@ function darseBajaDefinitivamente(){
                     url: "../Controlador/Elementos_AJAX/darBajaUsuario.php"
                 }).done(function( data ) {
                    var result = data.resultadoTotal;
-                  
-                   if(result === true){
+                   
+                   if(result == 'true'){
                        
                        $('#baja').empty();
                        $("#baja").append($('<h4>',{
@@ -66,6 +66,7 @@ function darseBajaParcialmente(){
                     url: "../Controlador/Elementos_AJAX/darBajaUsuario.php"
                 }).done(function( data ) {
                    var test = data.resultado;
+                  
                    if(test === true){
                        $('#baja').empty();
                        $("#baja").append($('<h4>',{

@@ -1,3 +1,4 @@
+
 <?php
  
 
@@ -41,15 +42,15 @@ if(!isset($_SESSION)){
         }
        
 /**
- * @param $dir
- * Array con la ruta donde crear los directorios
- * y la opcion por si hay algun error poder
- * tratarla adecuadamente
+ * @param $dir <br/>
+ * Array con la ruta donde crear los directorios <br/>
+ * y la opcion por si hay algun error poder <br/>
+ * tratarla adecuadamente <br/>
  */                              
  function crearDirectorios($dir){
              
             //Creamos los directorios del registro
-           
+        //echo 'crear Directorios '.$dir[1].' '.$dir[3];  
         Directorios::crearDirectorio($dir[0],$dir[3]);
         Directorios::crearDirectorio($dir[1],$dir[3]);
         Directorios::crearDirectorio($dir[2],$dir[3]);
@@ -96,16 +97,17 @@ if(!isset($_SESSION)){
     }
  
 /**
- * Este metodo comprueba en caso el usuario
- * cambie de correo electronico
- * que el introducido no se encuentre 
- * ya en uso.Recordemos que
- * $_SESSION['actualizo']['correo'] se instancia cuando se accede 
- * al formulario de actualizar para ir mostrando los datos
- * y
- * $_SESSION['usuario']['email'] son los datos que el usuario
- * va introduciendo en el formulario
- * @param @nombre usuario <br/> @tipo objeto usuario 
+ * Este metodo comprueba en caso el usuario <br/>
+ * cambie de correo electronico <br/>
+ * que el introducido no se encuentre <br/>
+ * ya en uso.Recordemos que <br/>
+ * $_SESSION['actualizo']['correo'] se instancia cuando se accede <br/>
+ * al formulario de actualizar para ir mostrando los datos <br/>
+ * y <br/>
+ * $_SESSION['usuario']['email'] son los datos que el usuario <br/>
+ * va introduciendo en el formulario <br/>
+ * @param @nombre usuario <br/>
+ *  @tipo objeto usuario <br/>
  */
 function comprobarNickNuevo($user){
    
@@ -124,9 +126,9 @@ function comprobarNickNuevo($user){
     
     
     /**
-     * Metodo que crea los directorios
-     * de seguridad en la carpeta /Sistema/TMP_ACTUALIZAR
-     * antes de hacer ningun cambio 
+     * Metodo que crea los directorios </br>
+     * de seguridad en la carpeta /Sistema/TMP_ACTUALIZAR </br>
+     * antes de hacer ningun cambio </br>
      */
 
 
@@ -147,9 +149,9 @@ function crearDirectoriosTMP(){
 }
     
     /**
-     * Metodo que cambia el nombre de las carpetas 
-     * creadas en el registro cuando el usuario
-     * al actualizar sus datos cambia el nick de usuario
+     * Metodo que cambia el nombre de las carpetas </br>
+     * creadas en el registro cuando el usuario </br>
+     * al actualizar sus datos cambia el nick de usuario </br>
      * @global string $destino <br/>
      * Destino donde copiar o crear los directorios
      * @global type $foto <br/>
@@ -166,17 +168,18 @@ function crearDirectoriosTMP(){
         global $destino;
         global $foto;
         global $usuActualiza;
-
+       
             crearDirectoriosTMP();
+            
             Directorios::renombrarDirectoriosActualizar($_SESSION['usuario']['nick'], $usuActualiza);
-            $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photo']['name']);
+            $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photoArticulo']['name']);
                //Subimos la nueva foto
             Directorios::moverImagen($foto, $destino,"errorFotoActualizar");
                 //Eliminamos la vieja foto 
             Directorios::eliminarImagen("../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['actualizo']['nick'].".jpg", "errorFotoActualizar");
-            $imagen = substr(basename($_FILES['photo']['name']),0,-4);
+          //  $imagen = substr(basename($_FILES['photoArticulo']['tmp_name']),0,-4);
             
-            Directorios::renombrarFotoActualiazar("../datos_usuario/".$_SESSION['usuario']['nick']."/".basename($_FILES['photo']['name']),"../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['usuario']['nick'].".jpg","errorFotoActualizar"); 
+    Directorios::renombrarFotoActualiazar("../datos_usuario/".$_SESSION['usuario']['nick']."/".basename($_FILES['photoArticulo']['name']),"../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['usuario']['nick'].".jpg","errorFotoActualizar"); 
   
             //fin actualizarCambiandoNickSubiendoFoto()    
     }
@@ -193,13 +196,13 @@ function actualizarSinCambiarNickSubiendoFoto(){
     global $foto;
    
     crearDirectoriosTMP();
-    $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photo']['name']);
+    $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photoArticulo']['name']);
                //Subimos la nueva foto
     Directorios::moverImagen($foto, $destino,"errorFotoActualizar");
                 //Eliminamos la vieja foto 
     Directorios::eliminarImagen("../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['actualizo']['nick'].".jpg", "errorFotoActualizar");
                        
-    Directorios::renombrarFotoActualiazar("../datos_usuario/".$_SESSION['usuario']['nick']."/".basename($_FILES['photo']['name']),"../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['usuario']['nick'].".jpg","errorFotoActualizar"); 
+    Directorios::renombrarFotoActualiazar("../datos_usuario/".$_SESSION['usuario']['nick']."/".basename($_FILES['photoArticulo']['name']),"../datos_usuario/".$_SESSION['usuario']['nick']."/".$_SESSION['usuario']['nick'].".jpg","errorFotoActualizar"); 
     
     
     //fin actualizarSinCambiarNickSubiendoFoto
@@ -239,6 +242,7 @@ function registrandoseSinSubirFoto(){
     
     crearDirectorios($tmpNuevosDatos); 
      //Si no sube ninguna foto se le asigna la de default
+   
     $destino = "../datos_usuario/".$_SESSION['usuario']['nick'].'/'.$_SESSION['usuario']['nick'].'.jpg';    
     Directorios::copiarFoto("../datos_usuario/desconocido.jpg", $destino, $tmpNuevosDatos[3]);
     
@@ -248,10 +252,10 @@ function registrandoseSinSubirFoto(){
 }
 
 /**
- * Este metodo crea los directorios 
- * necesarios cuando un usuario
- * se registra y sube una foto
- * para el perfil
+ * Este metodo crea los directorios </br>
+ * necesarios cuando un usuario </br>
+ * se registra y sube una foto </br>
+ * para el perfil </br>
  */
 
 function registrandoseSubiendoFoto(){
@@ -259,7 +263,7 @@ function registrandoseSubiendoFoto(){
     global $tmpNuevosDatos;
     global $foto;
     global $destino;
-    
+           
     crearDirectorios($tmpNuevosDatos);
     Directorios::moverImagen($foto, $destino, $tmpNuevosDatos[3]);
     Directorios::renombrarFotoPerfil($destino, $_SESSION['usuario']['nick']);
@@ -270,14 +274,16 @@ function registrandoseSubiendoFoto(){
 
 
   /**
-     * Metodo que valida los datos introducidos por el usuario al registrarse.
-     * Valida los campos con los metodos static de ValidaForm
-     * Valida los datos de la bbdd con un objeto de la clase Usuarios
-     * Este metodo 
-     * VALIDAMOS TANTO REGISTRO COMO ACTUALIZACION USUARIO  
-     * @global type $mensaje
-     * @global Usuarios $user
-     * @param type $st
+     * Metodo que valida los datos introducidos por el usuario al registrarse. </br>
+     * Valida los campos con los metodos static de ValidaForm </br>
+     * Valida los datos de la bbdd con un objeto de la clase Usuarios </br>
+     * Este metodo </br>
+     * VALIDAMOS TANTO REGISTRO COMO ACTUALIZACION USUARIO  </br>
+     * 
+     * @param  $user </br>
+   * Objeto tipo usuario
+     * @param name $st </br>
+   *    NUmero de paso que hay que validar </br>
      * @return boolean
      */
 function validarCamposRegistro($st, $user){
@@ -427,21 +433,21 @@ function validarCamposRegistro($st, $user){
                 
             case 'step4':
             
-            $testValidoFoto = 4;   
+            $testValidoFoto = '4';   
             //Si el usuario sube una foto para su perfil la validamos
             $test = 0;
-                if(isset($_FILES['photo']) and $_FILES['photo']['name'] != ""){
-                    
-                    if (is_uploaded_file($_FILES['photo']['tmp_name'])) {
-                    $testValidoFoto =  Directorios::validarFoto('photo');  
-                    
+                if(isset($_FILES['photoArticulo']) and $_FILES['photoArticulo']['name'] != ""){
+                  
+                    if (is_uploaded_file($_FILES['photoArticulo']['tmp_name'])) {
+                    $testValidoFoto =  Directorios::validarFoto();  
+                   
                         if( $testValidoFoto === 0){  
-                         
+                        
                            
                             //Importante
                             //Recuperamos el nombre del archivo y ruta a la que mover la imagen
-                                $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photo']['name']);
-                                $foto = $_FILES['photo']['tmp_name'];
+                                $destino = '../datos_usuario/'.$_SESSION['usuario']['nick'].'/'.basename($_FILES['photoArticulo']['name']);
+                                $foto = $_FILES['photoArticulo']['tmp_name'];
 
                         //Comprobamos que el usuario se esta registrando
                         //Y no esta actualiando sus datos
@@ -451,6 +457,7 @@ function validarCamposRegistro($st, $user){
                             if(!isset($_SESSION["userTMP"])){
 
                                 registrandoseSubiendoFoto();
+                                
                                 
                             }                            
      
@@ -474,7 +481,7 @@ function validarCamposRegistro($st, $user){
                         
                     }
                         
-                }else if ($testValidoFoto === 10) {  
+                }else if ($testValidoFoto === '10') {  
                    
                         //Si hay algun error al validar la imagen 
                         //redirigimos a la pagina mostrarError
@@ -482,14 +489,14 @@ function validarCamposRegistro($st, $user){
                         // Esto ultimo se hace en el switch del
                         //metodo que valida la subida en el directorio Directorios
                         $_SESSION['paginaError'] = 'registrarse.php';
-                            mostrarError();      
-                            exit();   
+                        mostrarErrorRegistro();      
+                             
                         }
                     }
                     $test= 1;
                     //El usuario no sube foto
-                }else if ($testValidoFoto === 4) {
-                      
+                }else if ($testValidoFoto === '4') {
+                  
                     //Eliminamos la variable error
                     //Por que para registrarse no es obligatorio subir
                     //una imagen del usuario
@@ -510,7 +517,7 @@ function validarCamposRegistro($st, $user){
                         }
                         
                     }else{
-                    
+                        
                     //En caso se este registrando
                     //y no sube una foto
                         registrandoseSinSubirFoto();

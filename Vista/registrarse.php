@@ -1,21 +1,4 @@
 <?php 
-
-
-
-function mostrarError(){
-    header('Location: mostrar_error.php');
-}
-function volverAnterior(){
-    header('Location: index.php');
-    die();
-}
-function volverPrincipio(){
-    header('Location: index.php');
-    die();
-}
-function abandonarSession(){
-    header("Location: abandonar_sesion.php"); 
-}
  
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/DataObj.php');
  require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
@@ -37,6 +20,21 @@ if(!isset($_SESSION)){
 }
  
 
+function mostrarErrorRegistro(){
+    
+    header('Location: mostrar_error.php');
+}
+function volverAnterior(){
+    header('Location: index.php');
+    die();
+}
+function volverPrincipio(){
+    header('Location: index.php');
+    die();
+}
+function abandonarSession(){
+    header("Location: abandonar_sesion.php"); 
+}
 
 ?>
 <!DOCTYPE html>
@@ -359,11 +357,11 @@ function displayStep4($missingFields){
     echo"<input type='hidden' name='step' value='step4'>";
     //Modificamos en php.ini y en el formulario el maximo tamaño del archivo
      
-    echo'<input type="hidden" name="MAX_FILE_SIZE" value="50000" />';
+    //echo'<input type="hidden" name="MAX_FILE_SIZE" value="50000" />';
     echo '<section class="contEtiquetas">';
     echo'<label for="photo">Solo fotos .jpg</label>';
             
-            echo'<input type="file" name="photo" id="photo" value="" />';
+            echo'<input type="file" name="photoArticulo" id="photo" value="" />';
     echo'</section>';
     
  if(isset($_SESSION['actualizo']['nick'])){          
@@ -400,7 +398,7 @@ function displayStep4($missingFields){
 }
 
 function displayStep5(){
-    
+   
     echo '<script type="text/javascript">';
                echo "agregarFormularioCondiciones();";         
     echo '</script>';
@@ -454,27 +452,31 @@ function confirmarRegistro(){
             "nick" => $_SESSION['usuario']['nick'],
             "password" => $_SESSION['usuario']['password'],
             "admin" => 0
+           
                 ));
         
            
             if(!isset($_SESSION["userTMP"])){
-
-               $test = $userReg->insert();
+                
+                $userReg->insert();
+               //Destruimos el objeto user
+                    //y la variable session
+                        
+                        if(isset($_SESSION['usuario'])){unset($_SESSION['usuario']);}
+                        if(isset($_SESSION['error'])){unset($_SESSION['error']);}
+                        unset($mensajeReg);
+                
                 $objMandarEmails = new mandarEmails();
                
                     //Si todo va bien le mandamos a la pagina para confirmar registro
                     //y le mandamos un email de bienvenida
-                       confirmarRegistro();
+                      confirmarRegistro();
                     //este metodo destruye el objeto $user
-                       $objMandarEmails->mandarEmailWelcome($userReg);
+                     $objMandarEmails->mandarEmailWelcome($userReg);
                       
-                       
-                    //Destruimos el objeto user
-                    //y la variable session
                         unset($userReg);
-                        unset($_SESSION['usuario']);
-                        unset($mensajeReg);
-                
+                       
+                    
                
             
             }else{
@@ -502,25 +504,25 @@ function processFormRegistro($requiredFields, $st){
        
         switch ($st){
             case "step1":                                                           
-                $_SESSION['usuario']["nick"] = isset($_POST["nick"]) ? preg_replace("/[^\-\_a-zA-Z0-9ñÑ]/", "", $_POST["nick"]) : "";
-                $_SESSION['usuario']["password"] = isset($_POST["password"]) ? preg_replace("/[^\-\_a-zA-Z0-9ñÑ]/", "", $_POST["password"]) : "";  
-                $_SESSION['usuario']["email"] = isset($_POST["email"]) ? preg_replace("/[^\@\.\-\_a-zA-Z0-9ñÑ]/", "", $_POST["email"]) : "";
+                $_SESSION['usuario']["nick"] = $_POST["nick"];
+                $_SESSION['usuario']["password"] = $_POST["password"];  
+                $_SESSION['usuario']["email"] = $_POST["email"];
                     break;
             case "step2":
-                $_SESSION['usuario']["nombre"] = isset($_POST["nombre"])  ? preg_replace("/[^\-\_a-zA-Z.,`'´ñÑ]/", "", $_POST["nombre"]) : "";
-                $_SESSION['usuario']["apellido_1"] = isset($_POST["apellido_1"]) ? preg_replace("/[^\-\_a-zA-Z.,`'´ñÑ]/", "", $_POST["apellido_1"]) : "";
-                $_SESSION['usuario']["apellido_2"] = isset($_POST["apellido_2"]) ? preg_replace("/[^\-\_a-zA-Z.,`'´ñÑ]/", "", $_POST["apellido_2"]) : "";
-                $_SESSION['usuario']["telefono"] = isset($_POST["telefono"]) ?  $_POST["telefono"] : "";
-                $_SESSION['usuario']["genero"] = isset($_POST["genero"]) ? $_POST['genero'] : "" ;
+                $_SESSION['usuario']["nombre"] = $_POST["nombre"];
+                $_SESSION['usuario']["apellido_1"] = $_POST["apellido_1"];
+                $_SESSION['usuario']["apellido_2"] = $_POST["apellido_2"];
+                $_SESSION['usuario']["telefono"] = $_POST["telefono"];
+                $_SESSION['usuario']["genero"] = $_POST["genero"];
                     break;
             case "step3":
-                $_SESSION['usuario']["calle"] = isset($_POST['calle']) ? preg_replace("/[^\-\_a-zA-Z0-9.,`'´ñÑ]/", "", $_POST["calle"]) : "";
-                $_SESSION['usuario']["numeroPortal"] = isset($_POST['numeroPortal']) ? preg_replace("/[^\-\_a-zA-Z0-9.,`'´ñÑ]/", "", $_POST["numeroPortal"]) : "";
-                $_SESSION['usuario']["ptr"] = isset($_POST['ptr']) ? preg_replace("/[^\-\_a-zA-Z0-9ñÑ]/", "", $_POST["ptr"]) : "";
-                $_SESSION['usuario']["ciudad"] = isset($_POST['ciudad']) ? preg_replace("/[^\-\_a-zA-Z0-9.,`'´ñÑ]/", "", $_POST["ciudad"]) : "";
-                $_SESSION['usuario']["codPostal"] = isset($_POST['codPostal']) ? preg_replace("/[^\-\_0-9]/", "", $_POST["codPostal"]) : "";
-                $_SESSION['usuario']["provincia"] = isset($_POST['provincia']) ? $_POST['provincia'] : "";
-                $_SESSION['usuario']["pais"] = isset($_POST['pais']) ? preg_replace("/[^\-\_a-z-Z0-9.,`'´ñÑ]/", "", $_POST["pais"]) : "";
+                $_SESSION['usuario']["calle"] = $_POST['calle'];
+                $_SESSION['usuario']["numeroPortal"] = $_POST['numeroPortal'];
+                $_SESSION['usuario']["ptr"] = $_POST['ptr'];
+                $_SESSION['usuario']["ciudad"] = $_POST['ciudad'];
+                $_SESSION['usuario']["codPostal"] = $_POST['codPostal'];
+                $_SESSION['usuario']["provincia"] = $_POST['provincia'];
+                $_SESSION['usuario']["pais"] = $_POST['pais'];
                 //cerramos escritura sobre variable de sesion
                 //session_write_close();
                 
@@ -582,7 +584,7 @@ function processFormRegistro($requiredFields, $st){
      
         case 'step3':
             $resulTestReg = validarCamposRegistro($st, $userReg);
-           
+            
                 //Si ha habido algun error volvemos a mostrar el paso del formulario
                 //  correcto y un mensaje con los campos correspondientes
                 if($missingFields || ($resulTestReg[1] == 0)){
@@ -593,7 +595,7 @@ function processFormRegistro($requiredFields, $st){
                 break;
             
         case 'step4':
-            
+       
             if(!validarCamposRegistro($st, $userReg)){
                 displayStep4($missingFields);
             }else{

@@ -235,7 +235,7 @@ public static function getUserName($nick){
  */
 public final function insertDatosUsuario($usu){
     
-  
+    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_REGISTRAR_USUARIO[1],CONST_ERROR_BBDD_REGISTRAR_USUARIO[0]);
          $con = Conne::connect();
                 try{
                    
@@ -256,7 +256,10 @@ public final function insertDatosUsuario($usu){
                         Conne::disconnect($con);
                         return $test;
                        
-                } catch (MisExcepciones $ex) {
+                } catch (Exception $ex) {
+                   
+                    $excep = $excepciones->recojerExcepciones($ex);
+                    $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
                     
                     //Salta metodo llamante
                        
@@ -275,6 +278,7 @@ public final function insertDatosUsuario($usu){
  */
 public function insertarDireccionUsuario($usu){
     
+    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_REGISTRAR_USUARIO[1],CONST_ERROR_BBDD_REGISTRAR_USUARIO[0]);
     $con = Conne::connect();
          
             try{
@@ -298,8 +302,10 @@ public function insertarDireccionUsuario($usu){
                     Conne::disconnect($con);
                     return $test;   
                         
-                    } catch (MisExcepciones $ex) {
-                        //Salta metodo llamante
+                    } catch (Exception $ex) {
+                        $excep = $excepciones->recojerExcepciones($ex);
+                        $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
+                        
                                     
                     }
                            
@@ -311,8 +317,6 @@ public function insertarDireccionUsuario($usu){
 
 /**
  * Metodo que inserta en la bbdd un usuario
- * @global type $testInsert
- * @return type el resultado de la insercion en la bbdd
  */    
 public final function insert(){
     $con = Conne::connect();
@@ -353,25 +357,28 @@ public final function insert(){
             
                 $test = $st->execute(); 
                 $idUsu = $con->lastInsertId();
-                
-                  
+
             $con->commit();
-            
+                
             $test .= $this->insertDatosUsuario($idUsu);
-            if($test != '11'){throw new Exception("");}
+            if($test != '11'){throw new Exception("error insertar datos usuario",0);}
             $test .= $this->insertarDireccionUsuario($idUsu); 
-            if($test != '111'){throw new Exception("");}
+            if($test != '111'){throw new Exception("error insertar direcion usuario",0);}
+  
+            
             
             Conne::disconnect($con);
             return $test;
         } catch (Exception $ex) {
-            $this->deleteFrom('usuario');
-            $this->deleteFrom("datos_usuario");
-            $this->deleteFrom('direccion');
-            $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true);
+           
+            $excep = $excepciones->recojerExcepciones($ex);
+            $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
            
         }finally{
             Conne::disconnect($con);
+            if($test != '111'){
+                $con->rollBack();
+            }
         }
     //fin insert    
 } 
@@ -688,15 +695,14 @@ public function actualizoDatosUsuario(){
         $excepciones->eliminarDirectorioPadreTMP("../Sistema/TMP_ACTUALIZAR/".$_SESSION['actualizo']['nick'], "EliminarDirectorioTMP");
       
        
-    }catch (Exception $e){
-        //echo $e->getMessage();
-        //echo $e->getCode();
-        $con->rollBack();
-       
+    }catch (Exception $ex){
+        
+       $con->rollBack();
+       $excep = $excepciones->recojerExcepciones($ex);
         //Mandamos eliminar y restaurar las antiguas carpetas 
         //Que tenia el usuario
-        $excepciones->redirigirPorErrorSistema("ActualizarUsuarioBBDD",true);              
-       
+        $excepciones->redirigirPorErrorSistema("ActualizarUsuarioBBDD",true,$excep);              
+        
     
     }finally {
         Conne::disconnect($con);

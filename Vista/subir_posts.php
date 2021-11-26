@@ -395,11 +395,11 @@ function displayStep2($missingFields){
         	echo'<legend>Introduce alguna imagen.</legend>';
         echo"<input type='hidden' name='step' value='2'>"; 
         //Limitamos el valor máximo del archivo
-         echo'<input type="hidden" name="MAX_FILE_SIZE" value="3145728" />';
+        // echo'<input type="hidden" name="MAX_FILE_SIZE" value="3145728" />';
         echo '<section class="contenedor">'; 
-        echo'<label for="photoArticulo">Solo fotos .jpg</label>';
+        echo'<label for="photo">Solo fotos .jpg</label>';
         echo '<br>';    
-            echo'<input type="file" name="photoArticulo" id="photoArticulo" value="" />';        
+            echo'<input type="file" name="photoArticulo" id="photo" value="" />';        
         echo'</section>';
         
         
