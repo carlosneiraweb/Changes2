@@ -135,8 +135,10 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Changes/Modelo/Usuarios.php");
 
             case "BUSCADOR":
                          
-                if($buscarPorPrecio === '0' && $buscarPorProvincia === '1' && $buscarPorTiempoCambio === '0' ){
+                if($buscarPorPrecio === '0' && $buscarPorProvincia === '0' && $buscarPorTiempoCambio === '0' ){
                      $sqlBuscador="Select distinct $columnaId from $tabla where $columnaPalabra like  :buscar order by $columnaId DESC limit 5;";
+                
+                     
                 }else{
                                    
                     if($buscarPorPrecio == '0'){
@@ -214,18 +216,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Changes/Modelo/Usuarios.php");
 
     foreach($v as $id){
 
-                               
-   /*
-        $sqlPost = "select pos.idPost, u.nick, u.idUsuario as idUsu, prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, p.titulo, img.ruta, p.comentario, tc.tiempo as tiempoCambio
-from post p
-inner join usuario u on u.idUsuario= p.idUsuarioPost
-inner join direccion dire on dire.idDireccion = u.idUsuario
-inner join post pos on u.idUsuario = pos.idUsuarioPost
-inner join provincias prov on prov.nombre = dire.provincia
-inner join imagenes img on img.post_idPost = :idPost 
-inner join tiempo_cambio tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
-where pos.idPost = :idPost limit 1";
-   */
+
         
          $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
                     prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 
