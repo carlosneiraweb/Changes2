@@ -249,26 +249,35 @@ function mostrarFormularioGuardarBusquedas(){
             type : 'button',
             id : 'buttonBusquedasPersonales',
             value : 'Aceptar'
-        })).append($('<input>',{
+        })).on('click','#buttonBusquedasPersonales',function insertarPalabrasBuscadas(){
+             txtBuscar = $('#pabrasBuscarFinal').val();
+            $('#busquedasPersonales').off('click','#buttonBusquedasPersonales', insertarPalabrasBuscadas);
+            
+           
+            cargarPeticionBuscador('PIPB', '&opcion=PIPB');
+        }).append($('<input>',{
             type : 'button',
             id : 'buttonSalirBusquedasPersonales',
             value : 'Salir'
         }))));
     
     
-        $('#busquedasPersonales').on('click','#buttonBusquedasPersonales',function insertarPalabrasBuscadas(){
-            $('#busquedasPersonales').off('click','#buttonBusquedasPersonales', insertarPalabrasBuscadas);
-            txtBuscar = $('#pabrasBuscarFinal').val();
-            $('#pabrasBuscarFinal').val(" ");
-            cargarPeticionBuscador('PIPB', '&opcion=PIPB');
-        });
+       
     
         $('#busquedasPersonales').on('click','#buttonSalirBusquedasPersonales', function(){
-            $('#buscador').val(" ");
-            $('#busquedasPersonales').hide();
-            $('#contenidoBuscado').empty();
+            
+            $("#busquedaPalabrasPersonales").remove();
             $('#ocultar').addClass('oculto');
             $('#ocultar').removeClass('mostrar_transparencia');
+            
+            $('#buscador').val(" ");
+           
+            $('#busquedasPersonales').hide();
+            $('#contenidoBuscado').empty();
+//            
+            cargarContenidoPorSeccion();
+       // $("#busquedasPersonales").on('click','#buttonBusquedasPersonales',insertarPalabrasBuscadas);   
+            
         });
     
     
@@ -398,10 +407,10 @@ function cargarPeticionBuscador(tipo, parametros){
                     type: "POST",
                     dataType: 'json',
                     url: "../Controlador/Elementos_AJAX/busquedas.php"
-                }).complete(function() {
+                }).done(function(data) {
                         
-                       
-                       
+                    //alert(data.respuesta);   
+                        if(data.respuesta){
                             $('#busquedaPalabrasPersonales').append($('<figure>',{
                                 id : 'figuPalabras'
                             }).append($('<figcaption>',{
@@ -413,6 +422,22 @@ function cargarPeticionBuscador(tipo, parametros){
                                 title : "Correcto",
                                 class : "imgPalabras"
                             }))); 
+                        }else{
+                            
+                            $('#busquedaPalabrasPersonales').append($('<figure>',{
+                                id : 'figuPalabras'
+                            }).append($('<figcaption>',{
+                                id : 'figPalabras',
+                                text : "Hemos tenido un problema."
+                            })).append($('<img>',{
+                                src : "../img/rojo.png",
+                                alt : "Nombre del usuario que ha hecho el comentario.",
+                                title : "Incorrecto",
+                                class : "imgPalabras"
+                            }))); 
+                        }
+                            
+                            //$('#pabrasBuscarFinal').val(" ");
                             
                      
                     });   

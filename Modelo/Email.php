@@ -5,7 +5,7 @@
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt Email.php
- * @fecha 04-oct-2016
+ * @fecha 04-oct-2020
  */
 
 /**
@@ -81,8 +81,8 @@ class Email {
             $mail->MsgHTML($this->email);//Se indica que el cuerpo del correo tendr� formato html
             //$mail->AddAttachment($destino); //accedemos al archivo que se subio al servidor y lo adjuntamos
 
-            $mail->Send(); //enviamos el correo por PHPMailer
-                    
+            $test = $mail->Send(); //enviamos el correo por PHPMailer
+                    return $test;
                 
            
         }  catch (MisExcepciones $ex){

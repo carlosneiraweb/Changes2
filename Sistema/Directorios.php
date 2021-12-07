@@ -414,7 +414,7 @@ public function eliminarImagenDemoSubirPost(){
                 
                 $test = rename($nombreViejo, $newNombre) ? true : false; 
 
-                if(!$test){throw new Exception("Error al renombrar una imgen cuando el usuario borro alguna",0);}
+                if(!$test){throw new Exception("Error al renombrar una imgen cuando el usuario elimino alguna",0);}
 
                 //Controlamos que el array de Imagenes borradas aun contenga imagenes.
                     //Si hemos ingresado el primer elemento, destruimos la variable de

@@ -28,6 +28,11 @@ class MetodosInfoExcepciones {
             
     }
     
+    private function redirirgirFalloNoCritico(){
+        $url = $_SESSION["paginaError"];
+         header("Location: $url");
+    }
+    
 
 
 /**
@@ -177,6 +182,8 @@ protected function tratarDatosErrores($opc,$grado,$excep){
     
     if($grado){
         $this->mostrarError();
+    }else{
+        $this->redirirgirFalloNoCritico();
     }
     
     //fin tratarDatosErrores()

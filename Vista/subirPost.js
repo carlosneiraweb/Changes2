@@ -4,7 +4,7 @@
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt subirPost.php
- * @fecha 04-oct-2016
+ * @fecha 04-oct-2020
  */
 
 var objSeccion, petSeccion, objTiempoCambio, petTiempoCambio,
@@ -15,8 +15,9 @@ var objSeccion, petSeccion, objTiempoCambio, petTiempoCambio,
                 //Creamos una instancia de la clase CONEXION_AJAX
                 //Nos devuelve una conexion AJAX y propiedades 
                     var ConSubPost = new Conexion();
-  
+
 window.onload=function(){
+   
    
     //Section donde se cargaran las imagenes que el usuario valla subiendo
     imgCargar = document.getElementById('cnt_img');
@@ -193,7 +194,7 @@ function mandarId(id){
  * @param {type} objLastImg
  * @returns {undefined} */
 function cargarUltimaImagen(objLastImg){
-       //alert(objLastImg[0].ruta);
+      // alert('ddddd'+objLastImg[0].ruta);
         var sep = '<section id="capturar" class="contenedor_imagenes" >';
         for (var i= 0 ; i < objLastImg.length; i++){
             var demo = objLastImg[i].ruta;

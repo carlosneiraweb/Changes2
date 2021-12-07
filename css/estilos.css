@@ -896,7 +896,7 @@ section#salir_sesion{
 /*Estilo para formulario agregar busquedas personalizadas*/
 section#busquedaPalabrasPersonales{
     background-color: white;
-    height: 500px;
+    height: 300px;
     width: 340px;
     margin:auto;
     position:absolute;
@@ -906,6 +906,8 @@ section#busquedaPalabrasPersonales{
 	bottom: 0;
     padding: .3em;
     z-index: 50;
+    border: 1px solid skyblue;
+    border-radius: 1em;
 }
 
 section#contBtnBuscPersonales{

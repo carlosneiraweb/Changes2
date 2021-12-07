@@ -1,8 +1,10 @@
 
-
-
+function redirigirInicioComentario(){
     
-   
+    setTimeout("location.href = 'index.php'", 1000);  
+}
+    
+    
 function insertarComentario(idPost){
      
     //Los datos se reciven perfectamente    
@@ -27,10 +29,18 @@ function insertarComentario(idPost){
                         //console.log( data);
                         if(test === true){
                             $('#imgResultComentVerde').removeClass('oculto');
-                            $("#btn_mandar_comentario").remove();
+                            $("#btn_mandar_comentario").addClass('oculto');
                             var tmp = parseInt($('#totalComentarios').text());
                             tmp++;
                             $('#totalComentarios').text(tmp);
+                            $('#cuerpo').on('click','#btn_salir_comentario',function(){
+                            $("#tituloComentario").val("");
+                            $("#comentarioPost").val("");
+                              cargarContenidoPorSeccion();
+                              $("#btn_mandar_comentario").removeClass('oculto');
+                              //redirigirInicioComentario();  
+                            });
+                            
                         }else{
                             $('#imgResultComentRojo').removeClass('oculto');
                         }

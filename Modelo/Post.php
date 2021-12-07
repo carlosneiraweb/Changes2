@@ -819,7 +819,7 @@ static function eliminarPostId($id,$opc){
  * donde 8 es el directorio donde se almacena la imagen<br/>
  * donde 3 es el numero de la imagen
  */
-private function prepararUrl(){
+private function prepararRuta(){
  
             $tmp = substr($_SESSION['idImgadenIngresar'], 10);
             $tmp = strstr($tmp,'.',true);// $tmp => /admin/1/2
@@ -845,7 +845,7 @@ private function prepararUrl(){
         
         $sql = "INSERT INTO ".TBL_IMAGENES." (post_idPost, nickUsuario, ruta, texto) VALUES ( :post_idPost, :nickUsuario, :ruta, :texto)";
         //Metodo que limpia la url
-        $tmp = $this->prepararUrl($_SESSION['idImgadenIngresar']);
+        $tmp = $this->prepararRuta($_SESSION['idImgadenIngresar']);
         
         $st = $con->prepare($sql);
         

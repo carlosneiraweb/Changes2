@@ -55,30 +55,6 @@ class MisExcepciones extends MetodosInfoExcepciones{
     } 
     
 
-    /**
- * Metodo que elimina el directorio padre
- * temporal TMP con la copia de
- * los archivos del usuario
- * @param type String name opc<br />
- * @name $dir</br />
- * @Description Directorio padre TEMPORAL
- * @param type String
- * @name $opc 
- * @Description opcion a tratar en caso de error
- */
-public function eliminarDirectorioPadreTMP($dir,$opc){
-    
-    try {
-        
-        Directorios::eliminarDirectoriosSistema($dir,$opc);
-    } catch (MisExcepciones $exc) {
-        $exc->redirigirPorErrorSistema("Eliminar_TMP", false);
-        
-    }
-    
-    
-}
-
 /**
  * Metodo que elimina los directorios creados
  * al registrarse un usuario o actualizar los
@@ -380,12 +356,7 @@ public function redirigirPorErrorSistema($opc,$grado,$excep){
                 die();    
                 break;
               
-         /*   
-        case $opc == "Eliminar_TMP":
-            
-            $this->tratarDatosErrores("Error al borrar directorios TMP",$grado,$excep);  
-                die();  
-                break;
+            /*
             
         case $opc == "actualizarCambiandoFoto":
             

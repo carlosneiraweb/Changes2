@@ -76,7 +76,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
             gtag('config', 'UA-88763824-1');
     </script>
 
-        
+      <!--<span class="icocor1">&#129505;</span> --> 
     <!--Para navegadores viejos-->
         <!--[if lt IE 9]>
             <script
@@ -228,6 +228,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
     /**
     * Elemento html que se agregaran 
     * el formulario para agregar busquedas personales
+     * en archivo buscador.js
     */
         echo'<section id="busquedasPersonales">';
         echo'</section>';

@@ -36,6 +36,12 @@ function abandonarSession(){
     header("Location: abandonar_sesion.php"); 
 }
 
+
+//Variable que utiliza la pagina
+//Mostrar error para devolvernos a 
+//la pagina donde se a producido
+$_SESSION["paginaError"] = basename($_SERVER['PHP_SELF']);
+
 ?>
 <!DOCTYPE html>
 
@@ -154,6 +160,7 @@ function abandonarSession(){
         //Eliminado todos los directorios creados
         
         $controlErrores->eliminarDirectoriosUsuario('registrar');
+        if(isset($_SESSION['usuario'])){unset($_SESSION['usuario']);}
         volverPrincipio();
         
     }elseif(isset($_POST['registroConfirmado']) and $_POST['registroConfirmado'] == "Aceptar") {

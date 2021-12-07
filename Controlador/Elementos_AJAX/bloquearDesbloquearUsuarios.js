@@ -27,18 +27,28 @@ function mostrarUsuariosBloqueados(data){
         text  : 'Usuarios bloqueados Parcialmente'
     })));
     
-        var i = 0;
-    for(i; i < data[0].length; i++ ){
+    if(data !== 'NO_BLOQUEADOS'){
+            var i = 0;
+        for(i; i < data[0].length; i++ ){
+            $("#bloqueadosTotal").append($("<p>",{
+                html : data[0][i]+'</br>'
+            }));
+        }
+
+         var i = 0;
+        for(i; i < data[1].length; i++ ){
+            $("#bloqueadosParcial").append($("<p>",{
+                html : data[1][i]+'</br>'
+            }));
+        }
+    }else{
         $("#bloqueadosTotal").append($("<p>",{
-            html : data[0][i]+'</br>'
+            html : 'No tienes usuarios bloqueados'
         }));
-    }
-    
-     var i = 0;
-    for(i; i < data[1].length; i++ ){
         $("#bloqueadosParcial").append($("<p>",{
-            html : data[1][i]+'</br>'
-        }));
+            html : "No tienes usuarios bloqueados"
+            }));
+        
     }
     //mostrarUsuariosBloqueados
 }
@@ -196,10 +206,13 @@ function verUsuariosBloqueados(){
                     dataType: 'JSON',   
                     url: "../Controlador/Elementos_AJAX/bloquearUsuarios.php"
                 }).done(function( data) {
-                 
-                    
-                    
-                    mostrarUsuariosBloqueados(data);
+
+                    alert(data[0]);
+                    if(data[0] !== 'NO_BLOQUEADOS' && data[1] !== 'NO_BLOQUEADOS'){
+                        mostrarUsuariosBloqueados(data);
+                    }else{
+                       mostrarUsuariosBloqueados('NO_BLOQUEADOS');
+                    }
                     
                 }
     

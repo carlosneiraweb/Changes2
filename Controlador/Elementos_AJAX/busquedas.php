@@ -312,10 +312,17 @@ if(isset($_SESSION['userTMP'])){
                 $stm4Insert->bindValue(":id_usuario", $usuLogeado, PDO::PARAM_INT);
                 $stm4Insert->bindValue(":email", $email[0], PDO::PARAM_STR);
                 $stm4Insert->bindValue(":palabras_detectar", $palabrasBuscadas, PDO::PARAM_STR);
-                $stm4Insert->execute();
+                $test4Insert = $stm4Insert->execute();
                 $stm4Insert->closeCursor();
+                
+                if($test4Insert == 'true'){
+                   $test = array('respuesta'=> 'OK'); 
+                }else{
+                    $test = array('respuesta'=> "DOWN");
+                }
 
-                      
+                 echo json_encode($test);
+                 
                 break;
            
     //SWITCH

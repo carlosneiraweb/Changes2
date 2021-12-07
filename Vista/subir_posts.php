@@ -41,6 +41,7 @@ global $articulo;
 $articulo = new Post(array());
 global $excepciones;
 $excepciones = new MisExcepciones(null,null);
+global $pa_queridas;
 
 
  
@@ -435,18 +436,18 @@ function displayStep2($missingFields){
 }
 
 /**
- * Este metodo hace la insercion en la bbdd
- * de los datos introducidos en el formulario.
- * No hace inserciones en la tabla imagenes ni mueve 
- * las imagenes al directorio correspondiente
- * Por que el usuario no esta obligado a subir imagenes
+ * Este metodo hace la insercion en la bbdd </br>
+ * de los datos introducidos en el formulario. </br>
+ * No hace inserciones en la tabla imagenes ni mueve </br>
+ * las imagenes al directorio correspondiente </br>
+ * Por que el usuario no esta obligado a subir imagenes </br>
  * @global Post $articulo
  */
 function ingresarPost(){
     //Declaramos variable articulo
     global $articulo;
-    global $excepciones;
-    $testInsertar = true;
+    
+    
     
     
         $articulo = new Post(array(
@@ -490,25 +491,7 @@ function ingresarPost(){
                 
         }else{
             
-           $articulo->insertPost();
-           
-                //Metodo que busca entre las palabras 
-                //que un usuario ha guardado en sus
-                //busquedas personales
-                //si coincide se le manda email
-                $pa_queridas = array(
-                $_SESSION['post']['Pa_ofrecidas'][0],
-                $_SESSION['post']['Pa_ofrecidas'][1],
-                $_SESSION['post']['Pa_ofrecidas'][2],
-                $_SESSION['post']['Pa_ofrecidas'][3]
-            );
-        
-                $datosPost = array();
-                array_push($datosPost, $pa_queridas, $_SESSION['post']['seccionSubirPost'],$_SESSION['userTMP']->getValue('nick'),$_SESSION['lastId'][0]);
-               // var_dump($datosPost);
-                //Para una mejor busqueda hemos creado
-                //el campo de la tabla como full text
-                $articulo->buscarUsuariosInteresados($datosPost);
+           $articulo->insertPost();      
 
         }
        
@@ -532,7 +515,7 @@ function ingresarPost(){
  * Se instancia en el formulario subir_post 
  * de este mismo archivo.
  * $_SESSION['idImagen'] = ../photos/carlos/60/2.jpg
- * Se instancia en processForm al validar la foto y cambiarle 
+ * Se instancia en ControlErroresSistemaEnArchivosPOst al validar la foto y cambiarle 
  * el nombre en la clase Directorios.
  * En este metodo solo se comprueba que el sistema a
  * podido ingresar la imagen en la bbdd
@@ -612,7 +595,8 @@ function eliminarImagen(){
 function processForm($requiredFields, $st){
     //Array para almacenar los campos no rellenados y obligatorios
         global $missingFields;
-        global $excepciones;
+        global $articulo;
+        global $pa_queridas;
         $missingFields = array(); 
        
         
@@ -644,7 +628,7 @@ function processForm($requiredFields, $st){
                 
                 
             case 'step2':
-                $_SESSION['post']['figcaption'] = isset($_POST['figcaption']) ? preg_replace("/[^\-\_a-zA-Z0-9.,ºª`'´ ñÑáéíóúäëïöü]/", "", $_POST["figcaption"]) : ""; 
+                $_SESSION['post']['figcaption'] = $_POST['figcaption']; 
                 break;
         }
 
@@ -689,6 +673,25 @@ function processForm($requiredFields, $st){
                 //formato png
                 if(!isset($_SESSION['png'])){
                     ingresarImagenes();
+                    if($_SESSION['contador'] == '1'){
+                                //Metodo que busca entre las palabras 
+                        //que un usuario ha guardado en sus
+                        //busquedas personales
+                        //si coincide se le manda email
+                        $pa_queridas = array(
+                        $_SESSION['post']['Pa_ofrecidas'][0],
+                        $_SESSION['post']['Pa_ofrecidas'][1],
+                        $_SESSION['post']['Pa_ofrecidas'][2],
+                        $_SESSION['post']['Pa_ofrecidas'][3]
+                    );
+
+                        $datosPost = array();
+                                array_push($datosPost, $pa_queridas, $_SESSION['post']['seccionSubirPost'],$_SESSION['userTMP']->getValue('nick'),$_SESSION['lastId'][0]);
+                       // var_dump($datosPost);
+                        //Para una mejor busqueda hemos creado
+                        //el campo de la tabla como full text
+                        $articulo->buscarUsuariosInteresados($datosPost);
+                    }
                 }
                 displayStep2(array());
                

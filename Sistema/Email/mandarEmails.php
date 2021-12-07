@@ -93,7 +93,7 @@ final function mandarEmailWelcome(Usuarios $obj){
                         ."<li>".$datosPost[0][3]."</li>"
                         
                         ."<h4>Si quieres ver lo completamenta podrás encontrarlo en la"
-                        . "sección  de ".$datosPost[1]. ".".
+                        . " sección  de  ".$datosPost[1]. ".".
                         "<h5>Saludos del equipo.</h5>".
                                 $usuInteresados[0][2].
                         "</section>";
@@ -108,9 +108,11 @@ final function mandarEmailWelcome(Usuarios $obj){
                 //MANDAMOS EL EMAIL
                
                $test = $email->mandarEmail($correo);
+               //$test = false;
                if(!$test){throw new Exception("NO se pudo construir email palabras buscadas",0);}
                    
             }catch (Exception $ex){
+                
                 $excep = $excepciones->recojerExcepciones($ex);
                 $excepciones->redirigirPorErrorSistema('ProblemaEmail',false,$excep);
                 
@@ -147,9 +149,9 @@ final function mandarEmailBajaUsuario($nick,$mail){
                 $email = new Email($emailAcabado);
 
                     //MANDAMOS EL EMAIL
-               $email->mandarEmail($mail);
+               $test = $email->mandarEmail($mail);
                 
-                //if(!$test){throw new Exception("No se pudo mandar email de baja usuario",0);}
+                if(!$test){throw new Exception("No se pudo mandar email de baja usuario",0);}
 
            
         } catch (Exception $ex) {

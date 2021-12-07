@@ -243,7 +243,8 @@ function mostrarMenu(){
             type : 'button',
             id : 'bVerBloqueos',
             value : 'Ver Bloqueos'
-        })).on("click","#bVerBloqueos",function(){
+        })).on("click","#bVerBloqueos",function verBloqueos(){
+            $('#contBtnDesbloqueo').off('click','#bVerBloqueos', verBloqueos); 
             verUsuariosBloqueados();
         })).append($('<section>',{
             id: 'salirBloqueo'
@@ -257,6 +258,7 @@ function mostrarMenu(){
                 text : 'BloquearUsuarios'
                 }));
             $('#menuUsuario').on('click','#bloquearUsuarios', bloquearUsuarios);
+           // $('#menuUsuario').on('click','#bVerBloqueos', verBloqueos);
         }));
     
     //

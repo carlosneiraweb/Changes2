@@ -12,7 +12,7 @@ var petPost, objPost, objPostSeleccionado, petPostSeleccionado,
      opcionSwitchVolver, opcionPeticionVolver, peticionVolver,
         tmpLiVolver, numeroEnLiVolver, numLiVolver, inicioVolver,
         opcionMenu = "", buscador = false, petComent,
-        objComent, idPostComentar;
+        objComent, idPostComentar,jsonVolver;
 
 
 var fecha = new Date();
@@ -266,7 +266,8 @@ function cargarPeticion(tipo, parametros){
  * cuando estamos paginando.
  */
 function cargarContenidoPorSeccion(){
-    
+ 
+       //alert(jsonVolver[0]);
         if(jsonVolver[0] === 'ENCONTRADO'){
             opcion = jsonVolver[0];
         }else if(jsonVolver[0] === "PPS"){
@@ -289,7 +290,7 @@ function cargarContenidoPorSeccion(){
                         break;
                         
                 default:
-                    //alert(opcionMenu +'opcion='+opcion+'&inicio='+inicio);
+                   // alert(opcionMenu +'opcion='+opcion+'&inicio='+inicio);
                     cargarPeticionMenu(opcionMenu, 'opcion='+opcion+'&inicio='+inicio);   
             }
     

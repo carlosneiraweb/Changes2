@@ -16,6 +16,7 @@ $(document).ready(function(){
    $('#publicar').on('click', redireccionarSubirPost);
     
    function volverAnterior(){
+      
        location.href= urlVolverError;
        //urlVolverError = null;
        //history.back();

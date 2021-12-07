@@ -79,7 +79,7 @@ function cargarPost(objPost){
                 class : 'comentario'
             }).append($('<p>',{
                 class : 'texto_comentario',
-                text : objPost[i].comentario
+                html : objPost[i].comentario
             })))).append($('<span>',{
                 class : 'piePost'
             }).append($('<span>',{

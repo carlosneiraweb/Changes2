@@ -692,7 +692,8 @@ public function actualizoDatosUsuario(){
         Conne::disconnect($con);
         //Si todo ha ido bien eliminamos el directorio
         //temporal en la carpeta TMP_ACTUALIZAR
-        $excepciones->eliminarDirectorioPadreTMP("../Sistema/TMP_ACTUALIZAR/".$_SESSION['actualizo']['nick'], "EliminarDirectorioTMP");
+        Directorios::eliminarDirectoriosSistema("../Sistema/TMP_ACTUALIZAR/".$_SESSION['actualizo']['nick'], "EliminarDirectorioTMP");
+        
       
        
     }catch (Exception $ex){
