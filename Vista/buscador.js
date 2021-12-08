@@ -36,7 +36,7 @@
             class : 'buscaSpan'
         }).append($('<label>',{
             for : 'busco',
-            text : "Cosas que tú buscas."
+            text : "Cosas Buscadas."
          })).append($('<input>',{
             type : 'radio',
             name : 'busqueda',
@@ -47,7 +47,7 @@
              class : 'buscaSpan'
         }).append($('<label>',{
             for : 'ofrezco',
-            text : "Cosas que tú ofreces."
+            text : "Cosas Ofrecidas."
         })).append($('<input>',{
             type : 'radio',
             name : 'busqueda',
@@ -101,7 +101,7 @@
         }));   
         
         //Cargamos los combos una vez creados por jquery
-       
+       //buscador
         cargarPeticionBuscador("PP", "&opcion=PP");
         cargarPeticionBuscador("PT", "&opcion=PT");
          
@@ -145,7 +145,7 @@
         txtBuscar = $(this).val();
         inputTmp = $(this);
         
-        //alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
+            //alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
                //'&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
             cargarPeticionBuscador('BUSCADOR', "opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
                     '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
@@ -169,6 +169,7 @@
                                         //En sus palabras de busquedas o queridas
                                 inicio = 0;   
                                 buscador = true;
+                                //alert("ENCONTRADO?opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                                 cargarPeticionBuscador('ENCONTRADO', "&opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                                 
                                 

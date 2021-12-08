@@ -58,7 +58,7 @@ insert into genero (genero) values ('otro');
 
 insert into secciones (nombre_seccion) values ('Automocion');
 insert into secciones (nombre_seccion) values ('Ocio');
-insert into secciones (nombre_seccion) values ('Bricolage');
+insert into secciones (nombre_seccion) values ('Bricolaje');
 insert into secciones (nombre_seccion) values ('Electronica');
 insert into secciones (nombre_seccion) values ('Moda');
 insert into secciones (nombre_seccion) values ('Hogar');

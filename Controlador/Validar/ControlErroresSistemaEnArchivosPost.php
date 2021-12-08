@@ -85,7 +85,7 @@ function validarCamposSubirPost($st){
             //'photoArticulo'
            
             $testSubirArchivo = Directorios::validarFoto();
-           //echo ' validar '.$testSubirArchivo;
+          // echo ' validar '.$testSubirArchivo;
         //Comprobamos que nos devuelve la constante 0 que significa que se 
         //ha subido correctamente o que no nos devuelve la constante 4
         //que signfica que no se ha elegido un archivo

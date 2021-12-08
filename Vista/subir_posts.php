@@ -13,7 +13,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ControlErro
         session_start(); 
     } 
    
-
+  
 
  /**
  * Metodo que nos devuelve a la pagina anterior

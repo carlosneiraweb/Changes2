@@ -43,7 +43,7 @@ function actualizarDatosUsuario(){
                     //alert(respuesta);
                         if( respuesta === 'OK'){
                              //location.href = 'registrarse.php';
-                            $(location).attr('href','changes.ddns.net');     
+                            $(location).attr('href','registrarse.php');     
 
                         } else if(respuesta === 'DOWN'){
                             

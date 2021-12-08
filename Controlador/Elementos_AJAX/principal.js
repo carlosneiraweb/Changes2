@@ -12,7 +12,7 @@ var petPost, objPost, objPostSeleccionado, petPostSeleccionado,
      opcionSwitchVolver, opcionPeticionVolver, peticionVolver,
         tmpLiVolver, numeroEnLiVolver, numLiVolver, inicioVolver,
         opcionMenu = "", buscador = false, petComent,
-        objComent, idPostComentar,jsonVolver;
+        objComent, idPostComentar;
 
 
 var fecha = new Date();
@@ -121,11 +121,12 @@ window.onload=function(){
          //Mostramos el formulario para comentarios  
         $('#cuerpo').on('click','#btnComentar', function(){
            idPostComentar = $(this).attr('class');
-            mostrarFormComentarios();
+           $("#ocultar").removeClass('oculto').addClass('mostrar_transparencia');
+           $("#form_comentario").removeClass('oculto').addClass('mostrar_formulario_comentarios');
         });
         
         //Mandamos insertar comentario
-        
+        //subirComentarios
         $('#form_comentario').on('click','#btn_mandar_comentario', function(){
             
             insertarComentario(idPostComentar);
@@ -140,7 +141,7 @@ window.onload=function(){
             idPost = ($(this).attr('class'));
           
             if(totalComent > 0){
-                
+               //buscarComentarios 
                buscarComentarios(idPost, totalComent);
             }
  
@@ -148,6 +149,7 @@ window.onload=function(){
          
         //Salimos de los comentarios
         $('#posts').on('click','#finComentarios', function(){
+            //mostrarComentarios
            salirDeComentarios();
         });
         
@@ -267,7 +269,7 @@ function cargarPeticion(tipo, parametros){
  */
 function cargarContenidoPorSeccion(){
  
-       //alert(jsonVolver[0]);
+       alert(jsonVolver[0]);
         if(jsonVolver[0] === 'ENCONTRADO'){
             opcion = jsonVolver[0];
         }else if(jsonVolver[0] === "PPS"){

@@ -292,7 +292,7 @@ function mostrarMenu(){
         $('#totalResultados').fadeIn(700, function(){ $(this).show();});
         $('#buscar_datos').fadeIn(700, function(){ $(this).show();});
         $('#btn_navegacion').fadeIn(700, function(){ $(this).show();});
-    
+        cargarContenidoPorSeccion();
     })));
    
     

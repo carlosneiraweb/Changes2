@@ -45,7 +45,7 @@ class Directorios {
             //echo  $_FILES['photoArticulo']['error'];
             //echo  $_FILES['photoArticulo']['size'];
             //echo  $_FILES['photoArticulo']['type'];
-            
+            //echo 'test dice '.$test;
             if($test !== 4){
                
                 if($size > '3145728'){
@@ -56,9 +56,9 @@ class Directorios {
                     $test = '10';
                 }
                 
-            }else if($test === 3){
-                    $test = '3';   
-            }else{
+                if($test === 3){$test = '3';}
+         
+            }else {
                 $test = '4';
             }
             
@@ -196,7 +196,7 @@ class Directorios {
                 $excep = $excepciones->recojerExcepciones($ex);
                 $_SESSION['error'] = ERROR_INGRESAR_USUARIO;  
                 if($opc == 'registrar' || $opc == 'actualizar'){
-                    //Metodo del archivo MisExcepcionesUsuario
+                    
                     $excepciones->redirigirPorErrorSistema($opc,true,$excep);
                 }
         }

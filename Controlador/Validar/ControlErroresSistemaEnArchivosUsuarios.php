@@ -280,9 +280,9 @@ function registrandoseSubiendoFoto(){
      * Este metodo </br>
      * VALIDAMOS TANTO REGISTRO COMO ACTUALIZACION USUARIO  </br>
      * 
-     * @param  $user </br>
+     * @param  user </br>
    * Objeto tipo usuario
-     * @param name $st </br>
+     * @param name st </br>
    *    NUmero de paso que hay que validar </br>
      * @return boolean
      */

@@ -227,93 +227,6 @@ public static function getUserName($nick){
    }
   
 
-/**
- * Ingresa los datos del usuario
- * telefono, nombre, apellidos, etc
- @param type dataObject
- *  @return type boolean
- */
-public final function insertDatosUsuario($usu){
-    
-    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_REGISTRAR_USUARIO[1],CONST_ERROR_BBDD_REGISTRAR_USUARIO[0]);
-         $con = Conne::connect();
-                try{
-                   
-                   $sqlDatosUsuario = "INSERT INTO ".TBL_DATOS_USUARIO." ( idDatosUsuario, genero, nombre, "
-                           . "apellido_1, apellido_2, telefono)".
-                            "VALUES".
-                            "( :idDatosUsuario, :genero, :nombre, :apellido_1, :apellido_2, :telefono);";
-                    
-                        $stDatosUsuario = $con->prepare($sqlDatosUsuario);
-                        $stDatosUsuario->bindParam("idDatosUsuario", $usu, PDO::PARAM_INT);
-                        $stDatosUsuario->bindParam(":genero", $this->data["genero"], PDO::PARAM_STR);                      
-                        $stDatosUsuario->bindValue(":nombre", $this->data["nombre"], PDO::PARAM_STR);
-                        $stDatosUsuario->bindValue(":apellido_1", $this->data["apellido_1"], PDO::PARAM_STR);
-                        $stDatosUsuario->bindValue(":apellido_2", $this->data["apellido_2"], PDO::PARAM_STR);
-                        $stDatosUsuario->bindValue(":telefono", $this->data["telefono"], PDO::PARAM_STR);
-                        
-                        $test = $stDatosUsuario->execute();        
-                        Conne::disconnect($con);
-                        return $test;
-                       
-                } catch (Exception $ex) {
-                   
-                    $excep = $excepciones->recojerExcepciones($ex);
-                    $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
-                    
-                    //Salta metodo llamante
-                       
-                }
-//fin    insertDatosUsuario 
-}
-
-/**
- * 
- * Este metodo ingresa la direccion
- * del usuario, poblacion, calle, etc
- @param type dataObject
- *  @return type boolean
- * OJO DETALLE
- * Fijemonos como este metodo usa la clase abstracta
- */
-public function insertarDireccionUsuario($usu){
-    
-    $excepciones = new MisExcepciones(CONST_ERROR_BBDD_REGISTRAR_USUARIO[1],CONST_ERROR_BBDD_REGISTRAR_USUARIO[0]);
-    $con = Conne::connect();
-         
-            try{
-                               //NO HAY CAMPOS OBLIGATORIOS AL HACER EL INSERT
-                $sqlDireccion = "INSERT INTO ".TBL_DIRECCION." (idDireccion, calle, numeroPortal, ptr, codigoPostal, ciudad, provincia, pais)".
-                    " VALUES ".
-                        "(:idDireccion, :calle, :numeroPortal, :ptr, :codigoPostal, :ciudad, :provincia, :pais);";
-                                    
-                             
-                        $stDireccion = $con->prepare($sqlDireccion);
-                        $stDireccion->bindParam(":idDireccion", $usu, PDO::PARAM_INT);
-                        $stDireccion->bindValue(":calle", $this->data["calle"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":numeroPortal", $this->data["numeroPortal"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":ptr", $this->data["ptr"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":codigoPostal", $this->data["codigoPostal"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":ciudad", $this->data["ciudad"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":provincia", $this->data["provincia"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":pais", $this->data["pais"], PDO::PARAM_STR);
-                        
-                    $test = $stDireccion->execute(); 
-                    Conne::disconnect($con);
-                    return $test;   
-                        
-                    } catch (Exception $ex) {
-                        $excep = $excepciones->recojerExcepciones($ex);
-                        $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
-                        
-                                    
-                    }
-                           
-                     
-//direccionUsuario    
-}
-
-
 
 /**
  * Metodo que inserta en la bbdd un usuario
@@ -353,33 +266,59 @@ public final function insert(){
             $st->bindValue(":admin", '0', PDO::PARAM_STR);
             $st->bindValue(":activo", '1', PDO::PARAM_STR);
             
+            
+            
+                        
+            
             $con->beginTransaction();
             
-                $test = $st->execute(); 
+                $st->execute(); 
                 $idUsu = $con->lastInsertId();
-
-            $con->commit();
                 
-            $test .= $this->insertDatosUsuario($idUsu);
-            if($test != '11'){throw new Exception("error insertar datos usuario",0);}
-            $test .= $this->insertarDireccionUsuario($idUsu); 
-            if($test != '111'){throw new Exception("error insertar direcion usuario",0);}
-  
+                $sqlDatosUsuario = "INSERT INTO ".TBL_DATOS_USUARIO." ( idDatosUsuario, genero, nombre, "
+                           . "apellido_1, apellido_2, telefono)".
+                            "VALUES".
+                            "( :idDatosUsuario, :genero, :nombre, :apellido_1, :apellido_2, :telefono);";
+                    
+                        $stDatosUsuario = $con->prepare($sqlDatosUsuario);
+                        $stDatosUsuario->bindParam("idDatosUsuario", $idUsu, PDO::PARAM_INT);
+                        $stDatosUsuario->bindParam(":genero", $this->data["genero"], PDO::PARAM_STR);                      
+                        $stDatosUsuario->bindValue(":nombre", $this->data["nombre"], PDO::PARAM_STR);
+                        $stDatosUsuario->bindValue(":apellido_1", $this->data["apellido_1"], PDO::PARAM_STR);
+                        $stDatosUsuario->bindValue(":apellido_2", $this->data["apellido_2"], PDO::PARAM_STR);
+                        $stDatosUsuario->bindValue(":telefono", $this->data["telefono"], PDO::PARAM_STR);
+                        
+                $stDatosUsuario->execute(); 
+                
+                $sqlDireccion = "INSERT INTO ".TBL_DIRECCION." (idDireccion, calle, numeroPortal, ptr, codigoPostal, ciudad, provincia, pais)".
+                    " VALUES ".
+                        "(:idDireccion, :calle, :numeroPortal, :ptr, :codigoPostal, :ciudad, :provincia, :pais);";
+                                    
+                             
+                        $stDireccion = $con->prepare($sqlDireccion);
+                        $stDireccion->bindParam(":idDireccion", $idUsu, PDO::PARAM_INT);
+                        $stDireccion->bindValue(":calle", $this->data["calle"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":numeroPortal", $this->data["numeroPortal"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":ptr", $this->data["ptr"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":codigoPostal", $this->data["codigoPostal"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":ciudad", $this->data["ciudad"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":provincia", $this->data["provincia"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":pais", $this->data["pais"], PDO::PARAM_STR);
+                $stDireccion->execute();             
+
+                
             
-            
+            $con->commit();
             Conne::disconnect($con);
-            return $test;
-        } catch (Exception $ex) {
            
+        } catch (Exception $ex) {
+            Conne::disconnect($con);
+             $con->rollBack();
             $excep = $excepciones->recojerExcepciones($ex);
             $excepciones->redirigirPorErrorSistema("RegistrarUsuarioBBDD",true,$excep);
            
-        }finally{
-            Conne::disconnect($con);
-            if($test != '111'){
-                $con->rollBack();
-            }
         }
+        
     //fin insert    
 } 
    

@@ -52,7 +52,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         <script src="../Controlador/Validar/formulario_comentarios.js"></script>
         <script src="../Controlador/Elementos_AJAX/menu.js"></script>
         <script src="../Controlador/Elementos_AJAX/paginacion.js"></script>
-        <script src="../Controlador/Elementos_AJAX/principal.js"></script>
+        
         <script src="../Controlador/Elementos_AJAX/subirComentarios.js"></script>
         
         <script src="./cargarPostsElegido.js"></script>
@@ -65,6 +65,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         <script src="../Controlador/Elementos_AJAX/darBajaUsuario.js"></script>
         <script src="../Controlador/Elementos_AJAX/actualizarDatos.js"></script>
         <script src="./mostrarMenuUsuario.js"></script>
+        <script src="../Controlador/Elementos_AJAX/principal.js"></script>
      
     <!-- PARA GOOGLE ANALYTICS-->
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -101,6 +102,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
         echo '<script type="text/javascript">';
                echo "var PAGESIZE = "; echo PAGE_SIZE.';';          
         echo '</script>';
+    
     
        
     //Variable user para instanciar 
@@ -216,6 +218,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Modelo/Usuarios.php');
    
     /**
      * En esta seccion agregamos el buscador por jquery
+     * desde principal llama metodo en buscador
      */
     echo '<section id="buscar_datos">';
        

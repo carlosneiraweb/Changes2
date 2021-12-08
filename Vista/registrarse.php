@@ -436,10 +436,7 @@ function confirmarRegistro(){
     function ingresarUsuario(){
         global $userReg;
         global $mensajeReg;
-        global $excepciones;
-        $repElimarPhotos = false;
-        $repElimarDatosUsuario = false;
-        $repEliminarVideos = false;
+        
        
         
         $userReg = new Usuarios(array(

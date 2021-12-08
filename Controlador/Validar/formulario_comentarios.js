@@ -98,21 +98,4 @@ $(document).ready(function(){
     
 });           
     
-/**
- * 
- * Metodo que muestra el formulario 
- * para subir comentarios 
- * 
- *   
- * 
- * 
- */
-function mostrarFormComentarios(){
-    //alert('hola');
-    
-    $("#ocultar").removeClass('oculto').addClass('mostrar_transparencia');
-    
-    $("#form_comentario").removeClass('oculto').addClass('mostrar_formulario_comentarios');
-    
-//fin mostrarFormComentrios
-}    
+   

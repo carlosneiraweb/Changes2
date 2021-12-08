@@ -117,6 +117,7 @@ function salirDeComentarios(){
     $('.cont_post').show();
     $('#totalResultados').show();
     $('#btn_navegacion').show();
+    cargarContenidoPorSeccion();
     
     
 }
