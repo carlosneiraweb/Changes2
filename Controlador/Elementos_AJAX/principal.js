@@ -269,7 +269,7 @@ function cargarPeticion(tipo, parametros){
  */
 function cargarContenidoPorSeccion(){
  
-       alert(jsonVolver[0]);
+       //alert(jsonVolver[0]);
         if(jsonVolver[0] === 'ENCONTRADO'){
             opcion = jsonVolver[0];
         }else if(jsonVolver[0] === "PPS"){
