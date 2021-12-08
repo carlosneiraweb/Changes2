@@ -145,8 +145,8 @@
         txtBuscar = $(this).val();
         inputTmp = $(this);
         
-            alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
-               '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
+            //alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
+              // '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
             cargarPeticionBuscador('BUSCADOR', "opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
                     '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
              }
@@ -169,7 +169,7 @@
                                         //En sus palabras de busquedas o queridas
                                 inicio = 0;   
                                 buscador = true;
-                                alert("ENCONTRADO?opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
+                                //alert("ENCONTRADO?opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                                 cargarPeticionBuscador('ENCONTRADO', "&opcion=ENCONTRADO&ENCONTRAR="+textoElegido+"&tabla="+radioBusqueda+"&inicio="+inicio);
                                 
                                 
@@ -251,8 +251,9 @@ function mostrarFormularioGuardarBusquedas(){
             id : 'buttonBusquedasPersonales',
             value : 'Aceptar'
         })).on('click','#buttonBusquedasPersonales',function insertarPalabrasBuscadas(){
+            $('#contBtnBuscPersonales').off('click','#buttonBusquedasPersonales', insertarPalabrasBuscadas);
              txtBuscar = $('#pabrasBuscarFinal').val();
-            $('#busquedasPersonales').off('click','#buttonBusquedasPersonales', insertarPalabrasBuscadas);
+            
             
            
             cargarPeticionBuscador('PIPB', '&opcion=PIPB');
@@ -400,7 +401,7 @@ function cargarPeticionBuscador(tipo, parametros){
         case('PIPB'):
             
 
-                      
+                  
             $.ajax({
                     data: { opcion : "PIPB",
                             palabrasBuscadas : txtBuscar
@@ -410,8 +411,8 @@ function cargarPeticionBuscador(tipo, parametros){
                     url: "../Controlador/Elementos_AJAX/busquedas.php"
                 }).done(function(data) {
                         
-                    //alert(data.respuesta);   
-                        if(data.respuesta){
+                     
+                        if(data.result){
                             $('#busquedaPalabrasPersonales').append($('<figure>',{
                                 id : 'figuPalabras'
                             }).append($('<figcaption>',{

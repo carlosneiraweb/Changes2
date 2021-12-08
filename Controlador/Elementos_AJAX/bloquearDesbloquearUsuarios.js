@@ -207,7 +207,7 @@ function verUsuariosBloqueados(){
                     url: "../Controlador/Elementos_AJAX/bloquearUsuarios.php"
                 }).done(function( data) {
 
-                    alert(data[0]);
+                  
                     if(data[0] !== 'NO_BLOQUEADOS' && data[1] !== 'NO_BLOQUEADOS'){
                         mostrarUsuariosBloqueados(data);
                     }else{

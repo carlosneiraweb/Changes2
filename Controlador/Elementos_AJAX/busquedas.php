@@ -295,6 +295,26 @@ where p.idPost = :idPost limit 1";
 
         
                 break;
+                
+    case "PIPB":
+                
+                
+                    
+                    $sqlInsertarPalabras = "insert into ".TBL_PALABRAS_EMAIL." (usuario_idUsuario,email,palabras_detectar) "
+                    . "values (:id_usuario, :email, :palabras_detectar);";         
+               
+
+                $stm4Insert = $conBusquedas->prepare($sqlInsertarPalabras);
+                $stm4Insert->bindValue(":id_usuario", $usuLogeado, PDO::PARAM_INT);
+                $stm4Insert->bindValue(":email", $email[0], PDO::PARAM_STR);
+                $stm4Insert->bindValue(":palabras_detectar", $palabrasBuscadas, PDO::PARAM_STR);
+                $test = $stm4Insert->execute();
+                $stm4Insert->closeCursor();
+                $resultPIPB = array("result" => $test);
+                echo json_encode($resultPIPB);
+                
+                break;
+           
            
     //SWITCH
         }

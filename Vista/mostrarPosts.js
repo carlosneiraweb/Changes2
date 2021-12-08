@@ -27,7 +27,7 @@ var numLi, totalPost, final;
  * @param {type} objPost
   */
 function cargarPost(objPost){
-   //alert("estamos en cargarPost"+objPost);
+   //alert("estamos en cargarPost"+objPost[0]);
     //Eliminamos los posts ya mostrados y el h3 donde se muestra el total de posts
    
        
@@ -53,6 +53,9 @@ function cargarPost(objPost){
     for(var i = 0; i < objPost.length; i++){
         if(i !=0){
             
+            //Saltamos elPost
+            //El usuario esta bloqueado totalmente
+            //if(objPost[i].coment == 2){continue;} 
         $("#posts").append($('<section>',{
                 class : " cont_post",
                 id : objPost[i].idPost
@@ -126,14 +129,15 @@ function cargarPost(objPost){
                     //Si el usario ha sido bloqueado parcialmente
                     //eliminamos el boton de comentar con JAVASCRIPT
                     if(objPost[i].coment == 1){   
-                        $("."+objPost[i].idPost).hide();//.attr('disabled',true);  
+                        //$("."+objPost[i].idPost).hide();//.attr('disabled',true);  
+                        $("#btnComentar").hide();
                     };
                     
                     if(objPost[i].coment == 2){
                         
                         $("#"+objPost[i].idPost).empty();
                         $("#"+objPost[i].idPost).prepend($('<section>',{
-                        class : 'cont_post',
+                        class : 'cont_post'
                         }).append($('<h1>',{
                             text : "Esto pinta mal para ti !!!"
                         }))); 

@@ -56,42 +56,12 @@ try {
                 $idUsu = $_SESSION["userTMP"]->devuelveId();
                 $nickEliTotal = $_SESSION["userTMP"]->getValue('nick');
                 $email= $_SESSION["userTMP"]->getValue('email');
-                $x = $_SESSION["userTMP"]->deleteFrom('usuario');
+                 $_SESSION["userTMP"]->deleteFrom('usuario');
             
                
-              
-                if($x){
-                        $sqlEliminar = "Select idPost from ".TBL_POST.
-                                " where idUsuarioPost = :idUsuario;";
+                
 
-                        $stm = $conMenu->prepare($sqlEliminar);
-                        $stm->bindValue(":idUsuario",$idUsu , PDO::PARAM_INT);
-                        $stm->execute();
-                        $idPostEliminar = $stm->fetchAll();
-                        //var_dump($idPostEliminar);
-                        $totalPost = count($idPostEliminar);
-                        //echo $totalPost;
-                    //ELIMINAMOS SI LOS HAY LOS POSTS   
-                        
-                    if($totalPost > 0){
-                        
-                            $sqlElimiarPost = "Delete from ".TBL_POST. 
-                                    " where idPost = :idPost;";
-
-                            for($i = 0; $i < $totalPost; $i++){
-
-                                $stmElimPost = $conMenu->prepare($sqlElimiarPost);
-                                $stmElimPost->bindParam(":idPost", $idPostEliminar[$i][0], PDO::PARAM_INT );
-                                $stmElimPost->execute();
-                               // 
-
-                            }    
-                   // $stmElimPost->closeCursor();
-                    
-                    }
-                }
-
-                       
+                     
                 
                 Conne::disconnect($conMenu);
             

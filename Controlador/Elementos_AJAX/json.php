@@ -128,9 +128,6 @@ where p.idPost = :idPost limit 1";
 
                 //var_dump($usuBloqueados);
                 $totalUsuarioBloqueado = count($usuBloqueados);
-
-
-
                 //  Si el usuario que ha colgado el Post ha bloqueado 
                 // algun usuario se verifica que no sea el que esta logueado
                 //Se le impide ver este Post
