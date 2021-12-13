@@ -61,7 +61,7 @@ class Post extends DataObj{
         //esta es mas efectiva
         $palabras = explode(" ", $datosPost[0][0]);
         $totalPalabras = count($palabras);
-       
+        
         if($totalPalabras != '0'){
             
             if($totalPalabras == "1"){

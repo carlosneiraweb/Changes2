@@ -485,7 +485,7 @@ function confirmarRegistro(){
             
             }else{
                       
-                $userReg->actualizoDatosUsuario();
+               $userReg->actualizoDatosUsuario();
                 abandonarSession();
                   
             }

@@ -434,11 +434,9 @@ function validarCamposRegistro($st, $user){
             case 'step4':
             
             $testValidoFoto = '4';   
-            //Si el usuario sube una foto para su perfil la validamos
-            $test = 0;
-                if(isset($_FILES['photoArticulo']) and $_FILES['photoArticulo']['name'] != ""){
-                  
-                    if (is_uploaded_file($_FILES['photoArticulo']['tmp_name'])) {
+            $test = true;
+          
+
                     $testValidoFoto =  Directorios::validarFoto();  
                    
                         if( $testValidoFoto === 0){  
@@ -481,7 +479,10 @@ function validarCamposRegistro($st, $user){
                         
                     }
                         
-                }else if ($testValidoFoto === '10') {  
+                }
+                
+                
+                if ($testValidoFoto === '10') {  
                    
                         //Si hay algun error al validar la imagen 
                         //redirigimos a la pagina mostrarError
@@ -489,13 +490,13 @@ function validarCamposRegistro($st, $user){
                         // Esto ultimo se hace en el switch del
                         //metodo que valida la subida en el directorio Directorios
                         $_SESSION['paginaError'] = 'registrarse.php';
-                        mostrarErrorRegistro();      
+                        mostrarErrorRegistro();  
+                        $test = false;
                              
                         }
-                    }
-                    $test= 1;
+                  
                     //El usuario no sube foto
-                }else if ($testValidoFoto === '4') {
+               if ($testValidoFoto === '4') {
                   
                     //Eliminamos la variable error
                     //Por que para registrarse no es obligatorio subir
@@ -505,7 +506,7 @@ function validarCamposRegistro($st, $user){
                     if(isset($_SESSION['error'])){
                         unset($_SESSION['error']);
                         
-                    }
+                    
                     
                     //En caso que actualice su nick o no lo haga
                     //y no sube foto 
@@ -513,7 +514,7 @@ function validarCamposRegistro($st, $user){
                              
                         if($usuActualiza != $_SESSION['usuario']['nick'] || $usuActualiza == $_SESSION['usuario']['nick']){
                             actualizarCambios();
-                            $test = 1;
+                            
                         }
                         
                     }else{
@@ -521,8 +522,9 @@ function validarCamposRegistro($st, $user){
                     //En caso se este registrando
                     //y no sube una foto
                         registrandoseSinSubirFoto();
-                        $test = 1;
+                       
                     
+                    }
                     }
                         
                 }       

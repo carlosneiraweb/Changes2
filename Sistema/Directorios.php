@@ -46,6 +46,11 @@ class Directorios {
             //echo  $_FILES['photoArticulo']['size'];
             //echo  $_FILES['photoArticulo']['type'];
             //echo 'test dice '.$test;
+                
+                //Esta conversion de integer
+                //a string de $test la hacemos para usar 
+                // el simbolo === en ControlErroresSistemaEnArchivos
+                //no es necesario
             if($test !== 4){
                
                 if($size > '3145728'){
@@ -57,11 +62,10 @@ class Directorios {
                 }
                 
                 if($test === 3){$test = '3';}
+                
          
-            }else {
-                $test = '4';
             }
-            
+            if($test === 4){$test = '4';}
                 switch ($test){
  
                     case '0':
