@@ -38,6 +38,7 @@ function navegarPorPosts(li){
             //Se modifica la variable inicio que se usa en la SQL 
             //que nos devuelve los siguientes Post
             inicio = li * PAGESIZE;
+            //principal
             cargarContenidoPorSeccion();
             
 //fin navegarPorPosts    
@@ -64,7 +65,7 @@ function  mostrarSiguienteRango(e){
    
         ultimoLi = parseInt($('.pagina').last().html())+1;
        
-       
+        //No hay mas rango que mostrar
             if(numLi <= ultimoLi){
                 tmpLi = numLi;
                 inicio = 0;
@@ -74,9 +75,7 @@ function  mostrarSiguienteRango(e){
                    
                     //En caso que el numero de post
                     //Sea mayor que el siguiente rango
-                    //Osea que el siguiente rango por ejemplo
-                    //valla del 30 al 40 
-                    //y hay mas de 40 posts
+                    //Recordemos numLi= totalPost / PAGESIZE
                     if (numLi >= (ultimoLi + 10)) {
                         
                             tmpLi = ultimoLi + 10;
@@ -87,7 +86,7 @@ function  mostrarSiguienteRango(e){
                         //Osea haya 35 posts y nos encontremos en el rango 
                         // del 20 al 30. Si pulsamos siguiente
                         // no podemos mostrar <lis> del 30 al 40
-                        //Sino del 30 al xxx Dependiendo de la variable PAGESIZE
+                        //Sino del 30 al 'X' Dependiendo de la variable PAGESIZE
                         }else{  
                            
                             tmpLi =  (totalPost / PAGESIZE); //Numeros de <li>

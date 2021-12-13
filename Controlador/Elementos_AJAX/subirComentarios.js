@@ -36,8 +36,9 @@ function insertarComentario(idPost){
                             $('#cuerpo').on('click','#btn_salir_comentario',function(){
                             $("#tituloComentario").val("");
                             $("#comentarioPost").val("");
-                              cargarContenidoPorSeccion();
+                              
                               $("#btn_mandar_comentario").removeClass('oculto');
+                              cargarContenidoPorSeccion();
                               //redirigirInicioComentario();  
                             });
                             

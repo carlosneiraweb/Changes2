@@ -40,7 +40,7 @@ var Conexion;
     //y a la variable de inicio le damos un 0
     //Mostrara los ultimos posts publicados de cada seccion
    
-    //Es el 6º parametro del array jsonVolver
+    //Es el 4º parametro del array jsonVolver
     //Es una bandera que usamos para guardar la ultima peticion JSON
     //Para cuando el usuario quiera salir de paginacion o de mostrar un post seleccionado
     if(typeof(vistaIndependiente ) === "undefined"){ vistaIndependiente  = true; } 
@@ -91,10 +91,12 @@ window.onload=function(){
        //permite desplazarnos por los <li> 
        // hacia delante o atras
        liPinchado = parseInt($(this).text());
+       //paginacion
        navegarPorPosts(liPinchado);
     });
     
     //Activamos los botones de Siguiente y Atras de paginacion
+    //paginacion.js
     $('#btn_navegacion').on('click', 'ul.listaLis>li.siguiente', mostrarSiguienteRango);
     $('#btn_navegacion').on('click', 'ul.listaLis>li.atras', mostrarAnteriorRango);
     
@@ -114,6 +116,7 @@ window.onload=function(){
                 parametrosMenu = "opcion="+opcionMenu+"&inicio="+inicio;
                 jsonVolver[0] = opcionMenu;
                 //alert(jsonVolver[0]);
+                //menu.js
                         cargarPeticionMenu(opcionMenu, parametrosMenu);
                 
             });
@@ -234,6 +237,7 @@ function cargarPeticion(tipo, parametros){
                     vistaIndependiente = true;
                     var totalPostEnconrados = (parseInt(objPost[0].totalRows[0]) - 1);
                     if(banderaCambioSeccion){resetearValoresDePaginacion(totalPostEnconrados);};
+                    //mostrarPost
                     cargarPost(objPost);
                         break;
                 case 'SLD':
@@ -293,6 +297,7 @@ function cargarContenidoPorSeccion(){
                         
                 default:
                    // alert(opcionMenu +'opcion='+opcion+'&inicio='+inicio);
+                   //menu.js
                     cargarPeticionMenu(opcionMenu, 'opcion='+opcion+'&inicio='+inicio);   
             }
     

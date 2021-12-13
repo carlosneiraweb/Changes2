@@ -13,7 +13,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/Changes/Controlador/Validar/ControlErro
         session_start(); 
     } 
    
-  
+
 
  /**
  * Metodo que nos devuelve a la pagina anterior
@@ -70,6 +70,7 @@ global $pa_queridas;
         <script src="../Controlador/Validar/contador.js"></script>
         <script src="../Controlador/Validar/formulario_subir_post.js"></script>
         <script src="../Controlador/Validar/iconoObligatorio.js"></script>
+       
         
     </head>
    
@@ -491,7 +492,8 @@ function ingresarPost(){
                 
         }else{
             
-           $articulo->insertPost();      
+           $articulo->insertPost(); 
+           
 
         }
        

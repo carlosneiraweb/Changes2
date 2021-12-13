@@ -1,5 +1,6 @@
 <?php
 
+
   header('Content-Type: application/json');
  // header("Content-type: application/javascript"); 
   header('Cache-Control: no-cache, must-revalidate');
@@ -174,4 +175,6 @@ if(isset($_SESSION['userTMP'])){
     echo $exc->getCode().PHP_EOL;
     echo $exc->getTraceAsString();
 }
+
+
 

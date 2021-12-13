@@ -273,8 +273,10 @@ final static function crearSubdirectorio($usuario,$opc){
             if ($testSalir) {
             
             $nuevo = $count + 1;
+            
             $test = mkdir($usuario.'/'.$nuevo) ? true : false; 
-            $nuevoDirectorio = $nuevo;              
+            $nuevoDirectorio = $nuevo; 
+            
             }
             
            

@@ -4,7 +4,7 @@
  * @mail arj.123@hotmail.es
  * @telefono ""
  * @nameAndExt mostrarPosts.js
- * @fecha 01-oct-2017
+ * @fecha 01-oct-2020
  */
 
 //Variables globales para los <li> de navegacion
@@ -170,14 +170,15 @@ function cargarPost(objPost){
  * 
  */    
 function cargarLis(){
-   
+    
     //Inicializamos la variable del for que muestra el numero que hay 
     //en cada <li>
     //Mas tarde cuando el usuario pulse los botones siguiente o atras 
     //se ira modificando
     if(typeof(numeroEnLi) === "undefined"){ numeroEnLi = 0; }; 
    
-    //numLi es el numero real de <li> que salen
+    //numLi es el numero real de <li> que hay
+    //Hace de tope en el bucle for
     if(typeof(numLi) === "undefined"){      
         numLi = totalPost / PAGESIZE; //Numeros de <li> 
         //Si al dividir sale decimal le sumamos un <li>
@@ -189,22 +190,27 @@ function cargarLis(){
             numLi = parseInt(numLi);
         //Queremos limitar el numero de <li> a 10 por pagina
             //En caso de que numLi sea mayor a 10 * PAGESIZE
+           
             if (numLi > PAGESIZE * 10 ){
                 tmpLi = numeroEnLi + 10; //pasamos de  10, osea 11,21,31
+                //aqui mostratamos los 10 primeros
             }else if(numLi > 10){
                 tmpLi = 10;//del 0 al 9
+                //aqui si no llega a 10 por ejemplo solo hay 8
             }else{
                 tmpLi = numLi;
             }
     }
     
-       
+   
+    
     
                     //Mostramos los <li>
     var listaLi = '<ul class="listaLis"><li class="atras">Atras</li>';
         //Fijarse que numeroEnLi es global
         //Recuerda los incrementos del bucle for
         for (numeroEnLi ; numeroEnLi < tmpLi; numeroEnLi++){
+             
             listaLi += '<li class="pagina">'+numeroEnLi+'</li>';
         }
             listaLi +='<li class="siguiente">Siguiente</li></ul>';
@@ -218,6 +224,8 @@ function cargarLis(){
     
     $('#btn_navegacion').html('<h3 id="seccion">Usted se encuentra en la sección '+ seccion + '<h3>');
     
+    //BANDERA CUANDO SE BUSCA ALGO EN EL BUSCADOR
+    //buscador.js
     if(buscador){
         $('#seccion').remove();
         $('#btn_navegacion').html('<h3>Usted ha hecho una busqueda con '+textoElegido+'</h3>');
