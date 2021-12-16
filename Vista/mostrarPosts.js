@@ -55,7 +55,7 @@ function cargarPost(objPost){
             
             //Saltamos elPost
             //El usuario esta bloqueado totalmente
-            //if(objPost[i].coment == 2){continue;} 
+        //if(objPost[i].coment == 2){continue;} 
         $("#posts").append($('<section>',{
                 class : " cont_post",
                 id : objPost[i].idPost

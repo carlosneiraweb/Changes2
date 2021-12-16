@@ -78,19 +78,7 @@ try {
                                 array_push($rs, $row);
         
         foreach($v as $id){
-                 
-      /*
-                $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
-                    prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 
-                    p.titulo, img.ruta, p.comentario, tc.tiempo as tiempoCambio
-from post p
-inner join usuario AS u on u.idUsuario= p.idUsuarioPost
-inner join direccion AS dire on dire.idDireccion = u.idUsuario
-inner join provincias AS prov on prov.nombre = dire.provincia
-inner join imagenes AS img on img.post_idPost = :idPost 
-inner join tiempo_cambio AS tc on tc.idTiempoCambio = p.tiempo_cambio_idTiempoCambio
-where p.idPost = :idPost limit 1";
-                */
+
             
                                  $sqlPost = "select p.idPost, u.nick, u.idUsuario as idUsu,
                     prov.nombre AS provincia, DATE_FORMAT(p.fechaPost,'%d-%m-%Y')as fecha, 

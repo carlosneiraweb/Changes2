@@ -170,7 +170,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/Changes/Modelo/Usuarios.php");
             " and $columnaPalabra like :buscar ".(isset($buscarPorPrecio) ? $pvp : ""). "  order by $columnaId DESC limit 5;";       
                
                     }
-            //echo $sqlBuscador;               
+            echo $sqlBuscador.PHP_EOL.PHP_EOL;               
                 $stm4Bus = $conBusquedas->prepare($sqlBuscador);
                 $stm4Bus->bindValue(":buscar",  "{$buscar}%", PDO::PARAM_STR);
                 $stm4Bus->execute();

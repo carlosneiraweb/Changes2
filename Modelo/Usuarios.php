@@ -286,7 +286,7 @@ public final function insert(){
                         $stDatosUsuario->bindValue(":nombre", $this->data["nombre"], PDO::PARAM_STR);
                         $stDatosUsuario->bindValue(":apellido_1", $this->data["apellido_1"], PDO::PARAM_STR);
                         $stDatosUsuario->bindValue(":apellido_2", $this->data["apellido_2"], PDO::PARAM_STR);
-                        $stDatosUsuario->bindValue(":telefono", $this->data["telefono"], PDO::PARAM_STR);
+                        $stDatosUsuario->bindValue(":telefononnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", $this->data["telefono"], PDO::PARAM_STR);
                         
                 $stDatosUsuario->execute(); 
                 

@@ -145,7 +145,7 @@
         txtBuscar = $(this).val();
         inputTmp = $(this);
         
-            //alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
+          //  alert('BUSCADOR'+"&opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
               // '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
             cargarPeticionBuscador('BUSCADOR', "opcion=BUSCADOR&BUSCAR="+txtBuscar+"&tabla="+radioBusqueda+"&buscarPorProvincia="+buscarPorProvincia+
                     '&buscarPorPrecio='+buscarPorPrecio+'&buscarPorTiempoCambio='+buscarPorTiempoCambio);
